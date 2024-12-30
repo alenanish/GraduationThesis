@@ -5,6 +5,7 @@ import Button from './components/ui/button';
 import IconButton from './components/ui/icon_button';
 import Input from './components/ui/input';
 import { Circle, EyeIcon, EyeOff, CircleXIcon } from 'lucide-react';
+import ReadOnlyField from './components/ui/read-only';
 
 
 export default function Page() {
@@ -132,6 +133,7 @@ export default function Page() {
               />
           </div>
         </div>
+        <ReadOnlyField label={'Lable'} text="Read-only text field" />
   </div>
 );
 }
