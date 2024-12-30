@@ -1,9 +1,32 @@
-import React from 'react';
+'use client';
+
+import React, { useState } from 'react';
 import Button from './components/ui/button'; 
 import IconButton from './components/ui/icon_button';
-import { ArrowDownFromLine, Circle } from 'lucide-react';
+import Input from './components/ui/input';
+import { Circle, EyeIcon, EyeOff, CircleXIcon } from 'lucide-react';
+
 
 export default function Page() {
+
+  const [inputValue, setInputValue] = useState('');
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const handleTogglePasswordVisibility = () => {
+    setIsPasswordVisible(!isPasswordVisible);
+};
+
+    const handleChange = (value: string) => {
+        setInputValue(value);
+      };
+
+    const sendInfo = () => {
+        console.log('Click!');
+      };
+    
+      const clearInput = () => {
+        setInputValue('');
+      };
+      
   return (
   <div className="p-4 space-y-4">
     <h2 className='text-h4 font-bold text-white-900'>Buttons</h2>
@@ -34,6 +57,81 @@ export default function Page() {
         <IconButton type="secondary"  size="sm"icon={<Circle/>} />
         <IconButton type="tertiary" size="sm" icon={<Circle/>} />
     </div>
+    <h2 className='text-h4 font-bold text-white-900'>Input</h2>
+    <div className='flex flex-row space-x-10'>
+    <div className="flex flex-col space-y-6 w-1/3">
+             <Input
+                size="S"
+                placeholder="Enter your name"
+                value={inputValue}
+            />
+            <Input
+                state="active"
+                size="S"
+                placeholder="Active input"
+                rightIcon={<Circle size={16} />}
+                value={inputValue}
+                onChange={handleChange}
+            />
+            <Input
+                state="error"
+                size="S"
+                placeholder="Error input"
+                rightIcon={<Circle  size={16} />}
+                value={inputValue}
+                errorText="This field is required"
+                onChange={handleChange}
+            />
+            <Input
+                state="disabled"
+                size="S"
+                placeholder="Disabled input"
+                leftIcon={<Circle size={16} />}
+                value={inputValue}
+                onChange={handleChange}
+            />
+        </div>
+          <div className="flex flex-col space-y-6 w-1/3">
+              <Input
+                  state="enabled"
+                  size="M"
+                  placeholder="Enter your name"
+                  value={inputValue}
+                  onChange={handleChange}
+              />
+              <Input
+                  name='password'
+                  id='password'
+                  label='Password'
+                  state="active"
+                  size="M"
+                  placeholder="Password"
+                  rightIcon={isPasswordVisible ? <EyeOff size={24}/> : <EyeIcon size={24} />}
+                  isIconActive={true}
+                  onClickRightIcon={handleTogglePasswordVisibility}
+                  value={isPasswordVisible ? '********' : inputValue}
+                  helperText='The password should be 8 letters long and must contain numbers and uppercase letter.'
+                  onChange={handleChange}
+              />
+              <Input
+                  state="error"
+                  size="M"
+                  placeholder="Error input"
+                  rightIcon={<CircleXIcon  size={24} />}
+                  value={inputValue}
+                  errorText="This field is required"
+                  onChange={handleChange}
+              />
+              <Input
+                  state="disabled"
+                  size="M"
+                  placeholder="Disabled input"
+                  leftIcon={<Circle size={24} />}
+                  value={inputValue}
+                  onChange={handleChange}
+              />
+          </div>
+        </div>
   </div>
 );
 }
