@@ -30,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   ...rest
 }) => {
 
-  const baseStyles = 'font-medium flex flex-row items-center gap-2 ';
+  const baseStyles = 'font-medium flex flex-row items-center gap-2  rounded-[32px] ';
 
   const typeStyles = () => {
     switch (type) {
@@ -44,7 +44,6 @@ const Button: React.FC<ButtonProps> = ({
         case 'secondary':
           return `text-blue-500
           border
-          border-1
           border-blue-500
           hover:bg-blue-50 
           focus:border-blue-700
@@ -71,17 +70,17 @@ const Button: React.FC<ButtonProps> = ({
   const sizeStyles = () => {
     switch (size) {
       case 'sm':
-        return 'text-body-s px-4 py-2 rounded-[32px]';
+        return 'h-10 text-body-s px-4 py-2 ';
       case 'md':
-        return 'text-body-m px-6 py-2 rounded-[32px]';
+        return 'h-[48px] text-body-m px-6 py-1 ';
       default:
-        return 'px-4 py-2 text-body-m rounded-[32px]';
+        return 'px-4 py-2 text-body-m ';
     }
   };
 
   const stateStyles = () => {
     if (disabled) {
-      return 'opacity-50 cursor-not-allowed';
+      return 'cursor-not-allowed';
     }
     switch (state) {
       case 'pressed':

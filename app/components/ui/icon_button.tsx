@@ -38,7 +38,6 @@ const IconButton: React.FC<IconButtonProps> = ({
       case 'secondary':
         return `text-blue-500
           border
-          border-1
           border-blue-500
           hover:bg-blue-50 
           focus:border-blue-700
