@@ -1,11 +1,9 @@
-// RadioButton.tsx
 import React, { useState } from 'react';
 import { RadioboxBlank, RadioboxMarked } from '../icons'; 
 
 interface RadioButtonProps {
     label: string;
     value: string;
-    name: string;
     checked: boolean;
     onChange: (value: string) => void;
     disabled?: boolean;
@@ -14,7 +12,6 @@ interface RadioButtonProps {
 const RadioButton: React.FC<RadioButtonProps> = ({
     label,
     value,
-    name,
     checked,
     onChange,
     disabled = false,

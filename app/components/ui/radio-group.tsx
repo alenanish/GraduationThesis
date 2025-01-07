@@ -1,11 +1,9 @@
-// RadioGroup.tsx
 import React, { useState } from 'react';
 import RadioButton from './radio-button';
 
 
 interface RadioGroupOption {
     label: string;
-    description?: string;
     value: string;
     disabled?: boolean
 }
@@ -32,7 +30,6 @@ const RadioGroup: React.FC<RadioGroupProps> = ({ options, name, onChange, value 
           key={option.value}
           label={option.label}
           value={option.value}
-          name={name}
           checked={selectedValue === option.value}
           onChange={handleRadioButtonChange}
           disabled={option.disabled}
