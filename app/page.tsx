@@ -8,6 +8,7 @@ import { Circle, EyeIcon, EyeOff, CircleXIcon } from "lucide-react";
 import ReadOnlyField from "./components/ui/read-only";
 import RadioGroup from "./components/ui/radio-group";
 import CheckboxGroup from "./components/ui/checkbox-group";
+import Switch from "./components/ui/switch";
 
 export default function Page() {
   const [inputValue, setInputValue] = useState("");
@@ -54,6 +55,9 @@ export default function Page() {
     setSelectedOptions(selectedValues);
     console.log("selected values in app", selectedValues);
   };
+
+
+  const [isChecked, setIsChecked] = useState(false)
 
   return (
     <div className="p-4 space-y-4">
@@ -196,6 +200,13 @@ export default function Page() {
           <p>Selected Options: {selectedOptions.join(", ")}</p>
         </div>
       </div>
+      <h2 className="text-h4 font-bold text-white-900">Switch</h2>
+  
+      <div className="flex flex-col space-y-6">
+        <Switch label="Option" disabled={true} checked={!isChecked} onChange={setIsChecked} />
+        <Switch label="Option" disabled={true} checked={isChecked} onChange={setIsChecked} />
+        <Switch label="Option" checked={isChecked} onChange={setIsChecked} />
+    </div>
     </div>
   );
 }
