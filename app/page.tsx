@@ -6,8 +6,8 @@ import IconButton from "./components/ui/icon_button";
 import Input from "./components/ui/input";
 import { Circle, EyeIcon, EyeOff, CircleXIcon } from "lucide-react";
 import ReadOnlyField from "./components/ui/read-only";
-import { RadioboxBlank, RadioboxMarked } from "./components/icons";
 import RadioGroup from "./components/ui/radio-group";
+import CheckboxGroup from "./components/ui/checkbox-group";
 
 export default function Page() {
   const [inputValue, setInputValue] = useState("");
@@ -29,12 +29,10 @@ export default function Page() {
   const radioOptions = [
     {
       label: "Первый вариант",
-      description: "Описание первого варианта.",
       value: "option1",
     },
     {
       label: "Второй вариант",
-      description: "Описание второго варианта.",
       value: "option2",
     },
     {
@@ -43,6 +41,19 @@ export default function Page() {
       disabled: true,
     },
   ];
+
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
+
+  const options = [
+    { label: "Первый вариант", value: "option1" },
+    { label: "Второй вариант", value: "option2" },
+    { label: "Третий вариант", value: "option3", disabled: true, },
+  ];
+
+  const handleCheckboxGroupChange = (selectedValues: string[]) => {
+    setSelectedOptions(selectedValues);
+    console.log("selected values in app", selectedValues);
+  };
 
   return (
     <div className="p-4 space-y-4">
@@ -173,6 +184,17 @@ export default function Page() {
           value={selectedOption}
         />
         <p>Выбранное значение: {selectedOption}</p>
+      </div>
+      <div>
+        <h2 className="text-h4 font-bold text-white-900">Checkbox Group</h2>
+        <CheckboxGroup
+          options={options}
+          selectedValues={selectedOptions}
+          onChange={handleCheckboxGroupChange}
+        />
+        <div className="mt-4">
+          <p>Selected Options: {selectedOptions.join(", ")}</p>
+        </div>
       </div>
     </div>
   );
