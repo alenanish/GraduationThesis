@@ -1,23 +1,22 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-
 *,
 *::before,
 *::after {
-    @apply transition-all duration-300;
+  @apply transition-all duration-300;
 }
 
 :root {
-  --background: #DBDBDB; 
+  --background: #dbdbdb;
   --foreground: #171717;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-/*    --background: #0a0a0a; */
+    /*    --background: #0a0a0a; */
     --foreground: #ededed;
   }
 }
@@ -25,5 +24,5 @@
 body {
   color: var(--foreground);
   background: var(--background);
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
 }

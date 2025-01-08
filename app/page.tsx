@@ -48,7 +48,7 @@ export default function Page() {
   const options = [
     { label: "Первый вариант", value: "option1" },
     { label: "Второй вариант", value: "option2" },
-    { label: "Третий вариант", value: "option3", disabled: true, },
+    { label: "Третий вариант", value: "option3", disabled: true },
   ];
 
   const handleCheckboxGroupChange = (selectedValues: string[]) => {
@@ -56,8 +56,7 @@ export default function Page() {
     console.log("selected values in app", selectedValues);
   };
 
-
-  const [isChecked, setIsChecked] = useState(false)
+  const [isChecked, setIsChecked] = useState(false);
 
   return (
     <div className="p-4 space-y-4">
@@ -201,12 +200,22 @@ export default function Page() {
         </div>
       </div>
       <h2 className="text-h4 font-bold text-white-900">Switch</h2>
-  
+
       <div className="flex flex-col space-y-6">
-        <Switch label="Option" disabled={true} checked={!isChecked} onChange={setIsChecked} />
-        <Switch label="Option" disabled={true} checked={isChecked} onChange={setIsChecked} />
+        <Switch
+          label="Option"
+          disabled={true}
+          checked={!isChecked}
+          onChange={setIsChecked}
+        />
+        <Switch
+          label="Option"
+          disabled={true}
+          checked={isChecked}
+          onChange={setIsChecked}
+        />
         <Switch label="Option" checked={isChecked} onChange={setIsChecked} />
-    </div>
+      </div>
     </div>
   );
 }

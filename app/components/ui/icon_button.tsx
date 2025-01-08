@@ -1,8 +1,8 @@
-import React, { ButtonHTMLAttributes, MouseEvent, ReactNode } from 'react';
+import React, { ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
 
-type IconButtonType = 'primary' | 'secondary' | 'tertiary';
-type IconButtonSize = 'sm' | 'md';
-type IconButtonState = 'enabled' | 'pressed' | 'hover' | 'disabled';
+type IconButtonType = "primary" | "secondary" | "tertiary";
+type IconButtonSize = "sm" | "md";
+type IconButtonState = "enabled" | "pressed" | "hover" | "disabled";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   type?: IconButtonType;
@@ -15,27 +15,28 @@ interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const IconButton: React.FC<IconButtonProps> = ({
-  type = 'primary',
-  size = 'md',
-  state = 'enabled',
+  type = "primary",
+  size = "md",
+  state = "enabled",
   icon,
   onClick,
   disabled,
-  className = '',
+  className = "",
   ...rest
 }) => {
-  const baseStyles = 'rounded-[16px] inline-flex items-center justify-center py-2 px-3 ';
+  const baseStyles =
+    "rounded-[16px] inline-flex items-center justify-center py-2 px-3 ";
 
   const typeStyles = () => {
     switch (type) {
-      case 'primary':
+      case "primary":
         return `bg-blue-500
         text-white-0
         hover:bg-blue-600
         focus:bg-blue-700
         disabled:bg-white-200
         disabled:hover:bg-blue-300`;
-      case 'secondary':
+      case "secondary":
         return `text-blue-500
           border
           border-blue-500
@@ -45,7 +46,7 @@ const IconButton: React.FC<IconButtonProps> = ({
           disabled:border-white-200
           disabled:text-white-200 
           disabled:hover:bg-white-100`;
-      case 'tertiary':
+      case "tertiary":
         return `text-blue-500 
           hover:text-blue-600 
           focus:bg-blue-50
@@ -64,26 +65,26 @@ const IconButton: React.FC<IconButtonProps> = ({
 
   const sizeStyles = () => {
     switch (size) {
-      case 'sm':
-        return 'h-10 w-10 text-[24px]';
-      case 'md':
-        return 'h-[52px] w-[52px] text-[32px]';
+      case "sm":
+        return "h-10 w-10 text-[24px]";
+      case "md":
+        return "h-[52px] w-[52px] text-[32px]";
       default:
-          return 'h-[52px] w-[52px] text-[32px]'
+        return "h-[52px] w-[52px] text-[32px]";
     }
   };
 
   const stateStyles = () => {
     if (disabled) {
-      return 'opacity-50 cursor-not-allowed';
+      return "opacity-50 cursor-not-allowed";
     }
     switch (state) {
-      case 'pressed':
-        return 'transform scale-95';
-      case 'hover':
-        return '';
+      case "pressed":
+        return "transform scale-95";
+      case "hover":
+        return "";
       default:
-        return '';
+        return "";
     }
   };
 
@@ -93,8 +94,7 @@ const IconButton: React.FC<IconButtonProps> = ({
     sizeStyles(),
     stateStyles(),
     className,
-  ].join(' ');
-
+  ].join(" ");
 
   return (
     <button

@@ -1,11 +1,14 @@
-import React from 'react';
+import React from "react";
 
 interface IconProps {
-    color?: string;
-    size?: string | number;
+  color?: string;
+  size?: string | number;
 }
 
-const RadioboxBlank: React.FC<IconProps> = ({ color = "currentColor", size = "24" }) => {
+const RadioboxBlank: React.FC<IconProps> = ({
+  color = "currentColor",
+  size = "24",
+}) => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -13,7 +16,7 @@ const RadioboxBlank: React.FC<IconProps> = ({ color = "currentColor", size = "24
       height={size}
       viewBox="0 0 24 24"
       fill={color}
-      stroke='none'
+      stroke="none"
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
