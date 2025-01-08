@@ -4,12 +4,12 @@ import Link from "next/link";
 export const Navbar = ( ) => {
 
     const Buttons = [
-        {title: "Главная", path: "/home"},
-        {title: "Стартапы", path: "/startup"},
-        {title: "Инвесторы", path: "/investor"},
-        {title: "Специалисты", path: "/specialist"},
-        {title: "Аккаунт", path: "/account"},
-        {title: "Чат", path: "/chat"},
+        {key: 1, title: "Главная", path: "/home"},
+        {key: 2, title: "Стартапы", path: "/startup"},
+        {key: 3, title: "Инвесторы", path: "/investor"},
+        {key: 4, title: "Специалисты", path: "/specialist"},
+        {key: 5, title: "Аккаунт", path: "/account"},
+        {key: 6, title: "Чат", path: "/chat"},
     
             
     ]
@@ -19,7 +19,7 @@ export const Navbar = ( ) => {
         <nav className="flex w-full flex-row items-start p-0 gap-3 relative">                
         {
             Buttons.map((button, index) => (
-                <Link href={button.path}>{button.title}</Link>
+                <Link key={button.key} href={button.path}>{button.title}</Link>
             ))
                         
         }
