@@ -132,10 +132,12 @@ export default function Page() {
             onChange={handleChange}
           />
         </div>
-        <div className="flex flex-col space-y-6 w-1/3">
+        <div className="flex flex-col space-y-2 w-1/3">
           <Input
             state="enabled"
             size="M"
+            id='name'
+            label="Name"
             placeholder="Enter your name"
             value={inputValue}
             onChange={handleChange}

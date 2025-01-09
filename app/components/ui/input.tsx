@@ -84,7 +84,7 @@ const Input: React.FC<InputProps> = ({
 
   const getContainerStyles = () => {
     let baseStyles =
-      "text-white-900 py-[6px] px-3 flex items-center rounded-[32px] border transition-colors duration-200 ";
+      " transform-all text-white-900 py-[6px] px-3 flex items-center rounded-[32px] border transition-colors duration-200 ";
 
     switch (state) {
       case "disabled":
@@ -141,7 +141,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   const getLabelStyles = () => {
-    let baseStyles = "text-white-400 mb-1 ";
+    let baseStyles = "mb-1 transition-all ease-in-out ";
 
     if (size === "S") {
       baseStyles += " text-caption";
@@ -149,12 +149,19 @@ const Input: React.FC<InputProps> = ({
       baseStyles += " text-body-s";
     }
 
+    if (isFocused) {
+      baseStyles += " text-blue-500";
+    } else {
+      baseStyles += " text-white-400";
+    }
+
+
     return baseStyles;
   };
 
   return (
     <div className={"relative"}>
-      {label && <div className={getLabelStyles()}>{label}</div>}
+      {(isFocused || inputValue != '') && label && (<div className={getLabelStyles()}>{label}</div>)}
       <div className={getContainerStyles()}>
         {leftIcon && (
           <span className={getIconStyles() + " mr-2 "}>{leftIcon}</span>
