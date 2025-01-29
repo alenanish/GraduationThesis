@@ -46,6 +46,7 @@ const Input: React.FC<InputProps> = ({
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
   const [inputValue, setInputValue] = useState(value);
   const [isError, setIsError] = useState(state === "error");
 
@@ -61,6 +62,14 @@ const Input: React.FC<InputProps> = ({
     if (onBlur) {
       onBlur(e);
     }
+  };
+
+  const handleMouseEnter = () => {
+    setIsHovered(true);
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,23 +93,32 @@ const Input: React.FC<InputProps> = ({
 
   const getContainerStyles = () => {
     let baseStyles =
-      " transform-all text-white-900 py-[6px] px-3 flex items-center rounded-[32px] border transition-colors duration-200 ";
+      "w-full transform-all text-base-900 py-[6px] px-3 flex items-center rounded-[32px] border-2 ";
+
+    if (
+      isHovered &&
+      !isFocused &&
+      !(state === "error") &&
+      !(state === "disabled")
+    ) {
+      baseStyles += " hover:border-prime-200 hover:bg-prime-50 ";
+    }
 
     switch (state) {
       case "disabled":
-        baseStyles += "bg-white-50 border-white-100 cursor-not-allowed";
+        baseStyles += "bg-base-50 border-base-100 cursor-not-allowed";
         break;
       case "active":
         baseStyles +=
-          "bg-white-0 border-white-200 focus-within:border-blue-500";
+          "bg-base-0 border-base-200 focus-within:border-prime-500 focus-within:bg-base-0";
         break;
       case "error":
         baseStyles +=
-          " animate-shake bg-red-50 border-red-500 focus-within:border-red-500  focus-within:bg-white-0";
+          " animate-shake bg-red-50 border-red-700 focus-within:border-red-500  focus-within:bg-base-0";
         break;
       default:
         baseStyles +=
-          "bg-white-0 border-white-200 focus-within:border-blue-500";
+          "bg-base-0 border-base-200 focus-within:border-prime-500 focus-within:bg-base-0";
         break;
     }
 
@@ -115,7 +133,7 @@ const Input: React.FC<InputProps> = ({
 
   const getInputStyles = () => {
     let baseStyles =
-      " placeholder:text-white-400 placeholder:italic outline-none w-full bg-transparent placeholder:transition-colors focus-within:placeholder:text-transparent";
+      " placeholder:text-base-400 placeholder:italic outline-none w-full bg-transparent placeholder:transition-colors focus-within:placeholder:text-transparent";
 
     if (size === "S") {
       baseStyles += " placeholder:text-body-s text-body-s";
@@ -131,7 +149,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   const getIconStyles = () => {
-    let baseStyles = "text-white-500 ";
+    let baseStyles = "text-base-500";
 
     if (isIconActive) {
       baseStyles += " cursor-pointer";
@@ -141,7 +159,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   const getLabelStyles = () => {
-    let baseStyles = "mb-1 transition-all ease-in-out ";
+    let baseStyles = "mb-1 transition-all ease-in-out  ";
 
     if (size === "S") {
       baseStyles += " text-caption";
@@ -150,19 +168,26 @@ const Input: React.FC<InputProps> = ({
     }
 
     if (isFocused) {
-      baseStyles += " text-blue-500";
+      baseStyles += " text-prime-500";
     } else {
-      baseStyles += " text-white-400";
+      baseStyles += " text-base-400";
     }
 
+    if (!(isFocused || inputValue != "")) {
+      baseStyles += " text-opacity-0";
+    }
 
     return baseStyles;
   };
 
   return (
     <div className={"relative"}>
-      {(isFocused || inputValue != '') && label && (<div className={getLabelStyles()}>{label}</div>)}
-      <div className={getContainerStyles()}>
+      {label && <div className={getLabelStyles()}>{label}</div>}
+      <div
+        className={getContainerStyles()}
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}
+      >
         {leftIcon && (
           <span className={getIconStyles() + " mr-2 "}>{leftIcon}</span>
         )}
@@ -190,7 +215,7 @@ const Input: React.FC<InputProps> = ({
         <div className=" text-red-700 text-caption mt-1">{errorText}</div>
       )}
       {helperText && (
-        <div className=" text-white-400 text-caption mt-1">{helperText}</div>
+        <div className=" text-base-400 text-caption mt-1">{helperText}</div>
       )}
     </div>
   );
