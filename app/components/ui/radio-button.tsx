@@ -38,7 +38,7 @@ const RadioButton: React.FC<RadioButtonProps> = ({
       </div>
       <label
         className={`text-body-s  ${
-          disabled ? "text-white-500" : "text-white-800"
+          disabled ? "text-base-500" : "text-base-800"
         }`}
       >
         {label}

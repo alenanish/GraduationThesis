@@ -34,7 +34,7 @@ const Checkbox: FC<CheckboxProps> = ({
       ) : (
         <CheckboxBlank color="#5d5d5d" />
       )}
-      <label className={`text-body-s text-white-800`}>{label}</label>
+      <label className={`text-body-s text-base-800`}>{label}</label>
     </div>
   );
 };

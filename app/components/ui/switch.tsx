@@ -36,15 +36,15 @@ const Switch: React.FC<SwitchProps> = ({
       />
       <label
         className={`text-body-s ${
-          disabled ? "text-white-500" : "text-white-800"
+          disabled ? "text-base-500" : "text-base-800"
         }`}
       >
         {label}
       </label>
       {!disabled ? (
-        <div className="relative w-10 h-6 peer-focus:outline-none rounded-full peer  bg-white-300 peer-checked:after:translate-x-4 rtl:peer-checked:after:-translate-x-4 peer-checked:after:border-white-0 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-white-0 after:border-[10px] after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-blue-500"></div>
+        <div className="relative w-10 h-6 peer-focus:outline-none rounded-full peer  bg-base-300 peer-checked:after:translate-x-4 rtl:peer-checked:after:-translate-x-4 peer-checked:after:border-base-0 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-base after:border-base-0 after:border-[10px] after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-prime-500"></div>
       ) : (
-        <div className="relative w-10 h-6 peer-focus:outline-none rounded-full peer  bg-white-100 peer-checked:after:translate-x-4 rtl:peer-checked:after:-translate-x-4 peer-checked:after:border-white-0 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-white-0 after:border-[10px] after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-white-200"></div>
+        <div className="relative w-10 h-6 peer-focus:outline-none rounded-full peer  bg-base-100 peer-checked:after:translate-x-4 rtl:peer-checked:after:-translate-x-4 peer-checked:after:border-base-0 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-base after:border-base-0 after:border-[10px] after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-base-200"></div>
       )}
     </label>
   );
