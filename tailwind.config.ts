@@ -21,7 +21,7 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        'white': {
+        'base': {
           0: '#FFFFFF',
           50: '#EAEAEA',
           100: '#D1D1D1',
@@ -34,7 +34,7 @@ export default {
           800: '#383838',
           900: '#212121',
         },
-        'blue': {
+        'prime': {
           50: '#E9F5FD',
           100: '#BCE2F7',
           200: '#8CCFF0',
