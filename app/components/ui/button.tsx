@@ -2,11 +2,10 @@ import React, { ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
 
 type ButtonType = "primary" | "secondary" | "tertiary";
 type ButtonSize = "s" | "m" | "l";
-
-type ButtonState = "enabled" | "pressed" | "hover" | "disabled";
+type ButtonState = "enabled" | "disabled";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  type?: ButtonType;
+  variant?: ButtonType;
   size?: ButtonSize;
   state?: ButtonState;
   color?: "prime" | "base";
@@ -18,12 +17,10 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const Button: React.FC<ButtonProps> = ({
-  type = "primary",
+  variant = "primary",
   size = "m",
   state = "enabled",
   color = 'prime',
-  icon,
-  iconPosition = "left",
   children,
   onClick,
   disabled,
@@ -33,7 +30,7 @@ const Button: React.FC<ButtonProps> = ({
   const baseStyles = "font-medium flex flex-row items-center justify-center gap-2  rounded-[32px] ";
 
   const typeStyles = () => {
-    switch (type) {
+    switch (variant) {
       case "primary":
         if (color === 'prime') {
           return `bg-prime-500 

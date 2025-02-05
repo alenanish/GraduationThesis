@@ -8,7 +8,7 @@ import React, {
 interface InputProps {
   id?: string;
   name?: string;
-  state?: "enabled" | "disabled" | "active" | "error";
+  state?: "enabled" | "disabled" | "error";
   size?: "S" | "M";
   isIconActive?: boolean;
   leftIcon?: React.ReactNode;
@@ -33,7 +33,7 @@ const Input: React.FC<InputProps> = ({
   isIconActive = false,
   leftIcon,
   rightIcon,
-  placeholder = "Placeholder",
+  placeholder = "",
   label = "",
   value = "",
   helperText = "",
@@ -108,7 +108,7 @@ const Input: React.FC<InputProps> = ({
       case "disabled":
         baseStyles += "bg-base-50 border-base-100 cursor-not-allowed";
         break;
-      case "active":
+      case "enabled":
         baseStyles +=
           "bg-base-0 border-base-200 focus-within:border-prime-500 focus-within:bg-base-0";
         break;
@@ -152,14 +152,14 @@ const Input: React.FC<InputProps> = ({
     let baseStyles = "text-base-500";
 
     if (isIconActive) {
-      baseStyles += " cursor-pointer";
+      baseStyles += "cursor-pointer";
     }
 
     return baseStyles;
   };
 
   const getLabelStyles = () => {
-    let baseStyles = "mb-1 transition-all ease-in-out  ";
+    let baseStyles = "mb-1 transition-all ease-in-out ";
 
     if (size === "S") {
       baseStyles += " text-caption";
@@ -174,7 +174,7 @@ const Input: React.FC<InputProps> = ({
     }
 
     if (!(isFocused || inputValue != "")) {
-      baseStyles += " text-opacity-0";
+      baseStyles += " text-transparent";
     }
 
     return baseStyles;

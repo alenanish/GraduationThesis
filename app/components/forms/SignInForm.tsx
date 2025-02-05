@@ -42,7 +42,7 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSubmit, isLoading = false, er
             name="password"
             id="password"
             label="Password"
-            state="active"
+            state="enabled"
             size="M"
             placeholder="Password"
             rightIcon={
@@ -57,22 +57,22 @@ const SignInForm: React.FC<SignInFormProps> = ({ onSubmit, isLoading = false, er
         
           <Button className='w-fit'
             size='s'
-            target_action="button"
-            type='tertiary'
+            type="button"
+            variant='tertiary'
           >
             Забыли пароль?
           </Button>  
         </div>
       
         <Button
-          target_action="submit"
+          type="submit"
           disabled={isLoading}
         >
           Войти
         </Button>
         <Button
-          type='secondary'
-          target_action="button"
+          variant='secondary'
+          type="button"
           color='base'
         >
           <Link href={'/'} />

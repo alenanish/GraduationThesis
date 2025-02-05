@@ -2,10 +2,10 @@ import React, { ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
 
 type ButtonSize = "s" | "m";
 type ButtonType = "top-bar" | "top-bar-menu";
-type ButtonState = "enabled" | "pressed" | "hover" | "disabled";
+type ButtonState = "enabled" | "disabled";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  type?: ButtonType;
+  variant?: ButtonType;
   size?: ButtonSize;
   state?: ButtonState;
   color?: "prime" | "base";
@@ -15,7 +15,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const TopBarButton: React.FC<ButtonProps> = ({
-  type = "top-bar",
+  variant = "top-bar",
   size = "m",
   state = "enabled",
   color = "prime",
@@ -46,8 +46,8 @@ const TopBarButton: React.FC<ButtonProps> = ({
     }
   };
 
-  const typeStyles = () => {
-    if (type === "top-bar") {
+  const variantStyles = () => {
+    if (variant === "top-bar") {
       return `rounded-[15px]`;
     }
   };
@@ -72,7 +72,7 @@ const TopBarButton: React.FC<ButtonProps> = ({
   const buttonClasses = [
     baseStyles,
     colorStyles(),
-    typeStyles(),
+    variantStyles(),
     sizeStyles(),
     stateStyles(),
     className,

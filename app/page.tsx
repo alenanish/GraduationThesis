@@ -80,46 +80,46 @@ export default function Page() {
       <h2 className="text-h4 font-bold text-base-900">Buttons</h2>
       {/* Secondary Buttons */}
       <div className="flex space-x-4">
-        <Button type="primary" size="l">
+        <Button variant="primary" size="l">
           Button
         </Button>
-        <Button type="secondary" size="l">
+        <Button variant="secondary" size="l">
           Button
         </Button>
-        <Button type="tertiary" size="l">
+        <Button variant="tertiary" size="l">
           Button
         </Button>
-        <Button type="primary" size="l" disabled>
+        <Button variant="primary" size="l" disabled>
           Button
         </Button>
       </div>
       <div className="flex space-x-4">
         {/* Primary Buttons */}
-        <Button type="primary">
+        <Button variant="primary">
           <Circle size={16} />
           Button
         </Button>
-        <Button type="secondary">Button</Button>
-        <Button type="tertiary">Button</Button>
-        <Button type="secondary" disabled>
+        <Button variant="secondary">Button</Button>
+        <Button variant="tertiary">Button</Button>
+        <Button variant="secondary" disabled>
           Button
         </Button>
       </div>
       <div className="flex space-x-4">
         {/* Secondary Buttons */}
 
-        <Button type="primary" size="s">
+        <Button variant="primary" size="s">
           <Circle size={12} />
           Button
           <Circle size={12} />
         </Button>
-        <Button type="secondary" size="s">
+        <Button variant="secondary" size="s">
           Button
         </Button>
-        <Button type="tertiary" size="s">
+        <Button variant="tertiary" size="s">
           Button
         </Button>
-        <Button type="primary" size="s" disabled>
+        <Button variant="primary" size="s" disabled>
           Button
         </Button>
       </div>
@@ -142,19 +142,19 @@ export default function Page() {
         </TopBarButton>
       </div>
       <div className="flex space-x-4">
-        <TopBarButton type="top-bar-menu" color="prime" size="s">
+        <TopBarButton variant="top-bar-menu" color="prime" size="s">
           Button
         </TopBarButton>
-        <TopBarButton type="top-bar-menu" color="base" size="s">
+        <TopBarButton variant="top-bar-menu" color="base" size="s">
           Button
         </TopBarButton>
-        <TopBarButton type="top-bar-menu" color="prime" size="m">
+        <TopBarButton variant="top-bar-menu" color="prime" size="m">
           Button
         </TopBarButton>
-        <TopBarButton type="top-bar-menu" color="base" size="m">
+        <TopBarButton variant="top-bar-menu" color="base" size="m">
           Button
         </TopBarButton>
-        <TopBarButton type="top-bar-menu" color="base" size="m" disabled>
+        <TopBarButton variant="top-bar-menu" color="base" size="m" disabled>
           Button
         </TopBarButton>
       </div>
@@ -162,26 +162,37 @@ export default function Page() {
       <h2 className="text-h4 font-bold text-base-900  ">Icon Buttons</h2>
       <div className="flex flex-row gap-3">
         {/* Icon Buttons */}
-        <IconButton size="m" icon={<Circle size={32} />} />
-        <IconButton type="secondary" size="m" icon={<EyeIcon size={32} />} />
-        <IconButton type="tertiary" size="m" icon={<Circle size={32} />} />
-        <IconButton size="m" disabled icon={<Circle size={32} />} />
-        <IconButton size="s" icon={<Circle size={24} />} />
-        <IconButton type="secondary" size="s" icon={<Circle size={24} />} />
-        <IconButton type="tertiary" size="s" icon={<Circle size={24} />} />
-        <IconButton
-          type="tertiary"
-          size="l"
-          color="grey"
-          icon={<Circle size={88} />}
-        />
+        <IconButton size="m">
+          <Circle size={32} />
+        </IconButton>
+        <IconButton variant="secondary" size="m">
+          <EyeIcon size={32} />
+        </IconButton>
+        <IconButton variant="tertiary" size="m">
+          <Circle size={32} />
+        </IconButton>
+        <IconButton size="m" disabled>
+          <Circle size={32} />
+        </IconButton>
+        <IconButton size="s">
+          <Circle size={24} />
+        </IconButton>
+        <IconButton variant="secondary" size="s">
+          <Circle size={24} />
+        </IconButton>
+        <IconButton variant="tertiary" size="s">
+          <Circle size={24} />
+        </IconButton>
+        <IconButton variant="tertiary" size="l" color="base">
+          <Circle size={88} />
+        </IconButton>
       </div>
       <h2 className="text-h4 font-bold text-base-900">Input</h2>
       <div className="flex flex-row space-x-10">
         <div className="flex flex-col space-y-6 w-1/3">
           <Input size="S" placeholder="Enter your name" value={inputValue} />
           <Input
-            state="active"
+            state="enabled"
             size="S"
             placeholder="Name"
             label="Name"
@@ -221,7 +232,7 @@ export default function Page() {
             name="password"
             id="password"
             label="Password"
-            state="active"
+            state="enabled"
             size="M"
             placeholder="Password"
             rightIcon={
@@ -298,9 +309,7 @@ export default function Page() {
         isLoading={isLoading}
         error={authError}
       />
-      <ErrorMessage 
-        errorMessage="KFSKFAK"
-      />
+      <ErrorMessage errorMessage="KFSKFAK" />
     </div>
   );
 }
