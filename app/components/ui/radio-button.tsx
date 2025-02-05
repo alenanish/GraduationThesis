@@ -16,24 +16,46 @@ const RadioButton: React.FC<RadioButtonProps> = ({
   onChange,
   disabled = false,
 }) => {
+  const [isHovered, setIsHovered] = useState(false);
+
   const handleChange = () => {
     if (!disabled) {
       onChange(value);
     }
   };
 
+  const handleMouseEnter = () => {
+    if (!disabled) {
+      setIsHovered(true);
+    }
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovered(false);
+  };
+
+  const radioColor = isHovered
+    ? "var(--color-prime-600)"
+    : "var(--color-prime-500)";
+  const blankColor = isHovered
+    ? "var(--color-base-800)"
+    : "var(--color-base-500)";
+
   return (
     <div
       className={`flex items-start space-x-1 ${
-        disabled ? "cursor-not-allowed" : "cursor-pointer"
+        disabled ? "cursor-not-allowed " : "cursor-pointer"
       }`}
       onClick={handleChange}
+      onMouseEnter={disabled ? undefined : handleMouseEnter}
+      onMouseLeave={handleMouseLeave}
+      aria-disabled={disabled}
     >
       <div className="flex items-center h-5 transition-all">
         {checked ? (
-          <RadioboxMarked color="#0094C8" />
+          <RadioboxMarked color={radioColor} />
         ) : (
-          <RadioboxBlank color="#5d5d5d" />
+          <RadioboxBlank color={blankColor} />
         )}
       </div>
       <label
@@ -48,3 +70,4 @@ const RadioButton: React.FC<RadioButtonProps> = ({
 };
 
 export default RadioButton;
+
