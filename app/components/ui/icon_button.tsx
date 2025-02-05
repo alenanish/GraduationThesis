@@ -1,7 +1,7 @@
 import React, { ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
 
 type IconButtonType = "primary" | "secondary" | "tertiary";
-type IconButtonSize = "sm" | "md";
+type IconButtonSize = "s" | "m" | "l";
 type IconButtonState = "enabled" | "pressed" | "hover" | "disabled";
 
 interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -16,7 +16,7 @@ interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const IconButton: React.FC<IconButtonProps> = ({
   type = "primary",
-  size = "md",
+  size = "m",
   state = "enabled",
   icon,
   onClick,
@@ -24,68 +24,61 @@ const IconButton: React.FC<IconButtonProps> = ({
   className = "",
   ...rest
 }) => {
-  const baseStyles =
-    "rounded-[16px] inline-flex items-center justify-center py-2 px-3 ";
+  const baseStyles = 
+    "rounded-[16px] flex flex-row justify-center items-center";
 
   const typeStyles = () => {
     switch (type) {
       case "primary":
-        return `bg-blue-500
-        text-white-0
-        hover:bg-blue-600
-        focus:bg-blue-700
-        disabled:bg-white-200
-        disabled:hover:bg-blue-300`;
-      case "secondary":
-        return `text-blue-500
-          border
-          border-blue-500
-          hover:bg-blue-50 
-          focus:border-blue-700
-          focus:text-blue-700
-          disabled:border-white-200
-          disabled:text-white-200 
-          disabled:hover:bg-white-100`;
-      case "tertiary":
-        return `text-blue-500 
-          hover:text-blue-600 
-          focus:bg-blue-50
-          focus:text-blue-700
-          disabled:text-white-200 
-          disabled:hover:text-blue-300`;
-      default:
-        return `bg-blue-500 
+        return `bg-prime-500 
           text-white-0 
-          hover:bg-blue-600 
-          focus:bg-blue-700 
-          disabled:bg-white-200
-          disabled:hover:bg-blue-300`;
+          hover:bg-prime-600 
+          focus:bg-prime-700 
+          disabled:bg-white-200`;
+      case "secondary":
+        return `text-prime-500
+          border-2
+          border-prime-500
+          hover:text-prime-600
+          hover:border-prime-600
+          focus:border-prime-700
+          focus:text-prime-700
+          disabled:border-white-200
+          disabled:text-white-200`;
+      case "tertiary":
+        return `text-prime-500 
+          hover:text-prime-600
+          hover:bg-prime-50 
+          focus:bg-prime-100
+          focus:text-prime-700
+          disabled:text-white-200`;
+      default:
+        return `bg-prime-500 
+          text-white-0 
+          hover:bg-prime-600 
+          focus:bg-prime-700 
+          disabled:bg-white-200`;
     }
   };
 
   const sizeStyles = () => {
     switch (size) {
-      case "sm":
-        return "h-10 w-10 text-[24px]";
-      case "md":
-        return "h-[52px] w-[52px] text-[32px]";
+      case "s":
+        return `h-[40px] w-[40px] ${type === 'secondary' ? 'p-[6px]' : 'p-2'}`;
+      case "m":
+        return `h-[52px] w-[52px] ${type === 'secondary' ? 'p-[8px]' : 'p-[10px]'}`;
+      case "l":
+        return `h-[108px] w-[px] ${type === 'secondary' ? 'p-[8px]' : 'p-[10px]'}`;
       default:
-        return "h-[52px] w-[52px] text-[32px]";
+        return "h-[52px] w-[52px] p-[10px]";
     }
   };
 
   const stateStyles = () => {
     if (disabled) {
-      return "opacity-50 cursor-not-allowed";
+      return "cursor-not-allowed";
     }
-    switch (state) {
-      case "pressed":
-        return "transform scale-95";
-      case "hover":
-        return "";
-      default:
-        return "";
-    }
+
   };
 
   const buttonClasses = [
