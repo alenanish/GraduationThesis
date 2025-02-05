@@ -1,7 +1,115 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap')
+layer(base);
+@import 'tailwindcss';
+
+@theme {
+  --font-inter: Inter, sans-serif;
+
+  --text-h4: 24px;
+  --text-h5: 18px;
+  --text-body-m: 16px;
+  --text-body-s: 14px;
+  --text-caption: 12px;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-base-0: #ffffff;
+  --color-base-50: #eaeaea;
+  --color-base-100: #d1d1d1;
+  --color-base-200: #b0b0b0;
+  --color-base-300: #888888;
+  --color-base-400: #6d6d6d;
+  --color-base-500: #5d5d5d;
+  --color-base-600: #4f4f4f;
+  --color-base-700: #454545;
+  --color-base-800: #383838;
+  --color-base-900: #212121;
+
+  --color-prime-50: #e9f5fd;
+  --color-prime-100: #bce2f7;
+  --color-prime-200: #8ccff0;
+  --color-prime-300: #57bce6;
+  --color-prime-400: #00a8d9;
+  --color-prime-500: #0094c8;
+  --color-prime-600: #007fb3;
+  --color-prime-700: #006a9a;
+  --color-prime-800: #00567f;
+  --color-prime-900: #004161;
+
+  --color-green-50: #e7f8e6;
+  --color-green-100: #b5eab7;
+  --color-green-200: #83da8b;
+  --color-green-300: #4dc863;
+  --color-green-400: #00b43e;
+  --color-green-500: #009f1d;
+  --color-green-600: #008a00;
+  --color-green-700: #007400;
+  --color-green-800: #005d00;
+  --color-green-900: #004700;
+
+  --color-red-50: #ffede9;
+  --color-red-100: #ffcac0;
+  --color-red-200: #ffa699;
+  --color-red-300: #ff8277;
+  --color-red-400: #ff5e59;
+  --color-red-500: #fb3b41;
+  --color-red-600: #e2132d;
+  --color-red-700: #c4001f;
+  --color-red-800: #a10015;
+  --color-red-900: #7c000f;
+
+  --color-yellow-50: #fbf3df;
+  --color-yellow-100: #eedca1;
+  --color-yellow-200: #dcc667;
+  --color-yellow-300: #c7b12d;
+  --color-yellow-400: #b09c00;
+  --color-yellow-500: #988700;
+  --color-yellow-600: #817300;
+  --color-yellow-700: #6c6000;
+  --color-yellow-800: #574c00;
+  --color-yellow-900: #443a00;
+
+  --animate-shake: shake 0.8s ease-in-out;
+
+  @keyframes shake {
+    0%,
+    100% {
+      transform: translateX(0);
+    }
+    10%,
+    30%,
+    50%,
+    70%,
+    90% {
+      transform: translateX(-2px);
+    }
+    20%,
+    40%,
+    60%,
+    80% {
+      transform: translateX(2px);
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentColor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentColor);
+  }
+}
 
 *,
 *::before,

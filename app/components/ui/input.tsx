@@ -133,7 +133,7 @@ const Input: React.FC<InputProps> = ({
 
   const getInputStyles = () => {
     let baseStyles =
-      " placeholder:text-base-400 placeholder:italic outline-none w-full bg-transparent placeholder:transition-colors focus-within:placeholder:text-transparent";
+      " placeholder:text-base-400 placeholder:italic outline-hidden w-full bg-transparent placeholder:transition-colors focus-within:placeholder:text-transparent";
 
     if (size === "S") {
       baseStyles += " placeholder:text-body-s text-body-s";
