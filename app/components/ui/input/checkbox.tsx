@@ -1,5 +1,5 @@
 import React, { useState, FC, useCallback } from "react";
-import { CheckboxBlank, CheckboxMarked } from "../icons";
+import { CheckboxBlank, CheckboxMarked } from "../../icons";
 
 interface CheckboxProps {
   label: string;
@@ -17,7 +17,6 @@ const Checkbox: FC<CheckboxProps> = ({
   const [isChecked, setIsChecked] = useState(checked);
   const [isHovered, setIsHovered] = useState(false);
 
-
   const handleChange = useCallback(() => {
     const newChecked = !isChecked;
     setIsChecked(newChecked);
@@ -34,8 +33,12 @@ const Checkbox: FC<CheckboxProps> = ({
     setIsHovered(false);
   };
 
-  const checkboxColor = isHovered ? "var(--color-prime-600)" : "var(--color-prime-500)";
-  const blankColor = isHovered ? "var(--color-base-800)" : "var(--color-base-500)";
+  const checkboxColor = isHovered
+    ? "var(--color-prime-600)"
+    : "var(--color-prime-500)";
+  const blankColor = isHovered
+    ? "var(--color-base-800)"
+    : "var(--color-base-500)";
 
   return (
     <div

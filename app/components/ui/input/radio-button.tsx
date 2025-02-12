@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { RadioboxBlank, RadioboxMarked } from "../icons";
+import { RadioboxBlank, RadioboxMarked } from "../../icons";
 
 interface RadioButtonProps {
   label: string;
@@ -70,4 +70,3 @@ const RadioButton: React.FC<RadioButtonProps> = ({
 };
 
 export default RadioButton;
-
