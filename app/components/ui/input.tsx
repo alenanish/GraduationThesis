@@ -3,15 +3,18 @@ import React, {
   useRef,
   FocusEventHandler,
   MouseEventHandler,
+  ChangeEvent,
+  InputHTMLAttributes,
 } from "react";
 
-interface InputProps {
+
+interface InputProps
+  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "onChange"> {
   id?: string;
   name?: string;
   state?: "enabled" | "disabled" | "error";
   size?: "S" | "M";
   isIconActive?: boolean;
-  leftIcon?: React.ReactNode;
   rightIcon?: React.ReactNode;
   placeholder?: string;
   value?: string;
@@ -19,35 +22,33 @@ interface InputProps {
   onFocus?: FocusEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onClickRightIcon?: MouseEventHandler<HTMLSpanElement>;
-  onClickLeftIcon?: MouseEventHandler<HTMLSpanElement>;
   label?: string;
   errorText?: string;
   helperText?: string;
 }
 
 const Input: React.FC<InputProps> = ({
-  id = "",
-  name = "",
+  id,
+  name,
   state = "enabled",
   size = "M",
   isIconActive = false,
-  leftIcon,
   rightIcon,
-  placeholder = "",
-  label = "",
-  value = "",
-  helperText = "",
+  placeholder,
+  label,
+  value,
+  helperText,
   onChange,
   onFocus,
   onBlur,
   onClickRightIcon,
-  onClickLeftIcon,
   errorText,
+  ...rest 
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
-  const [inputValue, setInputValue] = useState(value);
+  const [inputValue, setInputValue] = useState(value || ""); 
   const [isError, setIsError] = useState(state === "error");
 
   const handleFocus: FocusEventHandler<HTMLInputElement> = (e) => {
@@ -72,7 +73,7 @@ const Input: React.FC<InputProps> = ({
     setIsHovered(false);
   };
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setInputValue(e.target.value);
     if (onChange) {
       onChange(e.target.value);
@@ -85,11 +86,6 @@ const Input: React.FC<InputProps> = ({
     }
   };
 
-  const handleClickLeftIcon: MouseEventHandler<HTMLSpanElement> = (e) => {
-    if (isIconActive && onClickLeftIcon) {
-      onClickLeftIcon(e);
-    }
-  };
 
   const getContainerStyles = () => {
     let baseStyles =
@@ -145,7 +141,7 @@ const Input: React.FC<InputProps> = ({
       baseStyles += " cursor-not-allowed";
     }
 
-    return baseStyles;
+    return baseStyles; 
   };
 
   const getIconStyles = () => {
@@ -181,41 +177,37 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className={"relative"}>
-      {label && <div className={getLabelStyles()}>{label}</div>}
+    <div>
+      {label && <label htmlFor={id} className={getLabelStyles()}>{label}</label>}
       <div
         className={getContainerStyles()}
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {leftIcon && (
-          <span className={getIconStyles() + " mr-2 "}>{leftIcon}</span>
-        )}
         <input
           ref={inputRef}
-          type="text"
-          value={inputValue}
+          id={id}
+          name={name}
           placeholder={placeholder}
-          className={getInputStyles()}
-          disabled={state === "disabled"}
+          value={inputValue}
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          disabled={state === "disabled"}
+          className={getInputStyles()}
+          {...rest} 
         />
         {rightIcon && (
-          <span
-            className={getIconStyles() + " ml-2 "}
-            onClick={handleClickRightIcon}
-          >
+          <span className={getIconStyles()} onClick={handleClickRightIcon}>
             {rightIcon}
           </span>
         )}
       </div>
-      {state === "error" && errorText && (
-        <div className=" text-red-700 text-caption mt-1">{errorText}</div>
+      {errorText && state === "error" && (
+        <p className="text-red-500 text-body-s mt-1">{errorText}</p>
       )}
-      {helperText && (
-        <div className=" text-base-400 text-caption mt-1">{helperText}</div>
+      {helperText && !errorText && (
+        <p className="text-base-500 text-body-s mt-1">{helperText}</p>
       )}
     </div>
   );
