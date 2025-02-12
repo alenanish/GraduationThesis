@@ -35,14 +35,16 @@ const TopBarButton: React.FC<ButtonProps> = ({
           hover:bg-prime-50 
           focus:bg-prime-100
           focus:text-prime-700
-          disabled:text-base-200`;
+          disabled:text-base-200
+          disabled:bg-transparent`;
     } else {
       return `text-base-700 
           hover:text-base-800
           hover:bg-base-50 
           focus:bg-base-100
           focus:text-base-900
-          disabled:text-base-200`;
+          disabled:text-base-200
+          disabled:bg-transparent`;
     }
   };
 
