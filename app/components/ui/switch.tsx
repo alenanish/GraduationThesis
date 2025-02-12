@@ -7,6 +7,18 @@ interface SwitchProps {
   disabled?: boolean;
 }
 
+const Circle: React.FC<{ checked: boolean; disabled: boolean }> = ({ checked, disabled }) => {
+  const circleStyle = {
+    transform: checked ? 'translateX(16px)' : 'translateX(0)',
+
+  };
+
+  return (
+    <span className={`inline-block h-5 w-5 rounded-full bg-base-0 transform transition-transform duration-200 ease-in-out `} style={circleStyle}></span>
+  );
+};
+
+
 const Switch: React.FC<SwitchProps> = ({
   label,
   checked = false,
@@ -33,19 +45,19 @@ const Switch: React.FC<SwitchProps> = ({
         className="sr-only peer"
         checked={checked}
         onChange={handleChange}
+        disabled={disabled} 
       />
-      <label
+      <span
         className={`text-body-s ${
           disabled ? "text-base-500" : "text-base-800"
         }`}
       >
         {label}
-      </label>
-      {!disabled ? (
-        <div className="relative w-10 h-6 peer-focus:outline-hidden rounded-full peer  bg-base-300 peer-checked:after:translate-x-4 peer-checked:rtl:after:-translate-x-4 peer-checked:after:border-base-0 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-base after:border-base-0 after:border-[10px] after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-prime-500"></div>
-      ) : (
-        <div className="relative w-10 h-6 peer-focus:outline-hidden rounded-full peer  bg-base-100 peer-checked:after:translate-x-4 peer-checked:rtl:after:-translate-x-4 peer-checked:after:border-base-0 after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-base after:border-base-0 after:border-[10px] after:rounded-full after:h-5 after:w-5 after:transition-all  peer-checked:bg-base-200"></div>
-      )}
+      </span>
+
+      <span className={`px-0.5 relative inline-flex items-center h-6 w-10 rounded-full transition-colors duration-200 ${disabled ? (checked ? 'bg-base-200' : 'bg-base-100') : (checked ? 'bg-prime-600' : 'bg-base-300')}`}>
+        <Circle checked={checked} disabled={disabled} />
+      </span>
     </label>
   );
 };
