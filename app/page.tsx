@@ -1,25 +1,71 @@
 "use client";
 
 import React, { useState } from "react";
-import Button from "./components/ui/button";
-import IconButton from "./components/ui/icon_button";
-import Input from "./components/ui/input";
-import { Circle, EyeIcon, EyeOff, CircleXIcon } from "lucide-react";
-import ReadOnlyField from "./components/ui/read-only";
-import RadioGroup from "./components/ui/radio-group";
-import CheckboxGroup from "./components/ui/checkbox-group";
-import Switch from "./components/ui/switch";
-import SignInForm from "./components/forms/SignInForm";
-import TopBarButton from "./components/ui/top_bar_button";
-import TopBar from "./components/ui/top_bar";
-import ErrorMessage from "./components/ui/error_message";
+
+import {
+  Account,
+  Add,
+  ArrowBackward,
+  ArrowDown,
+  ArrowForward, 
+  ArrowRight,
+  ArrowUp,
+  Back,
+  Bell,
+  BidLandscape,
+  Cached,
+  Calendar,
+  Cancel,
+  Check,
+  CheckAll,
+  CheckboxBlank,
+  CheckboxMarked,
+  CheckCircle,
+  CheckCircleFilled,
+  Close,
+  CurrencyRuble,
+  Delete,
+  Edit,
+  Favourite,
+  Gmail,
+  Hourglass,
+  Menu,
+  More,
+  NotFavourite,
+  PasswordNoSee,
+  PasswordSee,
+  Phone,
+  Plus,
+  RadioboxBlank,
+  RadioboxMarked,
+  Reply,
+  RocketLaunch,
+  Search,
+  Send,
+  Template,
+  Tg,
+  TrendingDown,
+  TrendingFlat,
+  TrendingUp,
+  Vk,
+} from "./components/icons";
+import SignInForm from "./components/forms/sign-in-form";
+
+import {
+  Button,
+  IconButton,
+  Switch,
+  Input,
+  CheckboxGroup,
+  RadioGroup,
+  ReadOnlyField,
+  ErrorMessage,
+  ProjectState,
+} from "./components/ui";
 
 export default function Page() {
   const [inputValue, setInputValue] = useState("");
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
-  const handleTogglePasswordVisibility = () => {
-    setIsPasswordVisible(!isPasswordVisible);
-  };
 
   const handleChange = (value: string) => {
     setInputValue(value);
@@ -75,7 +121,60 @@ export default function Page() {
 
   return (
     <div className="p-4 space-y-4">
-      <TopBar />
+      <h2 className="text-h4 font-bold text-base-900">Icons</h2>
+      <div className="flex space-x-4">
+        <Cached color={"var(--color-base-700)"} />
+        <BidLandscape color={"var(--color-base-700)"} />
+        <RocketLaunch color={"var(--color-base-700)"} />
+        <CheckCircleFilled color={"var(--color-base-700)"} />
+        <CheckboxBlank color={"var(--color-base-700)"} />
+        <CheckboxMarked color={"var(--color-base-700)"} />
+        <Hourglass color={"var(--color-base-700)"} />
+        <RadioboxBlank color={"var(--color-base-700)"} />
+        <RadioboxMarked color={"var(--color-base-700)"} />
+        <Template color={"var(--color-base-700)"} />
+        <Close color={"var(--color-base-700)"} />
+        <ArrowRight color={"var(--color-base-700)"} />
+        <Back color={"var(--color-base-700)"} />
+        <PasswordSee color={"var(--color-base-700)"} />
+        <PasswordNoSee color={"var(--color-base-700)"} />
+      </div>
+      <div className="flex space-x-4 w-">
+        <Bell color={"var(--color-base-700)"} />
+        <Check color={"var(--color-base-700)"} />
+        <Delete color={"var(--color-base-700)"} />
+        <CheckCircle color={"var(--color-base-700)"} />
+        <Cancel color={"var(--color-base-700)"} />
+        <Menu color={"var(--color-base-700)"} />
+        <Gmail color={"var(--color-base-700)"} />
+        <Tg color={"var(--color-base-700)"} />
+        <Search color={"var(--color-base-700)"} />
+        <Vk color={"var(--color-base-700)"} />
+        <More color={"var(--color-base-700)"} />
+        <ArrowForward color={"var(--color-base-700)"} />
+        <ArrowBackward color={"var(--color-base-700)"} />
+        <Plus color={"var(--color-base-700)"} />
+        <Edit color={"var(--color-base-700)"} />
+        <CurrencyRuble color={"var(--color-base-700)"} />
+      </div>
+      <div className="flex space-x-4 w-">
+      <NotFavourite color={"var(--color-base-700)"} />
+      <Favourite color={"var(--color-base-700)"} />
+      <TrendingUp color={"var(--color-base-700)"} />
+      <TrendingDown color={"var(--color-base-700)"} />
+      <TrendingFlat color={"var(--color-base-700)"} />
+      <ArrowUp color={"var(--color-base-700)"} />
+      <ArrowDown color={"var(--color-base-700)"} />
+      <CheckAll color={"var(--color-base-700)"} />
+      <Send color={"var(--color-base-700)"} />
+      <Reply color={"var(--color-base-700)"} />
+      <Account color={"var(--color-base-700)"} />
+      <Phone color={"var(--color-base-700)"} />
+      <Add color={"var(--color-base-700)"} />
+      <Calendar color={"var(--color-base-700)"} />
+
+
+      </div>
 
       <h2 className="text-h4 font-bold text-base-900">Buttons</h2>
       {/* Secondary Buttons */}
@@ -96,7 +195,7 @@ export default function Page() {
       <div className="flex space-x-4">
         {/* Primary Buttons */}
         <Button variant="primary">
-          <Circle size={16} />
+          <RadioboxBlank size={16} />
           Button
         </Button>
         <Button variant="secondary">Button</Button>
@@ -109,9 +208,9 @@ export default function Page() {
         {/* Secondary Buttons */}
 
         <Button variant="primary" size="s">
-          <Circle size={12} />
+          <RadioboxBlank size={12} />
           Button
-          <Circle size={12} />
+          <RadioboxBlank size={12} />
         </Button>
         <Button variant="secondary" size="s">
           Button
@@ -124,67 +223,32 @@ export default function Page() {
         </Button>
       </div>
       <h2 className="text-h4 font-bold text-base-900">Top Bar Buttons</h2>
-      <div className="flex space-x-4">
-        <TopBarButton color="prime" size="s">
-          Button
-        </TopBarButton>
-        <TopBarButton color="base" size="s">
-          Button
-        </TopBarButton>
-        <TopBarButton color="prime" size="m">
-          Button
-        </TopBarButton>
-        <TopBarButton color="base" size="m">
-          Button
-        </TopBarButton>
-        <TopBarButton color="base" size="m" disabled>
-          Button
-        </TopBarButton>
-      </div>
-      <div className="flex space-x-4">
-        <TopBarButton variant="top-bar-menu" color="prime" size="s">
-          Button
-        </TopBarButton>
-        <TopBarButton variant="top-bar-menu" color="base" size="s">
-          Button
-        </TopBarButton>
-        <TopBarButton variant="top-bar-menu" color="prime" size="m">
-          Button
-        </TopBarButton>
-        <TopBarButton variant="top-bar-menu" color="base" size="m">
-          Button
-        </TopBarButton>
-        <TopBarButton variant="top-bar-menu" color="base" size="m" disabled>
-          Button
-        </TopBarButton>
-      </div>
-
       <h2 className="text-h4 font-bold text-base-900  ">Icon Buttons</h2>
       <div className="flex flex-row gap-3">
         {/* Icon Buttons */}
         <IconButton size="m">
-          <Circle size={32} />
+          <ArrowRight size={32} />
         </IconButton>
         <IconButton variant="secondary" size="m">
-          <EyeIcon size={32} />
+          <ArrowRight size={32} />
         </IconButton>
         <IconButton variant="tertiary" size="m">
-          <Circle size={32} />
+          <Template size={32} />
         </IconButton>
         <IconButton size="m" disabled>
-          <Circle size={32} />
+          <Template size={32} />
         </IconButton>
         <IconButton size="s">
-          <Circle size={24} />
+          <Template size={24} />
         </IconButton>
         <IconButton variant="secondary" size="s">
-          <Circle size={24} />
+          <Template size={24} />
         </IconButton>
         <IconButton variant="tertiary" size="s">
-          <Circle size={24} />
+          <Template size={24} />
         </IconButton>
         <IconButton variant="tertiary" size="l" color="base">
-          <Circle size={88} />
+          <Template size={88} />
         </IconButton>
       </div>
       <h2 className="text-h4 font-bold text-base-900">Input</h2>
@@ -196,7 +260,7 @@ export default function Page() {
             size="S"
             placeholder="Name"
             label="Name"
-            rightIcon={<Circle size={16} />}
+            rightIcon={<RadioboxBlank size={16} />}
             value={inputValue}
             onChange={handleChange}
           />
@@ -204,7 +268,7 @@ export default function Page() {
             state="error"
             size="S"
             placeholder="Error input"
-            rightIcon={<Circle size={16} />}
+            rightIcon={<RadioboxBlank size={16} />}
             value={inputValue}
             errorText="This field is required"
             onChange={handleChange}
@@ -213,7 +277,7 @@ export default function Page() {
             state="disabled"
             size="S"
             placeholder="Disabled input"
-            leftIcon={<Circle size={16} />}
+            rightIcon={<RadioboxBlank size={16} />}
             value={inputValue}
             onChange={handleChange}
           />
@@ -235,12 +299,6 @@ export default function Page() {
             state="enabled"
             size="M"
             placeholder="Password"
-            rightIcon={
-              isPasswordVisible ? <EyeOff size={24} /> : <EyeIcon size={24} />
-            }
-            isIconActive={true}
-            onClickRightIcon={handleTogglePasswordVisibility}
-            value={isPasswordVisible ? "********" : inputValue}
             helperText="The password should be 8 letters long and must contain numbers and uppercase letter."
             onChange={handleChange}
           />
@@ -248,7 +306,7 @@ export default function Page() {
             state="error"
             size="M"
             placeholder="Error input"
-            rightIcon={<CircleXIcon size={24} />}
+            rightIcon={<RadioboxBlank size={24} />}
             value={inputValue}
             errorText="This field is required"
             onChange={handleChange}
@@ -257,7 +315,7 @@ export default function Page() {
             state="disabled"
             size="M"
             placeholder="Disabled input"
-            leftIcon={<Circle size={24} />}
+            rightIcon={<RadioboxBlank size={24} />}
             value={inputValue}
             onChange={handleChange}
           />
@@ -309,7 +367,16 @@ export default function Page() {
         isLoading={isLoading}
         error={authError}
       />
-      <ErrorMessage errorMessage="KFSKFAK" />
+
+      {/*   <div className="absolute top-10 w-full flex justify-center">
+        <ErrorMessage errorMessage="KFSKFAK" />{" "}
+      </div>
+      */}
+      <ProjectState state="expectation" />
+      <ProjectState state="in-process" />
+      <ProjectState state="launch" />
+      <ProjectState state="results-analysis" />
+      <ProjectState state="completed" />
     </div>
   );
 }

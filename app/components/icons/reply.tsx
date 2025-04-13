@@ -5,9 +5,9 @@ interface IconProps {
   size?: string | number;
 }
 
-const BidLandscape: React.FC<IconProps> = ({
+const Reply: React.FC<IconProps> = ({
   color = "currentColor",
-  size = "28",
+  size = "24",
 }) => {
   const calculatedSize = size;
   const sizeString =
@@ -15,6 +15,7 @@ const BidLandscape: React.FC<IconProps> = ({
   const svgStyle = {
     width: sizeString,
     height: sizeString,
+    color: color,
   };
 
   return (
@@ -27,15 +28,13 @@ const BidLandscape: React.FC<IconProps> = ({
         xmlns="http://www.w3.org/2000/svg"
         style={svgStyle}
       >
-
-          <path
-            d="M5 21C4.45 21 3.97917 20.8042 3.5875 20.4125C3.19583 20.0208 3 19.55 3 19V5C3 4.45 3.19583 3.97917 3.5875 3.5875C3.97917 3.19583 4.45 3 5 3H19C19.55 3 20.0208 3.19583 20.4125 3.5875C20.8042 3.97917 21 4.45 21 5V19C21 19.55 20.8042 20.0208 20.4125 20.4125C20.0208 20.8042 19.55 21 19 21H5ZM19 7.25L12.95 14.05L9 10.1L5 14.1V16.95L9 12.95L13.05 17L19 10.25V7.25Z"
-            fill={color}
-          />
-
+        <path
+          d="M19.3997 19.8882V15.8882C19.3997 15.0549 19.1081 14.3465 18.5247 13.7632C17.9414 13.1799 17.2331 12.8882 16.3997 12.8882H7.22475L10.8247 16.4882L9.39975 17.8882L3.39975 11.8882L9.39975 5.88818L10.8247 7.28818L7.22475 10.8882H16.3997C17.7831 10.8882 18.9622 11.3757 19.9373 12.3507C20.9123 13.3257 21.3997 14.5049 21.3997 15.8882V19.8882H19.3997Z"
+          fill={color}
+        />
       </svg>
     </div>
   );
 };
 
-export default BidLandscape;
+export default Reply;

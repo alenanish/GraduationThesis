@@ -5,7 +5,7 @@ interface IconProps {
   size?: string | number;
 }
 
-const CheckboxBlank: React.FC<IconProps> = ({
+const Close: React.FC<IconProps> = ({
   color = "currentColor",
   size = "24",
 }) => {
@@ -22,10 +22,13 @@ const CheckboxBlank: React.FC<IconProps> = ({
         strokeLinecap="round"
         strokeLinejoin="round"
       >
-        <path d="M19 3H5C3.89 3 3 3.89 3 5V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V5C21 3.89 20.1 3 19 3ZM19 5V19H5V5H19Z" />
+        <path
+          d="M19 6.41L17.59 5L12 10.59L6.41 5L5 6.41L10.59 12L5 17.59L6.41 19L12 13.41L17.59 19L19 17.59L13.41 12L19 6.41Z"
+          fill={color}
+        />
       </svg>
     </div>
   );
 };
 
-export default CheckboxBlank;
+export default Close;
