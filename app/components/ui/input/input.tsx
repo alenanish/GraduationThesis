@@ -97,7 +97,7 @@ const Input: React.FC<InputProps> = ({
       !(state === "error") &&
       !(state === "disabled")
     ) {
-      baseStyles += " hover:border-prime-200 hover:bg-prime-50 ";
+      baseStyles += " hover:border-prime-200 hover:bg-prime-100 ";
     }
 
     switch (state) {

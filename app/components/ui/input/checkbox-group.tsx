@@ -29,7 +29,7 @@ const CheckboxGroup: FC<CheckboxGroupProps> = ({
   );
 
   return (
-    <div className="space-y-2">
+    <div className="space-y-2 w-fit">
       {options.map((option) => (
         <Checkbox
           key={option.value}

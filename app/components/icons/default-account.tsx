@@ -1,0 +1,40 @@
+import React from "react";
+
+interface IconProps {
+  color?: string;
+  size?: string | number;
+}
+
+const DefaultAccount: React.FC<IconProps> = ({
+  color = "currentColor",
+  size = "24",
+}) => {
+  const calculatedSize = size;
+  const sizeString =
+    typeof calculatedSize === "number" ? `${calculatedSize}px` : calculatedSize;
+  const svgStyle = {
+    width: sizeString,
+    height: sizeString,
+    color: color,
+  };
+
+  return (
+    <div className="w-fit h-fit">
+      <svg
+        width="40"
+        height="40"
+        viewBox="0 0 40 40"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <rect width="40" height="40" fill="white" />
+        <path
+          d="M20 32C15.8333 32 12.15 29.8666 10 26.6666C10.05 23.3333 16.6667 21.5 20 21.5C23.3333 21.5 29.95 23.3333 30 26.6666C27.85 29.8666 24.1667 32 20 32ZM20 8.33331C21.3261 8.33331 22.5979 8.8601 23.5355 9.79778C24.4732 10.7355 25 12.0072 25 13.3333C25 14.6594 24.4732 15.9312 23.5355 16.8688C22.5979 17.8065 21.3261 18.3333 20 18.3333C18.6739 18.3333 17.4021 17.8065 16.4645 16.8688C15.5268 15.9312 15 14.6594 15 13.3333C15 12.0072 15.5268 10.7355 16.4645 9.79778C17.4021 8.8601 18.6739 8.33331 20 8.33331ZM20 3.33331C17.8113 3.33331 15.644 3.76441 13.6219 4.60199C11.5998 5.43957 9.76253 6.66722 8.21489 8.21487C5.08928 11.3405 3.33333 15.5797 3.33333 20C3.33333 24.4203 5.08928 28.6595 8.21489 31.7851C9.76253 33.3327 11.5998 34.5604 13.6219 35.398C15.644 36.2355 17.8113 36.6666 20 36.6666C24.4203 36.6666 28.6595 34.9107 31.7851 31.7851C34.9107 28.6595 36.6667 24.4203 36.6667 20C36.6667 10.7833 29.1667 3.33331 20 3.33331Z"
+          fill={"currentColor"}
+        />
+      </svg>
+    </div>
+  );
+};
+
+export default DefaultAccount;

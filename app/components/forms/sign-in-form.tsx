@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import Input from "../ui/input";
-import Button from "../ui/button";
+import { Input, Button } from "../ui";
 import Link from "next/link";
-import { EyeIcon, EyeOff } from "lucide-react";
+import { PasswordNoSee, PasswordSee } from "../icons";
 
 interface SignInFormProps {
   onSubmit: (credentials: { email: string; password?: string }) => void;
@@ -53,7 +52,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
           size="M"
           type={isPasswordVisible ? "text" : "password"}
           rightIcon={
-            isPasswordVisible ? <EyeIcon size={24} /> : <EyeOff size={24} />
+            isPasswordVisible ? <PasswordSee size={24} /> : <PasswordNoSee size={24} />
           }
           isIconActive={true}
           onClickRightIcon={handleTogglePasswordVisibility}
@@ -70,7 +69,7 @@ const SignInForm: React.FC<SignInFormProps> = ({
           Войти
         </Button>
         <Button variant="secondary" type="button" color="base">
-          <Link href={"/"} />
+          <Link href={"/register"} />
           Зарегистрироваться
         </Button>
       </div>

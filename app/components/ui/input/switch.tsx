@@ -35,7 +35,7 @@ const Switch: React.FC<SwitchProps> = ({
 
   return (
     <label
-      className={`inline-flex items-center gap-x-2 ${
+      className={`inline-flex items-center gap-x-2 w-fit ${
         disabled ? "cursor-not-allowed" : "cursor-pointer"
       }`}
     >

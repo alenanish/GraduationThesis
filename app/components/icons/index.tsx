@@ -50,6 +50,8 @@ export { default as Account } from "./account";
 export { default as Phone } from "./phone";
 export { default as Add } from "./add";
 export { default as Calendar } from "./calendar";
+export { default as DefaultAccount } from "./default-account";
+export { default as Eye } from "./eye";
 
 
 

@@ -32,63 +32,63 @@ const IconButton: React.FC<IconButtonProps> = ({
     const variantStyles = () => {
       switch (variant) {
         case "primary":
-          if (color === 'prime') {
-            return `bg-prime-500 
+          if (color === 'base') {
+              return `bg-base-500 
+                text-base-0 
+                hover:bg-base-800 
+                focus:bg-base-900 
+                disabled:bg-base-100`;
+            } else {
+              return `bg-prime-500 
               text-base-0 
               hover:bg-prime-600 
               focus:bg-prime-700 
-              disabled:bg-base-200`;
-            } else {
-              return `bg-base-500 
-              text-base-0 
-              hover:bg-base-700 
-              focus:bg-base-900 
-              disabled:bg-base-200`;
+              disabled:bg-base-100`;
             }
         case "secondary":
-          if (color === 'prime') {
-            return `text-prime-500
-              border-2
-              border-prime-500
-              hover:text-prime-600
-              hover:border-prime-600
-              focus:border-prime-700
-              focus:text-prime-700
-              disabled:border-base-200
-              disabled:text-base-200 `;
-            } else {
-              return `text-base-500
+          if (color === 'base') {
+            return `text-base-500
               border-2
               border-base-500
               hover:text-base-800
               hover:border-base-800
               focus:border-base-900
               focus:text-base-900
-              disabled:border-base-200
-              disabled:text-base-200 `;
+              disabled:border-base-100
+              disabled:text-base-100 `;
+            } else {
+              return `text-prime-500
+              border-2
+              border-prime-500
+              hover:text-prime-600
+              hover:border-prime-600
+              focus:border-prime-700
+              focus:text-prime-700
+              disabled:border-base-100
+              disabled:text-base-100 `;
             }
         case "tertiary":
-          if (color === 'prime') {
-          return `text-prime-500 
-            hover:text-prime-600
-            hover:bg-prime-50 
-            focus:bg-prime-100
-            focus:text-prime-700
-            disabled:text-base-200`;
-          } else {
-            return `text-base-700 
+          if (color === 'base') {
+            return `text-base-500 
             hover:text-base-800
             hover:bg-base-50 
             focus:bg-base-100
-            focus:text-base-900
-            disabled:text-base-200`;
+            focus:text-base-700
+            disabled:text-base-100`;
+          } else {
+            return `text-prime-500 
+            hover:text-prime-600
+            hover:bg-prime-100 
+            focus:bg-prime-200
+            focus:text-prime-700
+            disabled:text-base-100`;
           }
         default:
           return `bg-prime-500 
-            text-base-0 
-            hover:bg-prime-600 
-            focus:bg-prime-700 
-            disabled:bg-base-200`;
+              text-base-0 
+              hover:bg-prime-600 
+              focus:bg-prime-700 
+              disabled:bg-base-100`;
       }
     };
 

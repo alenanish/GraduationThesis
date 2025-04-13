@@ -28,7 +28,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-4 w-fit">
       {options.map((option) => (
         <RadioButton
           key={option.value}

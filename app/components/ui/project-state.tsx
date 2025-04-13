@@ -25,27 +25,27 @@
     
       switch (state) {
         case "expectation":
-          icon = <Hourglass size={28} />;
+          icon = <Hourglass size={28} color={"var(--color-prime-500)"}/>;
           text = "Ожидание";
           break;
         case "in-process":
-            icon = <Cached size={28} />;
+            icon = <Cached size={28} color={"var(--color-prime-500)"} />;
           text = "В процессе";
           break;
         case "launch":
-            icon = <RocketLaunch size={28} />;
+            icon = <RocketLaunch size={28} color={"var(--color-prime-500)"}/>;
           text = "Запуск";
           break;
         case "results-analysis":
-            icon = <BidLandscape />;
+            icon = <BidLandscape color={"var(--color-prime-500)"}/>;
           text = "Анализ результатов";
           break;
         case "completed":
-            icon = <CheckCircle />;
+            icon = <CheckCircle color={"var(--color-prime-500)"}/>;
           text = "Завершено";
           break;
         default:
-            icon = <Hourglass size={28} />;
+            icon = <Hourglass size={28} color={"var(--color-prime-500)"}/>;
           text = "Ожидание";
           break;
       }

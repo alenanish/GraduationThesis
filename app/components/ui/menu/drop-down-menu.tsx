@@ -1,6 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { IconButton } from '../ui';
-import TopBarButton from './top-bar/top-bar-button';
+
+import {
+    IconButton,
+    MenuButton,
+  } from "@/app/components/ui";
+  
 
 type Size = 's' | 'm';
 type Position = 'bottom' | 'left' | 'right';
@@ -8,7 +12,7 @@ type Position = 'bottom' | 'left' | 'right';
 
 interface DropDownMenuProps {
     icon: React.ReactNode;
-    options: { label: string; onClick: () => void }[];
+    options: { label: string; ref: string, color?: string | undefined }[];
     size?: Size;
     position?: Position;
 }
@@ -26,8 +30,8 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
     setIsOpen(!isOpen);
   };
 
-  const handleOptionClick = (onClick: () => void) => {
-    onClick();
+  const handleOptionClick = (label: string) => {
+    console.log(`${label} clicked!`);
     setIsOpen(false);
   };
 
@@ -86,18 +90,18 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
 
       {isOpen && (
         <div className={getDropdownPositionClasses()}>
-          <div className="py-1">
+          <div className="mt-1 ">
             {options.map((option, index) => (
 
-               <TopBarButton
+               <MenuButton
                key={index}
-               variant="top-bar-menu"
                size={size}
+               color={option.color? option.color : 'prime' }
                className='w-full'
-               onClick={() => handleOptionClick(option.onClick)}
+               onClick={() => handleOptionClick(option.label)}
              >
                {option.label}
-             </TopBarButton>
+             </MenuButton>
             ))}
           </div>
         </div>

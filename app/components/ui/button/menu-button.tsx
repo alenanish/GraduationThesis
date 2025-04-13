@@ -6,13 +6,13 @@ type ButtonState = "enabled" | "disabled";
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   size?: ButtonSize;
   state?: ButtonState;
-  color?: "prime" | "base";
+  color?: string | undefined ;
   children?: ReactNode;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   className?: string;
 }
 
-const TopBarButton: React.FC<ButtonProps> = ({
+const MenuButton: React.FC<ButtonProps> = ({
   size = "s",
   state = "enabled",
   color = "prime",
@@ -23,10 +23,18 @@ const TopBarButton: React.FC<ButtonProps> = ({
   ...rest
 }) => {
   const baseStyles =
-    "rounded-[15px] font-medium flex flex-row items-center justify-center gap-2";
+    "font-medium flex flex-row items-center justify-center gap-2";
 
   const colorStyles = () => {
-    if (color === "base") {
+    if (color === "red") {
+      return `text-red-500 
+          hover:text-red-600
+          hover:bg-red-50 
+          focus:bg-red-100
+          focus:text-red-700
+          disabled:text-base-100
+          disabled:bg-transparent`;
+    } else if (color == "base") {
       return `text-base-700 
           hover:text-base-800
           hover:bg-base-50 
@@ -35,7 +43,7 @@ const TopBarButton: React.FC<ButtonProps> = ({
           disabled:text-base-100
           disabled:bg-transparent`;
     } else {
-          return `text-prime-500 
+      return `text-prime-500 
           hover:text-prime-600
           hover:bg-prime-100 
           focus:bg-prime-200
@@ -44,7 +52,6 @@ const TopBarButton: React.FC<ButtonProps> = ({
           disabled:bg-transparent`;
     }
   };
-
 
   const sizeStyles = () => {
     switch (size) {
@@ -83,4 +90,4 @@ const TopBarButton: React.FC<ButtonProps> = ({
   );
 };
 
-export default TopBarButton;
+export default MenuButton;
