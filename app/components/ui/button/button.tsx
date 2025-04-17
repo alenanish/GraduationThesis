@@ -33,12 +33,18 @@ const Button: React.FC<ButtonProps> = ({
     switch (variant) {
       case "primary":
         if (color === 'base'){
-          return `bg-prime-500 
+          return `bg-base-500 
             text-base-0 
-            hover:bg-prime-600 
-            focus:bg-prime-700 
+            hover:bg-base-600 
+            focus:bg-base-700 
             disabled:bg-base-100`;
-          } else {
+          } else if (color === 'light-grey'){
+            return `bg-base-300 
+              text-base-0 
+              hover:bg-base-400 
+              focus:bg-base-500 
+              disabled:bg-base-100`;
+            } else {
             return `bg-prime-500 
             text-base-0 
             hover:bg-prime-600 
