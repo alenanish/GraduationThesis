@@ -1,5 +1,6 @@
 import Link from "next/link";
 
+
 export const Navbar = () => {
   const Buttons = [
     { key: 1, title: "Главная", path: "/home" },
