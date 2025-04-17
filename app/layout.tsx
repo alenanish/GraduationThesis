@@ -1,13 +1,18 @@
-import "./globals.css"
+"use client";
+import { TopBar } from "./components/ui";
+import "./globals.css";
 
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="w-svw h-svh">{children}</body>
+    <html lang="ru">
+      <body>
+        <TopBar />
+        {children}
+      </body>
     </html>
-  )
+  );
 }

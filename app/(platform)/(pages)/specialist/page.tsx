@@ -1,12 +1,11 @@
-import React from 'react'
+import React from "react";
 
 const SpecialistPage = () => {
+  return (
+    <div>
+      <h1>SpecialistPage</h1>
+    </div>
+  );
+};
 
-    return (
-        <div>
-            <h1>SpecialistPage</h1>
-        </div>
-    )
-}
-
-export default SpecialistPage
+export default SpecialistPage;
