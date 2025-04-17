@@ -65,6 +65,11 @@ import {
   TopBar,
   LikesTrend,
   ViewsTrend,
+  StartupCardSpecialist,
+  StartupCardInvestor,
+  SpecialistCard,
+  InvestorCard,
+  DropdownList,
 } from "./components/ui";
 import Carousel from "./components/ui/сarousel";
 
@@ -81,6 +86,33 @@ export default function Page() {
   const handleRadioChange = (value: string) => {
     setSelectedOption(value);
   };
+
+  const items = [
+    {
+      id: 1,
+      imageUrl: "image1.png",
+      altText: "Image 1",
+      title: "Title 1",
+      description: "Description 1",
+      border: "border-green-50",
+    },
+    {
+      id: 2,
+      imageUrl: "image2.png",
+      altText: "Image 2",
+      title: "Title 2",
+      description: "Description 2",
+      border: "border-red-50",
+    },
+    {
+      id: 3,
+      imageUrl: "image3.png",
+      altText: "Image 3",
+      title: "Title 3",
+      description: "Description 3",
+      border: "border-yellow-50",
+    },
+  ];
 
   const radioOptions = [
     {
@@ -124,8 +156,114 @@ export default function Page() {
     setAuthError(undefined);
   };
 
+  const startupData1 = {
+    id: 123,
+    title: "Название",
+    industry: "Сфера",
+    description: "Задача организации, в особенности же начало повседневной работы по формированию позиции требует определения и уточнения вывода текущих активов. Современные технологии достигли и уточнения вывода текущих активов. Современные технологии достигли",
+    required_specialists: [
+      { profession: "Специалист 1" },
+      { profession: "Специалист 2" },
+      { profession: "Специалист 3" },
+    ],
+    is_favorited: true,
+    id_founder: 456,
+  };
+
+  const startupData2 = {
+    id: 125,
+    title: "Название",
+    industry: "Сфера",
+    description: "Задача организации, в особенности же начало повседневной работы по формированию позиции требует определения и уточнения вывода текущих активов. Современные технологии достигли и уточнения вывода текущих активов. Современные технологии достигли",
+    investment_needed: 0,
+    is_favorited: true,
+    id_founder: 456,
+  };
+
+  const startupData3 = {
+    id: 121,
+    full_name:'Имя',
+    profession: 'Профессия',
+    bio: 'Задача организации, в особенности же начало повседневной работы по формированию позиции требует определения и уточнения вывода текущих активов. Современные технологии достигли и уточнения вывода текущих активов. Современные технологии достигли',
+    skills : ['Навык 1', 'Навык 2', 'Навык 3'],
+    is_favorited: false,
+  };
+
+  const startupData4 = {
+    id: 15,
+    full_name: 'Имя',
+    profession: 'Профессия',
+    bio: 'Задача организации, в особенности же начало повседневной работы по формированию позиции требует определения и уточнения вывода текущих активов. Современные технологии достигли и уточнения вывода текущих активов. Современные технологии достигли',
+    investment_max: 150000,
+    is_favorited: true,
+
+  };
+
+
+  const [selectedDropdownOption, setSelectedDropdown] = useState<string | undefined>(undefined);
+
+  const dropdownOptions = [
+    { value: 'option1', label: 'option 1' },
+    { value: 'option2', label: 'option 2' },
+    { value: 'option3', label: 'option 3' },
+    { value: 'option4', label: 'option 4' },
+    { value: 'option5', label: 'option 5' },
+    { value: 'option6', label: 'option 6' },
+    { value: 'option7', label: 'option 7' },
+    { value: 'option8', label: 'option 8' },
+    { value: 'option9', label: 'option 9' },
+    { value: 'option10', label: 'option 10' },
+  ];
+
+  const handleDropdownChange = (value: string) => {
+    setSelectedDropdown(value);
+    console.log('Выбрано:', value);
+  };
+
+
+
   return (
     <div className="p-4 space-y-4">
+      <Carousel items={items} />
+
+      <StartupCardSpecialist
+        {...startupData1}
+        apiEndpoint="https://your-api.com" // Replace with your actual API endpoint
+      />
+
+      <StartupCardInvestor
+        {...startupData2}
+        apiEndpoint="https://your-api.com" // Replace with your actual API endpoint
+      />
+
+      <SpecialistCard
+        {...startupData3}
+        apiEndpoint="https://your-api.com" // Replace with your actual API endpoint
+      />
+
+      <InvestorCard
+      {...startupData4}
+        apiEndpoint="https://your-api.com"
+      />
+
+
+      <DropdownList
+      label='Название фильтра'
+        options={dropdownOptions}
+        onChange={handleDropdownChange}
+        selectedValue={selectedDropdownOption} // Передаем выбранное значение
+        placeholder="Пожалуйста, выберите"
+        border={true}
+        disabled={false}
+      />
+
+      {selectedDropdownOption && (
+        <p className="mt-2 text-sm text-gray-500">
+          Выбранное значение: {selectedDropdownOption}
+        </p>
+      )}
+
+
       {/* Icons */}
       <h2 className="text-h4 font-bold text-base-900">Icons</h2>
       <div className=" space-y-4">
@@ -307,7 +445,7 @@ export default function Page() {
       <div className="flex flex-row gap-3">
         {/* Icon Buttons */}
         <IconButton size="m">
-          <ArrowRight size={32} />
+          <Account size={32} />
         </IconButton>
         <IconButton variant="secondary" size="m">
           <ArrowRight size={32} />
@@ -409,32 +547,17 @@ export default function Page() {
       </div>
 
       <div className=" space-y-2">
-        <LikesTrend state="flat" number={0}/>
-        <LikesTrend state="up" number={+400}/>
-        <LikesTrend state="down" number={-3}/>        
+        <LikesTrend state="flat" number={0} />
+        <LikesTrend state="up" number={+400} />
+        <LikesTrend state="down" number={-3} />
       </div>
 
       <div className=" space-y-2">
-        <ViewsTrend state="flat" number={0}/>
-        <ViewsTrend state="up" number={+100}/>
-        <ViewsTrend state="down" number={-13}/>
+        <ViewsTrend state="flat" number={0} />
+        <ViewsTrend state="up" number={+100} />
+        <ViewsTrend state="down" number={-13} />
       </div>
-      <div className="container mx-auto">
-      <Carousel >
-        <div className="bg-red-200 p-4">
-          <h1>Slide 1</h1>
-          <img src="image1.jpg" alt="Image 1" className="w-[732px] h-[460px] object-cover" />
-        </div>
-        <div className="bg-green-200 p-4">
-          <h1>Slide 2</h1>
-          <img src="image2.jpg" alt="Image 2" className="w-[732px] h-[460px] object-cover" />
-        </div>
-        <div className="bg-blue-200 p-4">
-          <h1>Slide 3</h1>
-          <img src="image3.jpg" alt="Image 3" className="w-[732px] h-[460px] object-cover" />
-        </div>
-      </Carousel>
-    </div>
+      <div className="container mx-auto"></div>
     </div>
   );
 }

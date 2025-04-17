@@ -1,9 +1,17 @@
-import React, { useState, useRef, useEffect, ReactNode } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import IconButton from "./button/icon-button";
 import { ArrowBackward, ArrowForward } from "../icons";
 
+interface CarouselItem {
+  id: number;
+  imageUrl: string;
+  altText: string;
+  title?: string;
+  description?: string;
+}
+
 interface CarouselProps {
-  children: ReactNode[] | ReactNode;
+  items: CarouselItem[];
   autoSlide?: boolean;
   autoSlideInterval?: number;
   showSteppers?: boolean;
@@ -11,81 +19,93 @@ interface CarouselProps {
 }
 
 const Carousel: React.FC<CarouselProps> = ({
-  children,
+  items,
   autoSlide = false,
-  autoSlideInterval = 1000,
   showSteppers = true,
-  showButtons = true,
+  showButtons = false,
 }) => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isTransitioning, setIsTransitioning] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-  const items = React.Children.toArray(children);
+  const previousIndex = (activeIndex - 1 + items.length) % items.length;
+  const nextIndex = (activeIndex + 1) % items.length;
 
-  const nextSlide = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+  const handleNext = () => {
+    setActiveIndex((prevIndex) => (prevIndex + 1) % items.length);
   };
 
-  const prevSlide = () => {
-    if (isTransitioning) return;
-    setIsTransitioning(true);
-    setCurrentIndex(
+  const handlePrev = () => {
+    setActiveIndex(
       (prevIndex) => (prevIndex - 1 + items.length) % items.length
     );
   };
 
-  const goToSlide = (index: number) => {
-    if (isTransitioning || index === currentIndex) return;
-    setIsTransitioning(true);
-    setCurrentIndex(index);
-  };
-
   useEffect(() => {
-    const transitionTimeout = setTimeout(() => {
-      setIsTransitioning(false);
-    }, autoSlideInterval);
+    const intervalId = setInterval(handleNext, 5000);
 
-    return () => clearTimeout(transitionTimeout);
-  }, [currentIndex]);
-
-  useEffect(() => {
-    if (autoSlide) {
-      timerRef.current = setInterval(() => {
-        nextSlide();
-      }, autoSlideInterval);
-    }
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
-  }, [autoSlide, autoSlideInterval, items.length]);
+    return () => clearInterval(intervalId);
+  }, [activeIndex]);
 
   return (
-    <div className="relative overflow-hidden w-full">
+    <div
+      className=" relative w-full h-fit flex items-center justify-center"
+      ref={carouselRef}
+    >
+      {/* Previous Item */}
+      <div className="absolute scale-[0.8] translate-x-[-25%] blur-xs left-0 h-full w-1/3 shadow-none transition-all duration-300 hover:blur-[2px]">
+        <img
+          src={items[previousIndex].imageUrl}
+          alt={items[previousIndex].altText}
+          className="object-cover h-full w-full"
+          onClick={handlePrev}
+        />
+      </div>
+
+      {/* Active Item */}
       <div
-        className="flex transition-transform duration-300 ease-in-out"
-        style={{ transform: `translateX(-${currentIndex * 100}%)` }}
-        ref={carouselRef}
+        className="relative h-full w-fit transition-all m- duration-300"
+        style={{ zIndex: 1 }}
       >
-        {items.map((child, index) => (
-          <div key={index} className="w-full flex-shrink-0">
-            {child}
+        <img
+          src={items[activeIndex].imageUrl}
+          alt={items[activeIndex].altText}
+          className="object-cover h-full w-full transform"
+        />
+        {/* Stepper */}
+        {showSteppers && (
+          <div className="absolute bottom-7 left-1/2 transform -translate-x-1/2 flex space-x-2">
+            {items.map((_, index) => (
+              <button
+                key={index}
+                className={`h-2 w-8 rounded-full focus:outline-none ${
+                  index === activeIndex
+                    ? "bg-prime-500"
+                    : "bg-prime-100 hover:bg-prime-600"
+                }`}
+                onClick={() => setActiveIndex(index)}
+              />
+            ))}
           </div>
-        ))}
+        )}
+      </div>
+
+      {/* Next Item */}
+      <div
+        className={`absolute scale-[0.8] translate-x-[25%] blur-xs right-0 h-full w-1/3 transition-all duration-300  hover:blur-[2px]`}
+      >
+        <img
+          src={items[nextIndex].imageUrl}
+          alt={items[nextIndex].altText}
+          className="object-cover h-full w-full"
+          onClick={handleNext}
+        />
       </div>
 
       {showButtons && (
         <IconButton
           variant="tertiary"
           size="s"
-          state={isTransitioning ? "disabled" : "enabled"}
-          onClick={prevSlide}
+          onClick={handlePrev}
           className="absolute top-1/2 left-2 transform -translate-y-1/2"
         >
           <ArrowForward />
@@ -95,32 +115,13 @@ const Carousel: React.FC<CarouselProps> = ({
       {showButtons && (
         <IconButton
           variant="tertiary"
-          state={isTransitioning ? "disabled" : "enabled"}
           size="s"
-          onClick={nextSlide}
+          onClick={handleNext}
           className="absolute top-1/2 right-2 transform -translate-y-1/2"
           aria-label="Next Slide"
         >
           <ArrowBackward />
         </IconButton>
-      )}
-
-      {/* Stepper */}
-      {showSteppers && (
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
-          {items.map((_, index) => (
-            <button
-              key={index}
-              className={`h-2 w-8 rounded-full focus:outline-none ${
-                index === currentIndex
-                  ? "bg-prime-500"
-                  : "bg-prime-100 hover:bg-prime-600"
-              }`}
-              onClick={() => goToSlide(index)}
-              aria-label={`Go to slide ${index + 1}`}
-            />
-          ))}
-        </div>
       )}
     </div>
   );
