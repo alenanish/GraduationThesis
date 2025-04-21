@@ -1,4 +1,5 @@
-import { Navbar } from "./_components/navbar";
+"use client"
+import { TopBar } from "@/app/components/ui";
 
 export default function MainLayout({
   children,
@@ -7,7 +8,7 @@ export default function MainLayout({
 }) {
   return (
     <>
-      <Navbar />
+      <TopBar />
       <div>{children}</div>
     </>
   );
