@@ -99,12 +99,20 @@ layer(base);
 *::after {
  @apply transition-all duration-150;
  box-sizing: border-box;
+ font-family: "Inter", sans-serif;
+
 }
 
-
+input:-webkit-autofill,
+input:-webkit-autofill:hover, 
+input:-webkit-autofill:focus, 
+input:-webkit-autofill:active{
+    transition: background-color 5000s ease-in-out 0s;
+}
 :root {
   --background: var( --color-prime-50);
   --foreground: #171717;
+  
 }
 
 @media (prefers-color-scheme: dark) {
@@ -115,7 +123,11 @@ layer(base);
 }
 
 body {
-  color: var(--foreground);
+  
   background: var(--background);
-  font-family: "Inter", sans-serif;
+  
+}
+
+h1, h2, h3 {
+  color: var(--color-base-900);
 }
