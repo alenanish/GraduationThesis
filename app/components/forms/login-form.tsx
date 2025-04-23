@@ -1,15 +1,17 @@
+"use client";
 import React, { useState } from "react";
 import { Input, Button } from "../ui";
-import Link from "next/link";
-import { PasswordNoSee, PasswordSee } from "../icons";
 
-interface SignInFormProps {
+import { PasswordNoSee, PasswordSee } from "../icons";
+import Link from "next/link";
+
+interface LoginFormProps {
   onSubmit: (credentials: { email: string; password?: string }) => void;
   isLoading?: boolean;
-  error?: string;
+  error?: string | null;
 }
 
-const SignInForm: React.FC<SignInFormProps> = ({
+const LoginForm: React.FC<LoginFormProps> = ({
   onSubmit,
   isLoading = false,
   error,
@@ -31,16 +33,17 @@ const SignInForm: React.FC<SignInFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="max-w-md mx-auto px-4 py-5  bg-base-0 rounded-[32px]"
+      className="w-1/3 max-w-xl min-w-sm px-4 py-5 bg-base-0 rounded-[32px]"
     >
       <div className="flex flex-col gap-y-2">
         <Input
-          id="name"
-          label="Почта или имя пользователя"
-          placeholder="Почта или имя пользователя"
+          id="email"
+          state={error ? "error" : "enabled"}
+          label="Почта"
+          placeholder="Почта"
           value={email}
-          state="enabled"
           size="M"
+          errorText={error}
           onChange={setEmail}
         />
         <Input
@@ -48,33 +51,46 @@ const SignInForm: React.FC<SignInFormProps> = ({
           name="password"
           label="Пароль"
           placeholder="Пароль"
-          state="enabled"
+          state={error ? "error" : "enabled"}
           size="M"
+          errorText={error}
           type={isPasswordVisible ? "text" : "password"}
           rightIcon={
-            isPasswordVisible ? <PasswordSee size={24} /> : <PasswordNoSee size={24} />
+            isPasswordVisible ? (
+              <PasswordSee size={24} />
+            ) : (
+              <PasswordNoSee size={24} />
+            )
           }
           isIconActive={true}
           onClickRightIcon={handleTogglePasswordVisibility}
           value={password}
           onChange={setPassword}
         />
-        <div className="place-items-end">
-          <Button className="w-fit" size="s" type="button" variant="tertiary">
-            Забыли пароль?
-          </Button>
-        </div>
+        <div className="flex flex-col gap-y-2 ">
+          <div className="place-items-end">
+            <Button className="w-fit" size="s" type="button" variant="tertiary">
+              Забыли пароль?
+            </Button>
+          </div>
 
-        <Button type="submit" disabled={isLoading}>
-          Войти
-        </Button>
-        <Button variant="secondary" type="button" color="base">
-          <Link href={"/register"} />
-          Зарегистрироваться
-        </Button>
+          <Button type="submit" disabled={isLoading}>
+            Войти
+          </Button>
+          <Link href="/register">
+            <Button
+              className="w-full"
+              variant="secondary"
+              type="button"
+              color="base"
+            >
+              Зарегистрироваться
+            </Button>
+          </Link>
+        </div>
       </div>
     </form>
   );
 };
 
-export default SignInForm;
+export default LoginForm;

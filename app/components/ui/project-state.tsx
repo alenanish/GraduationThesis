@@ -10,13 +10,15 @@
       | "completed";
     
     interface ProjectStateProps {
-      state?: ProjectState;
+      state?: string | ProjectState;
       className?: string;
+      size?: string | number;
     }
     
     const ProjectState: React.FC<ProjectStateProps> = ({
       state = "expectation",
       className = "",
+      size = 28,
       ...rest
     }) => {
       const baseStyles =

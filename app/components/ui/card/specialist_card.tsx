@@ -10,7 +10,7 @@ interface SpecialistCardProps {
   bio: string;
   skills: string[];
   is_favorited: boolean;
-  img_url?: string | undefined;
+  image?: string | undefined;
 
   apiEndpoint: string;
 }
@@ -22,7 +22,7 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({
   bio,
   skills,
   is_favorited: initialIsFavorited,
-  img_url,
+  image,
   apiEndpoint,
 }) => {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
@@ -62,9 +62,9 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({
     >
       {/* Image or Placeholder */}
       <div className="hidden md:block">
-        {img_url ? (
+        {image ? (
           <img
-            src={img_url}
+            src={image}
             className=" w-[246px] h-[218px] bg-clip-content object-cover"
           />
         ) : (

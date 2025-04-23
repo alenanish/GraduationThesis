@@ -2,21 +2,11 @@ import React, { useState } from "react";
 import { Button, IconButton } from "@/app/components/ui";
 import Link from "next/link";
 import { CurrencyRuble, Favourite, NotFavourite } from "../../icons";
+import { Startup } from "../../types/startup";
 
-interface StartupCardProps {
-  id: number;
-  title: string;
-  industry: string;
-  description: string;
-  investment_needed: number;
-  is_favorited: boolean;
-  id_founder?: number;
-  img_url?: string | undefined;
 
-  apiEndpoint: string;
-}
 
-const StartupCard: React.FC<StartupCardProps> = ({
+const StartupCard: React.FC<Startup> = ({
   id,
   title,
   industry,
@@ -24,8 +14,7 @@ const StartupCard: React.FC<StartupCardProps> = ({
   investment_needed,
   is_favorited: initialIsFavorited,
   id_founder,
-  img_url,
-  apiEndpoint,
+  image,
 }) => {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
 
@@ -33,8 +22,7 @@ const StartupCard: React.FC<StartupCardProps> = ({
     try {
       const method = isFavorited ? "DELETE" : "POST"; // Determine method based on current state
 
-      const response = await fetch(`${apiEndpoint}/favorites/${id}`, {
-        // Replace with your actual API endpoint
+      const response = await fetch(`$favorites/startip/${id}`, {
         method: method,
         headers: {
           "Content-Type": "application/json",
@@ -64,9 +52,9 @@ const StartupCard: React.FC<StartupCardProps> = ({
     >
       {/* Image or Placeholder */}
       <div className="hidden md:block">
-        {img_url ? (
+        {image ? (
           <img
-            src={img_url}
+            src={image}
             className="w-[246px] h-[218px] bg-clip-content object-cover "
           />
         ) : (

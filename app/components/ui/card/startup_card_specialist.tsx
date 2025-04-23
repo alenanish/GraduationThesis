@@ -2,38 +2,27 @@ import React, { useState } from "react";
 import { Button, IconButton } from "@/app/components/ui";
 import Link from "next/link";
 import { Favourite, NotFavourite } from "../../icons";
+import { Startup } from "../../types/startup";
 
-interface StartupCardProps {
-  id: number;
-  title: string;
-  industry: string;
-  description: string;
-  required_specialists: { profession: string }[];
-  is_favorited: boolean;
-  id_founder?: number;
-  img_url?: string | undefined;
 
-  apiEndpoint: string;
-}
 
-const StartupCard: React.FC<StartupCardProps> = ({
+const StartupCard: React.FC<Startup> = ({    
   id,
   title,
   industry,
   description,
-  required_specialists,
-  is_favorited: initialIsFavorited,
+  is_favorited,
   id_founder,
-  img_url,
-  apiEndpoint,
+  image,
+  required_specialists,
 }) => {
-  const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
+  const [isFavorited, setIsFavorited] = useState(is_favorited);
 
   const handleFavoriteClick = async () => {
     try {
       const method = isFavorited ? "DELETE" : "POST"; // Determine method based on current state
 
-      const response = await fetch(`${apiEndpoint}/favorites/${id}`, {
+      const response = await fetch(`$/favorites/startup/${id}`, {
         // Replace with your actual API endpoint
         method: method,
         headers: {
@@ -64,17 +53,17 @@ const StartupCard: React.FC<StartupCardProps> = ({
     >
       {/* Image or Placeholder */}
       <div className="hidden md:block">
-      {img_url ? (
-        <img
-          src={img_url}
-          className="w-[246px] h-[218px] bg-clip-content object-cover "
-        />
-      ) : (
-        <img
-          src={"Startup.png"}
-          className="w-[246px] h-[218px] bg-clip-content object-cover "
-        />
-      )}
+        {image ? (
+          <img
+            src={image}
+            className="w-[246px] h-[218px] bg-clip-content object-cover "
+          />
+        ) : (
+          <img
+            src={"Startup.png"}
+            className="w-[246px] h-[218px] bg-clip-content object-cover "
+          />
+        )}
       </div>
 
       {/* Content */}

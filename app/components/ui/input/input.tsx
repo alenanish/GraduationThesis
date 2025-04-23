@@ -23,7 +23,7 @@ interface InputProps
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onClickRightIcon?: MouseEventHandler<HTMLSpanElement>;
   label?: string;
-  errorText?: string;
+  errorText?: string | null;
   helperText?: string;
 }
 
@@ -77,6 +77,7 @@ const Input: React.FC<InputProps> = ({
     setInputValue(e.target.value);
     if (onChange) {
       onChange(e.target.value);
+      setIsError(false);
     }
   };
 
@@ -89,7 +90,7 @@ const Input: React.FC<InputProps> = ({
 
   const getContainerStyles = () => {
     let baseStyles =
-      "w-full transform-all text-base-900 py-[6px] px-3 flex items-center rounded-[32px] border-2 ";
+      "w-full transform-all text-base-900 py-[6px] px-3 flex items-center rounded-[32px] border-2 select-none";
 
     if (
       isHovered &&
@@ -169,8 +170,8 @@ const Input: React.FC<InputProps> = ({
       baseStyles += " text-base-400";
     }
 
-    if (!(isFocused || inputValue != "")) {
-      baseStyles += " text-transparent";
+    if (!(isFocused || inputValue != "" )) {
+      baseStyles += " hidden";
     }
 
     return baseStyles;
@@ -185,6 +186,7 @@ const Input: React.FC<InputProps> = ({
         onMouseLeave={handleMouseLeave}
       >
         <input
+        
           ref={inputRef}
           id={id}
           name={name}
@@ -203,7 +205,7 @@ const Input: React.FC<InputProps> = ({
           </span>
         )}
       </div>
-      {errorText && state === "error" && (
+      {(errorText || state === "error") && (
         <p className="text-red-500 text-body-s mt-1">{errorText}</p>
       )}
       {helperText && !errorText && (
