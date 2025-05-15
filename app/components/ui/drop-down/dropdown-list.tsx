@@ -1,5 +1,6 @@
+"use client";
 import React, { useState, useRef, useEffect } from "react";
-import { ArrowDown, ArrowUp, Template } from "../icons";
+import { ArrowDown, ArrowUp } from "../../icons";
 
 interface DropdownOption {
   value: string;
@@ -71,7 +72,13 @@ const Dropdown: React.FC<DropdownProps> = ({
         <label className="text-body-s text-base-600 mb-2">{label}</label>
         <button
           type="button"
-          className={`${border ? !disabled? "border-2 border-base-200" : "border-2 border-base-100"  :"border-none"} 
+          className={`${
+            border
+              ? !disabled
+                ? "border-2 border-base-200"
+                : "border-2 border-base-100"
+              : "border-none"
+          } 
           ${disabled ? "text-base-200 cursor-not-allowed" : "text-base-800"} 
           transition-all duration-150 inline-flex justify-between items-center w-full rounded-[32px] h-11 
           px-4 py-3 bg-base-0 text-body-m font-medium  `}
@@ -84,7 +91,12 @@ const Dropdown: React.FC<DropdownProps> = ({
           {isOpen ? (
             <ArrowUp size={20} color="var(--color-base-500)" />
           ) : (
-            <ArrowDown size={20} color={disabled? "var(--color-base-100)" : "var(--color-base-500)" }/>
+            <ArrowDown
+              size={20}
+              color={
+                disabled ? "var(--color-base-100)" : "var(--color-base-500)"
+              }
+            />
           )}
         </button>
       </div>
@@ -92,7 +104,7 @@ const Dropdown: React.FC<DropdownProps> = ({
       <div
         className={`${
           isOpen ? "block" : "hidden"
-        } absolute left-0 mt-2 w-full rounded-[8px] bg-base-0  focus:outline-none`}
+        } absolute left-0 mt-2 w-full rounded-[8px] bg-base-0  active:outline-none`}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
@@ -102,10 +114,10 @@ const Dropdown: React.FC<DropdownProps> = ({
             <button
               key={option.value}
               onClick={() => handleOptionClick(option)}
-              className="text-base-800 h-[35px] flex flex-row items-center w-full text-left p-2 gap-2 rounded-[8px] text-body-m font-medium hover:bg-prime-100  focus:outline-none focus:bg-prime-200 focus:text-base-900"
+              className="text-base-800 h-[35px] flex flex-row items-center w-full text-left p-2 gap-2 rounded-[8px] text-body-m font-medium hover:bg-prime-100  active:outline-none active:bg-prime-200 active:text-base-900"
               role="menuitem"
             >
-              {/*<Template size={16} color={"var(--color-base-500)"} />*/}  
+              {/*<Template size={16} color={"var(--color-base-500)"} />*/}
               {option.label}
             </button>
           ))}

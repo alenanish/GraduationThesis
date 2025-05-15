@@ -19,7 +19,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   size = "m",
-  state = "enabled",
   color = 'prime',
   children,
   onClick,
@@ -27,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   ...rest
 }) => {
-  const baseStyles = "font-medium flex flex-row items-center justify-center gap-2  rounded-[32px] ";
+  const baseStyles = "font-medium flex flex-row items-center justify-center gap-2 rounded-[32px] content-center ";
 
   const variantStyles = () => {
     switch (variant) {

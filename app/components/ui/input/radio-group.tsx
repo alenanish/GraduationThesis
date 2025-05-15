@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from "react";
 import RadioButton from "./radio-button";
 
@@ -16,7 +17,6 @@ interface RadioGroupProps {
 
 const RadioGroup: React.FC<RadioGroupProps> = ({
   options,
-  name,
   onChange,
   value,
 }) => {

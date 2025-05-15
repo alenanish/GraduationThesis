@@ -12,15 +12,12 @@ interface CarouselItem {
 
 interface CarouselProps {
   items: CarouselItem[];
-  autoSlide?: boolean;
-  autoSlideInterval?: number;
   showSteppers?: boolean;
   showButtons?: boolean;
 }
 
 const Carousel: React.FC<CarouselProps> = ({
   items,
-  autoSlide = false,
   showSteppers = true,
   showButtons = false,
 }) => {

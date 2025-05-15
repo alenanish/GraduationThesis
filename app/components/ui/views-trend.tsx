@@ -15,7 +15,6 @@ interface ViewsTrendProps {
 
 const ViewsTrend: React.FC<ViewsTrendProps> = ({
   state = "flat",
-  className = "",
   number = 0,
   ...rest
 }) => {

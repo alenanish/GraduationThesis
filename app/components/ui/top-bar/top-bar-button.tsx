@@ -1,3 +1,4 @@
+"use client";
 import React, { ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
 
 type ButtonSize = "s" | "m";
@@ -14,7 +15,6 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const TopBarButton: React.FC<ButtonProps> = ({
   size = "s",
-  state = "enabled",
   color = "prime",
   children,
   onClick,
@@ -30,16 +30,16 @@ const TopBarButton: React.FC<ButtonProps> = ({
       return `text-base-700 
           hover:text-base-800
           hover:bg-base-50 
-          focus:bg-base-100
-          focus:text-base-900
+          active:bg-base-100
+          active:text-base-900
           disabled:text-base-100
           disabled:bg-transparent`;
     } else {
           return `text-prime-500 
           hover:text-prime-600
           hover:bg-prime-100 
-          focus:bg-prime-200
-          focus:text-prime-700
+          active:bg-prime-200
+          active:text-prime-700
           disabled:text-base-100
           disabled:bg-transparent`;
     }

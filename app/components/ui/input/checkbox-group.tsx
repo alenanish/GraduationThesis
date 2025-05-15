@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, FC, useCallback } from "react";
 import Checkbox from "./checkbox";
 

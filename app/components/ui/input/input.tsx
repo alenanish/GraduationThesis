@@ -1,3 +1,4 @@
+"use client";
 import React, {
   useState,
   useRef,
@@ -31,7 +32,7 @@ const Input: React.FC<InputProps> = ({
   id,
   name,
   state = "enabled",
-  size = "M",
+  size = "m",
   isIconActive = false,
   rightIcon,
   placeholder,
@@ -49,7 +50,7 @@ const Input: React.FC<InputProps> = ({
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [inputValue, setInputValue] = useState(value || ""); 
-  const [isError, setIsError] = useState(state === "error");
+
 
   const handleFocus: FocusEventHandler<HTMLInputElement> = (e) => {
     setIsFocused(true);
@@ -77,7 +78,6 @@ const Input: React.FC<InputProps> = ({
     setInputValue(e.target.value);
     if (onChange) {
       onChange(e.target.value);
-      setIsError(false);
     }
   };
 

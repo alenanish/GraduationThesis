@@ -9,12 +9,12 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   color?: string | undefined ;
   children?: ReactNode;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
+  href?: string;
   className?: string;
 }
 
 const MenuButton: React.FC<ButtonProps> = ({
   size = "s",
-  state = "enabled",
   color = "prime",
   children,
   onClick,
@@ -30,24 +30,24 @@ const MenuButton: React.FC<ButtonProps> = ({
       return `text-red-500 
           hover:text-red-600
           hover:bg-red-50 
-          focus:bg-red-100
-          focus:text-red-700
+          active:bg-red-100
+          active:text-red-700
           disabled:text-base-100
           disabled:bg-transparent`;
     } else if (color == "base") {
       return `text-base-700 
           hover:text-base-800
           hover:bg-base-50 
-          focus:bg-base-100
-          focus:text-base-900
+          active:bg-base-100
+          active:text-base-900
           disabled:text-base-100
           disabled:bg-transparent`;
     } else {
       return `text-prime-500 
           hover:text-prime-600
           hover:bg-prime-100 
-          focus:bg-prime-200
-          focus:text-prime-700
+          active:bg-prime-200
+          active:text-prime-700
           disabled:text-base-100
           disabled:bg-transparent`;
     }

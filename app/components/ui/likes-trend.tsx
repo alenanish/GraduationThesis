@@ -10,12 +10,10 @@ type LikesTrend =
 interface LikesTrendProps {
   state?: LikesTrend;
   number?: number;
-  className?: string;
 }
 
 const LikesTrend: React.FC<LikesTrendProps> = ({
   state = "flat",
-  className = "",
   number = 0,
   ...rest
 }) => {

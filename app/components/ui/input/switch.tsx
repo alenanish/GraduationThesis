@@ -1,3 +1,4 @@
+"use client";
 import React from "react";
 
 interface SwitchProps {
@@ -7,7 +8,7 @@ interface SwitchProps {
   disabled?: boolean;
 }
 
-const Circle: React.FC<{ checked: boolean; disabled: boolean }> = ({ checked, disabled }) => {
+const Circle: React.FC<{ checked: boolean; disabled: boolean }> = ({ checked }) => {
   const circleStyle = {
     transform: checked ? 'translateX(16px)' : 'translateX(0)',
 
