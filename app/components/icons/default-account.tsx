@@ -6,18 +6,7 @@ interface IconProps {
 }
 
 const DefaultAccount: React.FC<IconProps> = ({
-  color = "currentColor",
-  size = "24",
 }) => {
-  const calculatedSize = size;
-  const sizeString =
-    typeof calculatedSize === "number" ? `${calculatedSize}px` : calculatedSize;
-  const svgStyle = {
-    width: sizeString,
-    height: sizeString,
-    color: color,
-  };
-
   return (
     <div className="w-fit h-fit">
       <svg

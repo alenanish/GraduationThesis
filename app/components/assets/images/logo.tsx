@@ -3,10 +3,11 @@ import React from "react";
 interface LogoProps {
   variant?: "top-bar" | "form";
   size?: string | number;
+  className?: string;
 
 }
 
-const Logo: React.FC<LogoProps> = ({ size = "40", variant, }) => {
+const Logo: React.FC<LogoProps> = ({ size = "40", variant, className='' }) => {
   const calculatedSize = size;
   const sizeString =
     typeof calculatedSize === "number" ? `${calculatedSize}px` : calculatedSize;
@@ -16,7 +17,7 @@ const Logo: React.FC<LogoProps> = ({ size = "40", variant, }) => {
   };
 
   const variantStyles = () => {
-    let baseStyles = "w-fit h-fit  bg-base-0 ";
+    let baseStyles = className + " w-fit h-fit  bg-base-0 ";
 
     switch (variant) {
       case "top-bar":

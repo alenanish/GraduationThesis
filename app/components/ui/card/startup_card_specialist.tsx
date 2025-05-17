@@ -1,20 +1,19 @@
+"use client";
 import React, { useState } from "react";
 import { Button, IconButton } from "@/app/components/ui";
 import Link from "next/link";
 import { Favourite, NotFavourite } from "../../icons";
-import { Startup } from "../../types/startup";
+import { StartupCardType } from "../../../types/startup";
 
-
-
-const StartupCard: React.FC<Startup> = ({    
+const StartupCard: React.FC<StartupCardType> = ({
   id,
   title,
   industry,
   description,
   is_favorited,
-  id_founder,
-  image,
+  avatar,
   required_specialists,
+  id_founder
 }) => {
   const [isFavorited, setIsFavorited] = useState(is_favorited);
 
@@ -36,7 +35,6 @@ const StartupCard: React.FC<Startup> = ({
       }
 
       // Assuming the API returns the new is_favorited status or similar
-      const data = await response.json();
 
       setIsFavorited(!isFavorited); // Toggle the state locally. In a real application, you may want to update the state according to the server's response
     } catch (error) {
@@ -53,9 +51,9 @@ const StartupCard: React.FC<Startup> = ({
     >
       {/* Image or Placeholder */}
       <div className="hidden md:block">
-        {image ? (
+        {avatar ? (
           <img
-            src={image}
+            src={avatar}
             className="w-[246px] h-[218px] bg-clip-content object-cover "
           />
         ) : (
@@ -72,7 +70,9 @@ const StartupCard: React.FC<Startup> = ({
           <div className="flex flex-row gap-x-4 items-center">
             <h2 className="text-h4 text-base-900">{title}</h2>
             <h2 className="text-h4 text-base-900">-</h2>
-            <p className="text-base-700 text-body-s font-medium ">{industry}</p>
+            <p className="text-base-700 text-body-s font-medium ">
+              {industry.name}
+            </p>
           </div>
         </Link>
         <div className=" flex-grow">
@@ -85,21 +85,25 @@ const StartupCard: React.FC<Startup> = ({
         <div className="flex flex-row gap-x-4 items-center mt-2">
           <h3 className="text-body-m text-base-900 ">Требуемые специалисты:</h3>
           <div className="flex overflow-clip gap-4 ">
-            {required_specialists.map((specialist) => (
+            {required_specialists?.map((profession) => (
               <Link
-                id={specialist.profession}
-                key={specialist.profession}
+                id={profession.name}
+                key={profession.id}
                 href="/search/specialists"
               >
-                <Button color="light-grey" size="s" key={specialist.profession}>
-                  {specialist.profession}
+                <Button
+                  color="light-grey"
+                  size="s"
+                  key={profession.id}
+                >
+                  {profession.name}
                 </Button>
               </Link>
             ))}
           </div>
         </div>
 
-        <Link href={`/messages/${id_founder}`} className="w-fit mt-2">
+        <Link href={`/messages/${id_founder}`} className="w-fit mt-2" passHref>
           <Button>Открыть чат</Button>
         </Link>
       </div>

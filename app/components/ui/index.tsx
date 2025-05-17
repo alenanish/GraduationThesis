@@ -2,6 +2,7 @@ export { default as Input } from "./input/input";
 export { default as CheckboxGroup } from "./input/checkbox-group";
 export { default as RadioGroup } from "./input/radio-group";
 export { default as Switch } from "./input/switch";
+export { default as TextArea } from "./input/text_area";
 
 export { default as Button } from "./button/button";
 export { default as IconButton } from "./button/icon-button";

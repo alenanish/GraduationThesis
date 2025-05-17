@@ -1,38 +1,27 @@
-"use  client"
+"use client";
 import React, { useState } from "react";
 import { Button, IconButton } from "@/app/components/ui";
 import Link from "next/link";
 import { CurrencyRuble, Favourite, NotFavourite } from "../../icons";
+import { useRouter } from "next/navigation";
+import { InvestorCardType } from "../../../types/investor";
 
-interface SpecialistCardProps {
-  id: number;
-  full_name: string;
-  profession: string;
-  bio: string;
-  investment_max: number;
-  is_favorited: boolean;
-  image?: string | undefined;
-
-  apiEndpoint: string;
-}
-
-const InvestorCard: React.FC<SpecialistCardProps> = ({
+const InvestorCard: React.FC<InvestorCardType> = ({
   id,
   full_name,
-  profession,
+  industry,
   bio,
+  avatar,
   investment_max,
   is_favorited: initialIsFavorited,
-  image,
-  apiEndpoint,
 }) => {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
-
+  const router = useRouter();
   const handleFavoriteClick = async () => {
     try {
       const method = isFavorited ? "DELETE" : "POST"; // Determine method based on current state
 
-      const response = await fetch(`${apiEndpoint}/favorites/${id}`, {
+      const response = await fetch(`/favorites/investor/${id}`, {
         // Replace with your actual API endpoint
         method: method,
         headers: {
@@ -46,7 +35,6 @@ const InvestorCard: React.FC<SpecialistCardProps> = ({
       }
 
       // Assuming the API returns the new is_favorited status or similar
-      const data = await response.json();
 
       setIsFavorited(!isFavorited); // Toggle the state locally. In a real application, you may want to update the state according to the server's response
     } catch (error) {
@@ -63,9 +51,9 @@ const InvestorCard: React.FC<SpecialistCardProps> = ({
     >
       {/* Image or Placeholder */}
       <div className="hidden md:block">
-        {image ? (
+        {avatar ? (
           <img
-            src={image}
+            src={avatar}
             className="w-[246px] h-[218px] bg-clip-content object-cover "
           />
         ) : (
@@ -83,7 +71,7 @@ const InvestorCard: React.FC<SpecialistCardProps> = ({
             <h2 className="text-h4 text-base-900">{full_name}</h2>
             <h2 className="text-h4 text-base-900">-</h2>
             <p className="text-base-700 text-body-s font-medium ">
-              {profession}
+              {industry.name}
             </p>
           </div>
         </Link>
@@ -96,13 +84,12 @@ const InvestorCard: React.FC<SpecialistCardProps> = ({
         {/* Investments */}
         <div className="flex flex-row gap-x-1 items-center  mt-2">
           <h3 className="text-body-m text-base-900 ">
-            Необходимые инвестиции: {investment_max}
+            Инвестиционный капитал: {investment_max}
           </h3>
           <CurrencyRuble size={20} color="var(--color-base-700)" />
         </div>
-
-        <Link href={`/messages/${id}`} className="w-fit mt-2">
-          <Button>Открыть чат</Button>
+        <Link href={`/messages/${id}`} className="w-fit mt-2" passHref>
+          <Button className="w-fit mt-2">Открыть чат</Button>
         </Link>
       </div>
 

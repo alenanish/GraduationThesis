@@ -3,40 +3,33 @@ import React, {
   useState,
   useRef,
   FocusEventHandler,
-  MouseEventHandler,
   ChangeEvent,
-  InputHTMLAttributes,
+  TextareaHTMLAttributes,
 } from "react";
 
-interface InputProps
-  extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "onChange"> {
+interface TextAreaProps
+  extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, "onChange"> {
   id: string;
   name: string;
   state?: "enabled" | "disabled" | "error";
   size?: "s" | "m";
-  isIconActive?: boolean;
-  leftIcon?: React.ReactNode;
-  rightIcon?: React.ReactNode;
   placeholder: string;
   value?: string;
-  onChange: (value: string) => void;
-  onFocus?: FocusEventHandler<HTMLInputElement>;
-  onBlur?: FocusEventHandler<HTMLInputElement>;
-  onClickRightIcon?: MouseEventHandler<HTMLSpanElement>;
+  onChange?: (value: string) => void;
+  onFocus?: FocusEventHandler<HTMLTextAreaElement>;
+  onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   label: string;
   errorText?: string | null;
   helperText?: string;
   className?: string;
+  rows?: number;
 }
 
-const Input: React.FC<InputProps> = ({
+const TextArea: React.FC<TextAreaProps> = ({
   id,
   name,
   state = "enabled",
   size = "m",
-  isIconActive = false,
-  rightIcon,
-  leftIcon,
   placeholder,
   label,
   value,
@@ -44,24 +37,24 @@ const Input: React.FC<InputProps> = ({
   onChange,
   onFocus,
   onBlur,
-  onClickRightIcon,
   errorText,
   className,
+  rows = 4,
   ...rest
 }) => {
-  const inputRef = useRef<HTMLInputElement>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [isFocused, setIsFocused] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
   const [inputValue, setInputValue] = useState(value || "");
 
-  const handleFocus: FocusEventHandler<HTMLInputElement> = (e) => {
+  const handleFocus: FocusEventHandler<HTMLTextAreaElement> = (e) => {
     setIsFocused(true);
     if (onFocus) {
       onFocus(e);
     }
   };
 
-  const handleBlur: FocusEventHandler<HTMLInputElement> = (e) => {
+  const handleBlur: FocusEventHandler<HTMLTextAreaElement> = (e) => {
     setIsFocused(false);
     if (onBlur) {
       onBlur(e);
@@ -76,23 +69,15 @@ const Input: React.FC<InputProps> = ({
     setIsHovered(false);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setInputValue(e.target.value);
     if (onChange) {
       onChange(e.target.value);
     }
   };
 
-  const handleClickRightIcon: MouseEventHandler<HTMLSpanElement> = (e) => {
-    if (isIconActive && onClickRightIcon) {
-      onClickRightIcon(e);
-    }
-  };
-
   const getContainerStyles = () => {
-    let baseStyles =
-      className +
-      "w-full transform-all text-base-900 py-[6px] px-3 flex flex-row gap-2 items-center rounded-[32px] border-2 select-none";
+    let baseStyles = "w-full transform-all text-base-900 py-[6px] px-3 flex items-start rounded-[16px] border-2 select-none"; 
 
     if (
       isHovered &&
@@ -117,22 +102,22 @@ const Input: React.FC<InputProps> = ({
         break;
       default:
         baseStyles +=
-          "b g-base-0 border-base-200 focus-within:border-prime-500 focus-within:bg-base-0";
+          " bg-base-0 border-base-200 focus-within:border-prime-500 focus-within:bg-base-0";
         break;
     }
 
     if (size === "s") {
-      baseStyles += " h-8";
+      baseStyles += " min-h-[64px]";
     } else {
-      baseStyles += " h-11";
+      baseStyles += " min-h-[96px]";
     }
 
     return baseStyles;
   };
 
-  const getInputStyles = () => {
+  const getTextareaStyles = () => {
     let baseStyles =
-      " placeholder:text-base-400 placeholder:italic outline-hidden w-full bg-transparent placeholder:transition-colors focus-within:placeholder:text-transparent";
+      " placeholder:text-base-400 placeholder:italic outline-none w-full bg-transparent placeholder:transition-colors focus-within:placeholder:text-transparent resize-none"; // Убираем outline и добавляем resize: none
 
     if (size === "m") {
       baseStyles += " placeholder:text-body-s text-body-s";
@@ -147,18 +132,8 @@ const Input: React.FC<InputProps> = ({
     return baseStyles;
   };
 
-  const getIconStyles = () => {
-    let baseStyles = "text-base-500";
-
-    if (isIconActive) {
-      baseStyles += " cursor-pointer";
-    }
-
-    return baseStyles;
-  };
-
   const getLabelStyles = () => {
-    let baseStyles = " mb-1 transition-all ease-in-out ";
+    let baseStyles = " mb-1 transition-all ease-in-out block";
 
     if (size === "s") {
       baseStyles += " text-caption";
@@ -171,11 +146,9 @@ const Input: React.FC<InputProps> = ({
     } else {
       baseStyles += " text-base-400";
     }
-
     if (!(isFocused || inputValue != "")) {
       baseStyles += " hidden";
     }
-
     return baseStyles;
   };
 
@@ -191,13 +164,8 @@ const Input: React.FC<InputProps> = ({
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
       >
-        {leftIcon && (
-          <span className={getIconStyles()} onClick={handleClickRightIcon}>
-            {leftIcon}
-          </span>
-        )}
-        <input
-          ref={inputRef}
+        <textarea
+          ref={textareaRef}
           id={id}
           name={name}
           placeholder={placeholder}
@@ -205,24 +173,20 @@ const Input: React.FC<InputProps> = ({
           onChange={handleChange}
           onFocus={handleFocus}
           onBlur={handleBlur}
+          className={getTextareaStyles()}
           disabled={state === "disabled"}
-          className={getInputStyles()}
+          rows={rows} // Устанавливаем количество строк
           {...rest}
         />
-        {rightIcon && (
-          <span className={getIconStyles()} onClick={handleClickRightIcon}>
-            {rightIcon}
-          </span>
-        )}
       </div>
-      {(errorText || state === "error") && (
-        <p className="text-red-500 text-body-s mt-1">{errorText}</p>
+      {helperText && (
+        <p className="mt-1 text-caption text-base-500">{helperText}</p>
       )}
-      {helperText && !errorText && (
-        <p className="text-base-500 text-body-s mt-1">{helperText}</p>
+      {errorText && (
+        <p className="mt-1 text-caption text-red-500">{errorText}</p>
       )}
     </div>
   );
 };
 
-export default Input;
+export default TextArea;

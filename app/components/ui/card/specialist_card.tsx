@@ -1,37 +1,27 @@
+"use client";
 import React, { useState } from "react";
 import { Button, IconButton } from "@/app/components/ui";
 import Link from "next/link";
 import { Favourite, NotFavourite } from "../../icons";
+import { SpecialistCardType } from "../../../types/specialist";
+import { useRouter } from "next/navigation";
 
-interface SpecialistCardProps {
-  id: number;
-  full_name: string;
-  profession: string;
-  bio: string;
-  skills: string[];
-  is_favorited: boolean;
-  image?: string | undefined;
-
-  apiEndpoint: string;
-}
-
-const SpecialistCard: React.FC<SpecialistCardProps> = ({
+const SpecialistCard: React.FC<SpecialistCardType> = ({
   id,
   full_name,
   profession,
   bio,
   skills,
   is_favorited: initialIsFavorited,
-  image,
-  apiEndpoint,
+  avatar,
 }) => {
   const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
-
+  const router = useRouter();
   const handleFavoriteClick = async () => {
     try {
       const method = isFavorited ? "DELETE" : "POST"; // Determine method based on current state
 
-      const response = await fetch(`${apiEndpoint}/favorites/${id}`, {
+      const response = await fetch(`/favorites/specialist/${id}`, {
         // Replace with your actual API endpoint
         method: method,
         headers: {
@@ -45,7 +35,6 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({
       }
 
       // Assuming the API returns the new is_favorited status or similar
-      const data = await response.json();
 
       setIsFavorited(!isFavorited); // Toggle the state locally. In a real application, you may want to update the state according to the server's response
     } catch (error) {
@@ -62,9 +51,9 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({
     >
       {/* Image or Placeholder */}
       <div className="hidden md:block">
-        {image ? (
+        {avatar ? (
           <img
-            src={image}
+            src={avatar}
             className=" w-[246px] h-[218px] bg-clip-content object-cover"
           />
         ) : (
@@ -82,7 +71,7 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({
             <h2 className="text-h4 text-base-900">{full_name}</h2>
             <h2 className="text-h4 text-base-900">-</h2>
             <p className="text-base-700 text-body-s font-medium ">
-              {profession}
+              {profession.name}
             </p>
           </div>
         </Link>
@@ -97,20 +86,18 @@ const SpecialistCard: React.FC<SpecialistCardProps> = ({
           <h3 className="text-body-m text-base-900 ">Требуемые специалисты:</h3>
           <div className="flex flex-wrap gap-4 ">
             {skills.map((skill) => (
-              <Link id={skill} key={skill} href="/search/specialists">
-                <Button color="light-grey" size="s" key={skill}>
-                  {skill}
+              <Link id={skill.name} key={skill.name} href="/search/specialists">
+                <Button color="light-grey" size="s" key={skill.name}>
+                  {skill.name}
                 </Button>
               </Link>
             ))}
           </div>
         </div>
-
-        <Link href={`/messages/${id}`} className="w-fit mt-2">
-          <Button>Открыть чат</Button>
+        <Link href={`/messages/${id}`} className="w-fit mt-2" passHref>
+          <Button className="w-fit mt-2">Открыть чат</Button>
         </Link>
       </div>
-
       <div>
         <IconButton variant="secondary" size="s" onClick={handleFavoriteClick}>
           {isFavorited ? <Favourite size={24} /> : <NotFavourite size={24} />}
