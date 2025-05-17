@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap')
+@import url("https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap")
 layer(base);
-@import 'tailwindcss';
+@import "tailwindcss";
 
 @theme {
   --font-inter: Inter, sans-serif;
@@ -93,26 +93,23 @@ layer(base);
   }
 }
 
-
 *,
 *::before,
 *::after {
- @apply transition-all duration-150;
- box-sizing: border-box;
- font-family: "Inter", sans-serif;
-
+  @apply transition-all duration-100;
+  box-sizing: border-box;
+  font-family: "Inter", sans-serif;
 }
 
 input:-webkit-autofill,
-input:-webkit-autofill:hover, 
-input:-webkit-autofill:focus, 
-input:-webkit-autofill:active{
-    transition: background-color 5000s ease-in-out 0s;
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  transition: background-color 5000s ease-in-out 0s;
 }
 :root {
-  --background: var( --color-prime-50);
+  --background: var(--color-prime-50);
   --foreground: #171717;
-  
 }
 
 @media (prefers-color-scheme: dark) {
@@ -123,11 +120,11 @@ input:-webkit-autofill:active{
 }
 
 body {
-  
   background: var(--background);
-  
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
   color: var(--color-base-900);
 }
