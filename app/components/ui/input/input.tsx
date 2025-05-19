@@ -92,7 +92,7 @@ const Input: React.FC<InputProps> = ({
   const getContainerStyles = () => {
     let baseStyles =
       className +
-      "w-full transform-all text-base-900 py-[6px] px-3 flex flex-row gap-2 items-center rounded-[32px] border-2 select-none";
+      "w-full  transform-all text-base-900 py-[6px] px-3 flex flex-row gap-2 items-center rounded-[32px] border-2 select-none";
 
     if (
       isHovered &&
@@ -158,7 +158,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   const getLabelStyles = () => {
-    let baseStyles = " mb-1 transition-all ease-in-out ";
+    let baseStyles = " absolute top-[-22] transition-all ease-in-out ";
 
     if (size === "s") {
       baseStyles += " text-caption";
@@ -172,55 +172,60 @@ const Input: React.FC<InputProps> = ({
       baseStyles += " text-base-400";
     }
 
-    if (!(isFocused || inputValue != "")) {
+    {/*if (!(isFocused || inputValue != "")) {
       baseStyles += " hidden";
-    }
+      }
+    */}
 
     return baseStyles;
   };
 
   return (
-    <div className="w-full">
-      {label && (
-        <label htmlFor={id} className={getLabelStyles()}>
-          {label}
-        </label>
-      )}
-      <div
-        className={getContainerStyles()}
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
-      >
-        {leftIcon && (
-          <span className={getIconStyles()} onClick={handleClickRightIcon}>
-            {leftIcon}
-          </span>
+    <div className={`${size === 'm'? 'pb-4 pt-5': 'pb-4 pt-4'}  w-full  `}>
+      <div className="w-full relative ">
+        {label && (
+          <label htmlFor={id} className={getLabelStyles()}>
+            {label}
+          </label>
         )}
-        <input
-          ref={inputRef}
-          id={id}
-          name={name}
-          placeholder={placeholder}
-          value={inputValue}
-          onChange={handleChange}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
-          disabled={state === "disabled"}
-          className={getInputStyles()}
-          {...rest}
-        />
-        {rightIcon && (
-          <span className={getIconStyles()} onClick={handleClickRightIcon}>
-            {rightIcon}
-          </span>
+        <div
+          className={getContainerStyles()}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+        >
+          {leftIcon && (
+            <span className={getIconStyles()} onClick={handleClickRightIcon}>
+              {leftIcon}
+            </span>
+          )}
+          <input
+            ref={inputRef}
+            id={id}
+            name={name}
+            placeholder={placeholder}
+            value={inputValue}
+            onChange={handleChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
+            disabled={state === "disabled"}
+            className={getInputStyles()}
+            {...rest}
+          />
+          {rightIcon && (
+            <span className={getIconStyles()} onClick={handleClickRightIcon}>
+              {rightIcon}
+            </span>
+          )}
+        </div>
+        {(errorText || state === "error") && (
+          <p className={`${size === 'm'? 'text-body-s bottom-[-20]': 'text-caption bottom-[-18]'}  absolute  text-red-500 text-body-s mt-1`}>
+            {errorText}
+          </p>
+        )}
+        {helperText && !errorText && (
+          <p className="text-base-500 text-body-s mt-1">{helperText}</p>
         )}
       </div>
-      {(errorText || state === "error") && (
-        <p className="text-red-500 text-body-s mt-1">{errorText}</p>
-      )}
-      {helperText && !errorText && (
-        <p className="text-base-500 text-body-s mt-1">{helperText}</p>
-      )}
     </div>
   );
 };

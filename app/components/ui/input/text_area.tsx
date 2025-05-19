@@ -77,7 +77,8 @@ const TextArea: React.FC<TextAreaProps> = ({
   };
 
   const getContainerStyles = () => {
-    let baseStyles = "w-full transform-all text-base-900 py-[6px] px-3 flex items-start rounded-[16px] border-2 select-none"; 
+    let baseStyles =
+      "w-full h-fit transform-all text-base-900 py-[6px] px-3 flex items-start rounded-[16px] border-2 select-none";
 
     if (
       isHovered &&
@@ -107,9 +108,9 @@ const TextArea: React.FC<TextAreaProps> = ({
     }
 
     if (size === "s") {
-      baseStyles += " min-h-[64px]";
+      baseStyles += " min-h-[32px]";
     } else {
-      baseStyles += " min-h-[96px]";
+      baseStyles += " min-h-[64px]";
     }
 
     return baseStyles;
@@ -146,8 +147,10 @@ const TextArea: React.FC<TextAreaProps> = ({
     } else {
       baseStyles += " text-base-400";
     }
-    if (!(isFocused || inputValue != "")) {
+    {
+      /*if (!(isFocused || inputValue != "")) {
       baseStyles += " hidden";
+    }*/
     }
     return baseStyles;
   };
@@ -175,7 +178,7 @@ const TextArea: React.FC<TextAreaProps> = ({
           onBlur={handleBlur}
           className={getTextareaStyles()}
           disabled={state === "disabled"}
-          rows={rows} // Устанавливаем количество строк
+          rows={rows}
           {...rest}
         />
       </div>

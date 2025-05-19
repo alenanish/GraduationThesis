@@ -1,16 +1,17 @@
 "use client";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, FocusEventHandler } from "react";
 import { ArrowDown, ArrowUp } from "../../icons";
 
 interface DropdownOption {
   id: number;
-  label: string;
+  name: string;
 }
 
 interface DropdownProps {
+  id: string;
   label: string;
   options: DropdownOption[];
-  onChange: (id: number) => void;
+  onChange: (option: DropdownOption) => void;
   value?: number;
   placeholder?: string;
   border?: boolean;
@@ -18,6 +19,7 @@ interface DropdownProps {
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
+  id,
   label,
   options,
   onChange,
@@ -28,17 +30,18 @@ const Dropdown: React.FC<DropdownProps> = ({
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
-  const [selectedLabel, setSelectedLabel] = useState<string>(() => {
-    if (value) {
-      const foundOption = options.find((option) => option.id === value);
-      return foundOption ? foundOption.label : placeholder;
+  const [selectedOption, setSelectedOption] = useState<DropdownOption | null>(
+    () => {
+      if (value) {
+        const foundOption = options.find((option) => option.id === value);
+        return foundOption ? { name: foundOption.name, id: value } : null;
+      }
+      return null;
     }
-    return placeholder;
-  });
-
+  );
   const handleOptionClick = (option: DropdownOption) => {
-    onChange(option.id);
-    setSelectedLabel(option.label);
+    onChange(option);
+    setSelectedOption({ id: option.id, name: option.name });
     setIsOpen(false);
   };
 
@@ -65,9 +68,14 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, []);
 
   return (
-    <div className="w-full relative inline-block text-left" ref={dropdownRef}>
+    <div className="w-full  relative inline-block text-left" ref={dropdownRef}>
       <div>
-        <label className="text-body-s text-base-600 mb-2">{label}</label>
+        <label
+          className={`${isOpen ? "text-prime-500" : "text-base-400"} 
+          " text-body-s  mb-2`}
+        >
+          {label}
+        </label>
         <button
           type="button"
           className={`${
@@ -80,18 +88,19 @@ const Dropdown: React.FC<DropdownProps> = ({
           ${
             disabled
               ? "text-base-200 cursor-not-allowed font-medium"
-              : selectedLabel
+              : selectedOption
               ? "text-base-800 font-medium"
               : "text-base-400 italic"
           } 
+         
           transition-all duration-150 inline-flex justify-between items-center w-full rounded-[32px] h-11 
-          px-4 py-3 bg-base-0 text-body-m `}
+          px-4 py-3 bg-base-0 text-body-m focus-within:border-prime-500 focus-within:bg-base-0 hover:border-prime-200 hover:bg-prime-100`}
           id="menu-button"
           aria-expanded={isOpen}
           aria-haspopup="true"
           onClick={toggleDropdown}
         >
-          {selectedLabel}
+          {selectedOption ? selectedOption.name : placeholder}
           {isOpen ? (
             <ArrowUp size={20} color="var(--color-base-500)" />
           ) : (
@@ -121,7 +130,7 @@ const Dropdown: React.FC<DropdownProps> = ({
               className="text-base-800 h-[35px] flex flex-row items-center w-full text-left p-2 gap-2 rounded-[8px] text-body-m font-medium hover:bg-prime-100  active:outline-none active:bg-prime-200 active:text-base-900"
               role="menuitem"
             >
-              {option.label}
+              {option.name}
             </button>
           ))}
         </div>
