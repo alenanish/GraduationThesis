@@ -14,15 +14,22 @@ interface InvestorType {
   preferred_stages?: number[];
   investment_min?: number;
   investment_max?: number;
-  experience?: InvestorExperience[];
+  experience?: InvestorExperienceType[] | [];
 }
 
+type ProjectState =
+      | "expectation"
+      | "in-process"
+      | "launch"
+      | "results-analysis"
+      | "completed";
 
-interface InvestorExperience {
+interface InvestorExperienceType {
+  id: number,
   title: string;
   industry: Industry;
-  stage: number;
-  date: string; // "2023-10-27"
+  stage: ProjectState;
+  date: string; 
   description?: string;
 }
 
@@ -36,4 +43,4 @@ interface InvestorCardType {
   is_favorited: boolean;
 }
 
-export type { InvestorType, InvestorCardType };
+export type { InvestorType, InvestorCardType, InvestorExperienceType };

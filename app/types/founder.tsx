@@ -13,7 +13,6 @@ interface FounderType {
   avatar?: string | null;
   industry?: Industry | null;
   experience: Experience[] | [];
-  is_favorited?: boolean;
 }
 
 export type { FounderType };
