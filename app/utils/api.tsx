@@ -33,6 +33,7 @@ async function authenticatedRequest<T>(
       case "put":
         return await api.put<T>(url, data, { headers });
       case "delete":
+        headers["data"] = data;
         return await api.delete<T>(url, { headers });
       default:
         throw new Error(`Unsupported method: ${method}`);
