@@ -1,5 +1,5 @@
 "use client";
-import { SpecialistCard } from "@/app/components/ui";
+import SpecialistsList from "@/app/components/lists/specialists_list";
 import { SpecialistCardType } from "@/app/types/specialist";
 import { authenticatedRequest } from "@/app/utils/api";
 import React, { useState, useEffect } from "react";
@@ -15,7 +15,7 @@ const FounderRecommendations = () => {
       setError(null);
       try {
         const response = await authenticatedRequest<SpecialistCardType[]>(
-          "/search/specialists/",
+          "specialists/recommendations/",
           "get"
         );
         setSpecialists(response.data);
@@ -39,17 +39,12 @@ const FounderRecommendations = () => {
   }
 
   return (
-    <div>
-      {specialists.length > 0 ? (
-        <ul>
-          {specialists.map((specialist) => (
-            <SpecialistCard key={specialist.user_id} {...specialist} />
-          ))}
-        </ul>
-      ) : (
-        <div>Нет рекомендованных инвесторов.</div>
-      )}
-    </div>
+    <>
+      <SpecialistsList
+        specialists={specialists}
+        no_result_text="Пока нет рекомендаций"
+      />
+    </>
   );
 };
 

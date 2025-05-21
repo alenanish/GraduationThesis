@@ -1,47 +1,20 @@
 "use client";
 import React, { useState } from "react";
-import { Button, IconButton } from "@/app/components/ui";
+import { Avatar, Button, IconButton } from "@/app/components/ui";
 import Link from "next/link";
 import { CurrencyRuble, Favourite, NotFavourite } from "../icons";
-import { useRouter } from "next/navigation";
 import { InvestorCardType } from "../../types/investor";
+import FavoriteButton from "../ui/button/favorite_button";
 
 const InvestorCard: React.FC<InvestorCardType> = ({
-  id,
+  user_id,
   full_name,
-  industry,
   bio,
+  industry,
   avatar,
   investment_max,
-  is_favorited: initialIsFavorited,
+  is_favorited,
 }) => {
-  const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
-  const router = useRouter();
-  const handleFavoriteClick = async () => {
-    try {
-      const method = isFavorited ? "DELETE" : "POST"; // Determine method based on current state
-
-      const response = await fetch(`/favorites/investor/${id}`, {
-        // Replace with your actual API endpoint
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          // Add any necessary authentication headers here (e.g., 'Authorization': 'Bearer YOUR_TOKEN')
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      // Assuming the API returns the new is_favorited status or similar
-
-      setIsFavorited(!isFavorited); // Toggle the state locally. In a real application, you may want to update the state according to the server's response
-    } catch (error) {
-      console.error("Error updating favorites:", error);
-      //  Handle error (e.g., show an error message to the user)
-    }
-  };
 
   return (
     <div
@@ -49,24 +22,11 @@ const InvestorCard: React.FC<InvestorCardType> = ({
       bg-base-0 rounded-2xl overflow-hidden border-2 border-prime-500
       hover:shadow-[0_4px_16px_rgba(0,148,200,0.25)]"
     >
-      {/* Image or Placeholder */}
-      <div className="hidden md:block">
-        {avatar ? (
-          <img
-            src={avatar}
-            className="w-[246px] h-[218px] bg-clip-content object-cover "
-          />
-        ) : (
-          <img
-            src={"DefaultUserProfile.png"}
-            className="w-[246px] h-[218px] bg-clip-content object-cover "
-          />
-        )}
-      </div>
+      <Avatar avatar={avatar} role='user' />
 
       {/* Content */}
       <div className="flex flex-col gap-y-2 w-[calc(100%-56px)] md:w-[calc(100%-318px)]">
-        <Link key={id} href={`/investor/${id}`}>
+        <Link key={user_id} href={`/investor/${user_id}`}>
           <div className="flex flex-row gap-x-4 items-center">
             <h2 className="text-h4 text-base-900">{full_name}</h2>
             <h2 className="text-h4 text-base-900">-</h2>
@@ -81,23 +41,19 @@ const InvestorCard: React.FC<InvestorCardType> = ({
           </p>
         </div>
 
-        {/* Investments */}
+
         <div className="flex flex-row gap-x-1 items-center  mt-2">
           <h3 className="text-body-m text-base-900 ">
             Инвестиционный капитал: {investment_max}
           </h3>
           <CurrencyRuble size={20} color="var(--color-base-700)" />
         </div>
-        <Link href={`/messages/${id}`} className="w-fit mt-2" passHref>
+        <Link href={`/messages/${user_id}`} className="w-fit mt-2" passHref>
           <Button className="w-fit mt-2">Открыть чат</Button>
         </Link>
       </div>
 
-      <div>
-        <IconButton variant="secondary" size="s" onClick={handleFavoriteClick}>
-          {isFavorited ? <Favourite size={24} /> : <NotFavourite size={24} />}
-        </IconButton>
-      </div>
+      <FavoriteButton isInitiallyFavorited={is_favorited} item={{user_id: user_id}} /> 
     </div>
   );
 };

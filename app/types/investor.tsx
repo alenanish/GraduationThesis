@@ -1,16 +1,10 @@
 import { Industry } from "./industry";
+import { User } from "./user";
 
-interface InvestorType {
-  user_id: number;
-  role: string;
-  full_name?: string;
-  bio?: string;
-  contact_phone?: string;
-  contact_email?: string;
-  avatar?: string;
-  industry?: Industry;
+interface InvestorType extends User{
   company?: string;
   position?: string;
+  industry: Industry;
   preferred_stages?: number[];
   investment_min?: number;
   investment_max?: number;
@@ -33,13 +27,7 @@ interface InvestorExperienceType {
   description?: string;
 }
 
-interface InvestorCardType {
-  id: number;
-  full_name: string;
-  industry: Industry;
-  bio: string;
-  avatar?: string;
-  investment_max?: number;
+interface InvestorCardType extends InvestorType {
   is_favorited: boolean;
 }
 

@@ -1,63 +1,28 @@
 "use client";
-import React, { useState } from "react";
-import { Button, IconButton } from "@/app/components/ui";
+import React from "react";
+import { Avatar, Button } from "@/app/components/ui";
 import Link from "next/link";
-import { CurrencyRuble, Favourite, NotFavourite } from "../icons";
+import { CurrencyRuble } from "../icons";
 import { StartupForInvestmentsCardType } from "../../types/startup";
-import { useRouter } from "next/navigation";
+import FavoriteButton from "../ui/button/favorite_button";
 
-const StartupCard: React.FC<StartupForInvestmentsCardType> = ({
+const StartupInvestCard: React.FC<StartupForInvestmentsCardType> = ({
   id,
   title,
   industry,
   description,
   investment_needed,
-  is_favorited: initialIsFavorited,
+  is_favorited,
   avatar,
 }) => {
-  const [isFavorited, setIsFavorited] = useState(initialIsFavorited);
-  const router = useRouter();
-  const handleFavoriteClick = async () => {
-    try {
-      const method = isFavorited ? "DELETE" : "POST"; // Determine method based on current state
-
-      const response = await fetch(`$favorites/startip/${id}`, {
-        method: method,
-        headers: {
-          "Content-Type": "application/json",
-          // Add any necessary authentication headers here (e.g., 'Authorization': 'Bearer YOUR_TOKEN')
-        },
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      setIsFavorited(!isFavorited);
-    } catch (error) {
-      console.error("Error updating favorites:", error);
-    }
-  };
-
   return (
     <div
       className="w-full h-[250px] flex flex-row gap-x-4 p-4 justify-start justify-items-center
        bg-base-0 rounded-2xl overflow-hidden border-2 border-prime-500
        hover:shadow-[0_4px_16px_rgba(0,148,200,0.25)] transition-all duration-150"
     >
-      <div className="hidden md:block">
-        {avatar ? (
-          <img
-            src={avatar}
-            className="w-[246px] h-[218px] bg-clip-content object-cover "
-          />
-        ) : (
-          <img
-            src={"Startup.png"}
-            className="w-[246px] h-[218px] bg-clip-content object-cover "
-          />
-        )}
-      </div>
+      <Avatar avatar={avatar} role="startup" />
+
       <div className="flex flex-col gap-y-2 w-[calc(100%-56px)] md:w-[calc(100%-318px)]">
         <Link key={id} href={`/startup/${id}`}>
           <div className="flex flex-row gap-x-4 items-center ">
@@ -85,13 +50,12 @@ const StartupCard: React.FC<StartupForInvestmentsCardType> = ({
         </Link>
       </div>
 
-      <div>
-        <IconButton variant="secondary" size="s" onClick={handleFavoriteClick}>
-          {isFavorited ? <Favourite size={24} /> : <NotFavourite size={24} />}
-        </IconButton>
-      </div>
+      <FavoriteButton
+        isInitiallyFavorited={is_favorited}
+        item={{ startup_id: id }}
+      />
     </div>
   );
 };
 
-export default StartupCard;
+export default StartupInvestCard;
