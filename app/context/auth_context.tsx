@@ -11,6 +11,7 @@ import { AuthContextType } from "../types/auth";
 import { api, authenticatedRequest } from "../utils/api";
 import { User } from "../types/user";
 import { AxiosResponse } from "axios";
+import Loading from "../components/ui/custom/loading";
 
 interface AuthProviderProps {
   children: React.ReactNode;
@@ -29,7 +30,6 @@ export const useAuth = () => {
 };
 
 export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
-  const [auth_token, setAuthToken] = useState<string | null>(null); 
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
@@ -52,20 +52,29 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   }, []);
 
   const logout = useCallback(() => {
-    try {
-      sessionStorage.removeItem("auth_token");
-    } catch (error) {
-      console.error("Error removing token from sessionStorage:", error);
-    }
-    setAuthToken(null);
+    const auth_token = retrieveToken();
+
+    const logoutRequest = async () => {
+      try {
+        if (auth_token) {
+          await api.post("/auth/token/logout/", `Token ${auth_token}`, {
+            headers: { Authorization: `Token ${auth_token}` }, 
+          });
+        }
+      } catch (error) {
+        console.error("Error logging out:", error);
+      }
+    };
+
+    logoutRequest();
+
+    sessionStorage.removeItem("auth_token");
     setUser(null);
     router.push("/login");
-  }, [router]);
-
+  }, [router, retrieveToken]);
   useEffect(() => {
     const storedToken = retrieveToken();
     if (storedToken) {
-      setAuthToken(storedToken);
       getUserData();
     } else {
       setIsLoading(false);
@@ -90,7 +99,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const setToken = useCallback(
     (token: string) => {
       storeToken(token);
-      setAuthToken(token);
     },
     [storeToken]
   );
@@ -149,7 +157,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     [getToken, router]
   );
 
-  const isAuthenticated = !!auth_token;
+  const isAuthenticated = !!retrieveToken();
 
   const value = {
     user,
@@ -162,7 +170,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   return (
     <AuthContext.Provider value={value}>
-      {isLoading ? <div>Loading...</div> : children}
+      {isLoading ? <Loading /> : children}
     </AuthContext.Provider>
   );
 };
