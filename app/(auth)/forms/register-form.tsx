@@ -96,11 +96,10 @@ const RegisterForm = () => {
   };
 
   const roleOptions = [
-    { label: "Startup", value: "startup" },
-    { label: "Investor", value: "investor" },
-    { label: "Specialist", value: "specialist" },
+    { label: "Основатель стартапа", value: "startup" },
+    { label: "Инвестор", value: "investor" },
+    { label: "Специалист", value: "specialist" },
   ];
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
