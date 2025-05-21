@@ -6,10 +6,10 @@ import React from "react";
 
 interface StartupsListProps {
   startups: StartupSpecCardType[];
-  no_result_text: string;
+  no_result_text?: string;
 }
 
-const StartupsInvestList: React.FC<StartupsListProps> = ({
+const StartupsSpecList: React.FC<StartupsListProps> = ({
   startups,
   no_result_text = "К сожалению, нет результатов",
 }) => {
@@ -28,4 +28,4 @@ const StartupsInvestList: React.FC<StartupsListProps> = ({
   );
 };
 
-export default StartupsInvestList;
+export default StartupsSpecList;

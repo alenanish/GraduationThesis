@@ -16,7 +16,7 @@ const SpecialistsList: React.FC<SpecialistsListProps> = ({
   return (
     <>
       {specialists.length > 0 ? (
-        <ul className="flex flex-col gap-5">
+        <ul className="flex flex-col gap-2">
           {specialists.map((specialist: SpecialistCardType) => (
             <SpecialistCard key={specialist.user_id} {...specialist} />
           ))}

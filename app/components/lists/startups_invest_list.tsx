@@ -6,7 +6,7 @@ import React from "react";
 
 interface StartupsListProps {
   startups: StartupForInvestmentsCardType[];
-  no_result_text: string;
+  no_result_text?: string;
 }
 
 const StartupsInvestList: React.FC<StartupsListProps> = ({
