@@ -3,37 +3,21 @@ import { Profession } from "./profession";
 
 interface StartupType {
   id: number;
-  founder: number;
+  id_founder: number;
   title: string;
-  image?: string;
+  avatar?: string;
   industry: Industry;
   description?: string;
-  stage?: string;
-  investment_needed?: number;
-  required_specialists?: Profession[];
-  is_favorited?: boolean;
-}
-
-interface StartupCardType {
-  id: number;
-  title: string;
-  industry: Industry;
-  description: string;
-  avatar?: string;
-  required_specialists: Profession[];
+  stage: string;
   is_favorited: boolean;
-  id_founder: number;
 }
 
-interface StartupForInvestmentsCardType {
-  id: number;
-  title: string;
-  industry: Industry;
-  description: string;
-  avatar?: string;
+interface StartupSpecCardType extends StartupType {
+  required_specialists: Profession[] | [];
+}
+
+interface StartupForInvestmentsCardType extends StartupType {
   investment_needed: number;
-  is_favorited: boolean;
-  id_founder: number;
 }
 
-export type { StartupType, StartupCardType, StartupForInvestmentsCardType };
+export type { StartupType, StartupSpecCardType, StartupForInvestmentsCardType };
