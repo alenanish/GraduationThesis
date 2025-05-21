@@ -5,10 +5,11 @@ import { IconButton, MenuButton } from "@/app/components/ui";
 import Link from "next/link";
 
 type Size = "s" | "m";
-type Position = "bottom" | "left" | "right";
+type Position = "bottom-rigth" | "left" | "right" | "bottom-left";
 
 interface DropDownMenuProps {
   icon: React.ReactNode;
+
   options: {
     label: string;
     href?: string;
@@ -16,6 +17,7 @@ interface DropDownMenuProps {
     onClick?: () => void;
   }[];
   size?: Size;
+  variant?: "primary" | "secondary" | "tertiary";
   position?: Position;
 }
 
@@ -23,7 +25,8 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
   icon,
   options,
   size = "s",
-  position = "bottom",
+  position = "bottom-rigth",
+  variant = "secondary",
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -55,7 +58,10 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
           baseStyles += "left-13 ";
         }
         return baseStyles;
-      case "bottom":
+      case "bottom-left":
+        baseStyles += "origin-top  right-0 ";
+        return baseStyles;
+      case "bottom-rigth":
       default:
         baseStyles += "origin-top  left-0 ";
         return baseStyles;
@@ -80,10 +86,10 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
   }, [dropdownRef]);
 
   return (
-    <div className="relative inline-block text-left " ref={dropdownRef}>
+    <div className="relative inline-block text-left whitespace-pre-wrap " ref={dropdownRef}>
       <div>
         <IconButton
-          variant="secondary"
+          variant={variant}
           size={size}
           type="button"
           onClick={toggleOpen}

@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 import IconButton from "./icon-button";
 import { Favourite, NotFavourite } from "../../icons";
 import { authenticatedRequest } from "@/app/utils/api";
+import Loading from "../custom/loading";
 
 interface FavoriteButtonProps {
   item: { user_id?: number; startup_id?: number };
@@ -26,10 +27,9 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
     setError(null);
 
     try {
-      console.log(item);
       if (isFavorited) {
-        await authenticatedRequest("/favorites/remove/", "delete", item);
-      } else {
+        await authenticatedRequest("/favorites/remove/", "post", item);
+      } else if (!isFavorited) {
         await authenticatedRequest("/favorites/", "post", item);
       }
 
@@ -48,10 +48,10 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
         variant="secondary"
         size="s"
         onClick={handleFavoriteClick}
-        disabled={isLoading}
+        
       >
         {isLoading ? (
-          "Loading..."
+          <Loading size={24} />
         ) : isFavorited ? (
           <Favourite size={24} />
         ) : (

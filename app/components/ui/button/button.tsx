@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({
   className = "",
   ...rest
 }) => {
-  const baseStyles = "font-medium flex flex-row items-center justify-center gap-2 rounded-[32px] content-center ";
+  const baseStyles = " text-nowrap font-medium flex flex-row items-center justify-center gap-2 rounded-[32px] content-center ";
 
   const variantStyles = () => {
     switch (variant) {

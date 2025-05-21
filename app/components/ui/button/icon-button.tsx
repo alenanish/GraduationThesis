@@ -87,7 +87,8 @@ const IconButton: React.FC<IconButtonProps> = ({
             hover:bg-prime-100 
             focus:bg-prime-200
             focus:text-prime-700
-            disabled:text-base-100`;
+            disabled:text-base-100
+            disabled:hover:bg-transparent `;
         }
       default:
         return `bg-prime-500 

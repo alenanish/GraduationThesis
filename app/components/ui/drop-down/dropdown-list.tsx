@@ -68,7 +68,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, []);
 
   return (
-    <div className="w-full  relative inline-block text-left" ref={dropdownRef}>
+    <div className="w-full relative inline-block text-left" ref={dropdownRef}>
       <div>
         <label
           className={`${isOpen ? "text-prime-500" : "text-base-400"} 
@@ -93,14 +93,15 @@ const Dropdown: React.FC<DropdownProps> = ({
               : "text-base-400 italic"
           } 
          
-          transition-all duration-150 inline-flex justify-between items-center w-full rounded-[32px] h-11 
+          transition-all  duration-150 inline-flex justify-between items-center w-full rounded-[32px] h-11 
           px-4 py-3 bg-base-0 text-body-m focus-within:border-prime-500 focus-within:bg-base-0 hover:border-prime-200 hover:bg-prime-100`}
           id="menu-button"
           aria-expanded={isOpen}
           aria-haspopup="true"
           onClick={toggleDropdown}
         >
-          {selectedOption ? selectedOption.name : placeholder}
+          <p className="truncate">{selectedOption ? selectedOption.name : placeholder}</p>
+          
           {isOpen ? (
             <ArrowUp size={20} color="var(--color-base-500)" />
           ) : (
@@ -127,7 +128,7 @@ const Dropdown: React.FC<DropdownProps> = ({
             <button
               key={option.id}
               onClick={() => handleOptionClick(option)}
-              className="text-base-800 h-[35px] flex flex-row items-center w-full text-left p-2 gap-2 rounded-[8px] text-body-m font-medium hover:bg-prime-100  active:outline-none active:bg-prime-200 active:text-base-900"
+              className=" truncate text-base-800 h-[35px] flex flex-row items-center w-full text-left p-2 gap-2 rounded-[8px] text-body-m font-medium hover:bg-prime-100  active:outline-none active:bg-prime-200 active:text-base-900"
               role="menuitem"
             >
               {option.name}
