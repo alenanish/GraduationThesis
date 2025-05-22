@@ -21,7 +21,6 @@ const FavouriteStartups = ({}) => {
           "get"
         );
         setResults(response.data);
-        console.log(response.request);
       } catch (err: any) {
         setError(err.message || "Ошибка при загрузке стартапов.");
       } finally {
