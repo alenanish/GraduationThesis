@@ -31,7 +31,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ recipient_id }) => {
   useEffect(() => {
     if (textAreaRef.current) {
       textAreaRef.current.style.height = "auto";
-      const newHeight = Math.min(textAreaRef.current.scrollHeight, 275); 
+      const newHeight = Math.min(textAreaRef.current.scrollHeight, 275);
       textAreaRef.current.style.height = `${newHeight}px`;
       setTextAreaHeight(`${newHeight}px`);
     }
