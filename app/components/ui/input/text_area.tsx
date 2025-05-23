@@ -3,7 +3,6 @@ import React, {
   useState,
   useRef,
   FocusEventHandler,
-  ChangeEvent,
   TextareaHTMLAttributes,
 } from "react";
 
@@ -15,13 +14,13 @@ interface TextAreaProps
   size?: "s" | "m";
   placeholder: string;
   value?: string;
-  onChange?: (value: string) => void;
+  onChange: (value: string) => void;
+
   onFocus?: FocusEventHandler<HTMLTextAreaElement>;
   onBlur?: FocusEventHandler<HTMLTextAreaElement>;
   label: string;
   errorText?: string | null;
   helperText?: string;
-  className?: string;
   rows?: number;
 }
 
@@ -38,7 +37,6 @@ const TextArea: React.FC<TextAreaProps> = ({
   onFocus,
   onBlur,
   errorText,
-  className,
   rows = 4,
   ...rest
 }) => {
@@ -69,11 +67,11 @@ const TextArea: React.FC<TextAreaProps> = ({
     setIsHovered(false);
   };
 
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     setInputValue(e.target.value);
-    if (onChange) {
-      onChange(e.target.value);
-    }
+    onChange(e.target.value);
   };
 
   const getContainerStyles = () => {

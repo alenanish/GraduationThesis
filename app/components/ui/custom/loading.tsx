@@ -7,14 +7,14 @@ interface LoadingProps {
 }
 
 const Loading: React.FC<LoadingProps> = ({
-  size = 50,
+  size = 150,
   text = "",
   color = "var(--color-prime-300)",
 }) => {
   const borderWidth = size / 10;
 
   return (
-    <div className="w-full h-full flex flex-col items-center justify-center">
+    <div className="fixed top-0 w-full h-full  flex flex-col items-center justify-center">
       <div
         className="animate-spin  rounded-full border-solid border-t-transparent"
         style={{
@@ -23,7 +23,7 @@ const Loading: React.FC<LoadingProps> = ({
           borderWidth: borderWidth,
           borderColor: color,
           borderTopColor: "transparent",
-           animation: `spin 1.5s linear infinite`
+          animation: `spin 2s linear infinite`
         }}
       ></div>
       {text && <div className="mb-2 text-center text-h5 italic text-base-600">{text}</div>}

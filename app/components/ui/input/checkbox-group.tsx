@@ -3,7 +3,7 @@ import React, { useState, FC, useCallback } from "react";
 import Checkbox from "./checkbox";
 
 interface CheckboxGroupProps {
-  options: { label: string; value: string }[];
+  options: { name: string; id: string }[];
   selectedValues: string[];
   onChange: (selectedValues: string[]) => void;
 }
@@ -33,10 +33,10 @@ const CheckboxGroup: FC<CheckboxGroupProps> = ({
     <div className="space-y-2 w-fit">
       {options.map((option) => (
         <Checkbox
-          key={option.value}
-          label={option.label}
-          value={option.value}
-          checked={checkedValues.includes(option.value)}
+          key={option.id}
+          name={option.name}
+          id={option.id}
+          checked={checkedValues.includes(option.id)}
           onChange={handleCheckboxChange}
         />
       ))}

@@ -6,7 +6,7 @@ import { IconButton } from "../../ui";
 
 interface ExperienceCardProps extends Experience {
   isEdit: boolean;
-  onDelete?: (id: number) => void;
+  onDelete?: () => void;
 }
 
 const ExperienceCard: React.FC<ExperienceCardProps> = ({
@@ -19,13 +19,6 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
   isEdit,
   onDelete,
 }) => {
-  const handleDeleteClick = () => {
-    if (onDelete && id) {
-      {
-        onDelete(id);
-      }
-    }
-  };
 
   return (
     <div
@@ -53,7 +46,7 @@ const ExperienceCard: React.FC<ExperienceCardProps> = ({
                   size="s"
                   variant="tertiary"
                   color="base"
-                  onClick={handleDeleteClick}
+                  onClick={onDelete}
                 >
                   <Delete size={20} />
                 </IconButton>

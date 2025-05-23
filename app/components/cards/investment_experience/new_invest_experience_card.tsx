@@ -1,35 +1,58 @@
 "use client";
-import { Experience } from "@/app/types/experience";
+
 import React, { useState } from "react";
-import { Button, ErrorMessage, Input, TextArea } from "../../ui";
+import { Button, DropdownList, ErrorMessage, Input, TextArea } from "../../ui";
 import Loading from "../../ui/custom/loading";
 import SuccessNotification from "../../ui/text/success-notification";
+import { InvestorExperienceType } from "@/app/types/investor";
+import { Industry } from "@/app/types/industry";
 
-interface NewExperienceCardProps {
-  onAddExperience: (experience: Experience) => void;
+interface NewInvestExperienceCardProps {
+  onAddExperience: (experience: InvestorExperienceType) => void;
+  industries: Industry[];
 }
 
-const NewExperienceCard: React.FC<NewExperienceCardProps> = ({
+interface DropdownOption {
+  id: number | string;
+  name: string;
+}
+
+const NewInvestExperienceCard: React.FC<NewInvestExperienceCardProps> = ({
   onAddExperience,
+  industries,
 }) => {
-  const [position, setPosition] = useState<string>("");
-  const [startDate, setStartDate] = useState<string>("");
-  const [endDate, setEndDate] = useState<string>("");
-  const [organization, setOrganization] = useState<string>("");
+  const [title, setTitle] = useState<string>("");
+  const [date, setDate] = useState<string>("");
+  const [industry, setIndustry] = useState<Industry>();
   const [description, setDescription] = useState<string>("");
+  const [stage, setStage] = useState<DropdownOption | null>(null);
   const [successMessage, setSuccessMessage] = useState<string>("");
 
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const isFilled = position && startDate && organization && description;
+  const handleDropdownChange = (option: DropdownOption) => {
+    setIndustry({ id: Number(option.id), name: option.name });
+  };
+
+  const handleStageChange = (stage: DropdownOption) => {
+    setStage(stage);
+  };
+
+  const options = [
+    { name: "Ожидание", id: "waiting" },
+    { name: "В процессе", id: "in_progress" },
+    { name: "Запуск", id: "launch" },
+    { name: "Анализ результатов", id: "analysis" },
+    { name: "Завершён", id: "completed" },
+  ];
 
   const handleClear = () => {
-    setPosition("");
-    setStartDate("");
-    setEndDate("");
-    setOrganization("");
+    setTitle("");
+    setDate("");
+    setIndustry(undefined);
     setDescription("");
+    setStage(null);
   };
 
   function formatDate(dateString: string): string {
@@ -41,21 +64,30 @@ const NewExperienceCard: React.FC<NewExperienceCardProps> = ({
     return `${year}-${month}-${day}`;
   }
 
+  const isFilled = title && date && industry && description && stage !== null;
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
     setError(null);
+    
+    if (!isFilled) {
+        setError('Заполните все обязательные поля');
+        setIsLoading(false);
+        return
+    }
 
-    const newExperience = {
-      position: position,
-      start_date: formatDate(startDate),
-      end_date: formatDate(endDate),
-      organization: organization,
-      description: description,
-    };
-    onAddExperience(newExperience);
-    setSuccessMessage("Успешно добавлено!");
     try {
+      const newExperience = {
+        title: title,
+        date: formatDate(date),
+        industry: {id: Number(industry.id), name: industry.name},
+        description: description,
+        stage: stage.id.toString(),
+      };
+
+      onAddExperience(newExperience);
+      setSuccessMessage("Успешно добавлено!");
     } catch (error: any) {
       setError(error?.message || "Ошибка при добавлении опыта работы.");
     } finally {
@@ -97,44 +129,40 @@ const NewExperienceCard: React.FC<NewExperienceCardProps> = ({
       <div className="flex flex-row gap-x-2 ">
         <Input
           required
-          id="organization"
-          name="organization"
+          id="title"
+          name="title"
           size="m"
-          placeholder="Название организации"
-          label="Название организации"
-          value={organization}
-          onChange={setOrganization}
+          placeholder="Название"
+          label="Название"
+          value={title}
+          onChange={setTitle}
+        />
+        <DropdownList
+          id="industry"
+          label="Сфера"
+          placeholder="Сфера"
+          options={industries}
+          value={industry?.id}
+          onChange={handleDropdownChange}
         />
         <Input
           required
-          id="position"
-          name="position"
+          id="date"
+          name="date"
           size="m"
-          placeholder="Должность"
-          label="Должность"
-          value={position}
-          onChange={setPosition}
-        />
-        <Input
-          required
-          id="startDate"
-          name="startDate"
-          size="m"
-          placeholder="Дата начала"
-          label="Дата начала"
-          value={startDate}
-          onChange={setStartDate}
+          placeholder="Дата"
+          label="Дата"
+          value={date}
+          onChange={setDate}
           type="date"
         />
-        <Input
-          id="endDate"
-          name="endDate"
-          size="m"
-          placeholder="Дата окончания"
-          label="Дата окончания"
-          value={endDate}
-          onChange={setEndDate}
-          type="date"
+        <DropdownList
+          id="stage"
+          label="Стадия"
+          placeholder="Стадия"
+          options={options}
+          value={stage?.id}
+          onChange={handleStageChange}
         />
       </div>
       <TextArea
@@ -171,4 +199,4 @@ const NewExperienceCard: React.FC<NewExperienceCardProps> = ({
   );
 };
 
-export default NewExperienceCard;
+export default NewInvestExperienceCard;

@@ -10,15 +10,17 @@ interface RadioGroupOption {
 
 interface RadioGroupProps {
   options: RadioGroupOption[];
-  name: string;
+  name?: string;
   onChange: (value: string) => void;
   value?: string;
+  className?: string;
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = ({
   options,
   onChange,
   value,
+  className
 }) => {
   const [selectedValue, setSelectedValue] = useState(value || "");
 
@@ -28,7 +30,7 @@ const RadioGroup: React.FC<RadioGroupProps> = ({
   };
 
   return (
-    <div className="space-y-4 w-fit">
+    <div className={className? className: "space-y-4 w-fit"}>
       {options.map((option) => (
         <RadioButton
           key={option.value}

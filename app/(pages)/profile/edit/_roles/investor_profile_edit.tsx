@@ -4,55 +4,71 @@ import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 import Link from "next/link";
 
-import { Button, JobExperience, Label } from "@/app/components/ui";
+import { Button, Label } from "@/app/components/ui";
 
 import ImageUploader from "../_components/image_uploader";
 
-import { FounderType } from "@/app/types/founder";
-import { Industry } from "@/app/types/industry";
-import { Experience } from "@/app/types/experience";
+import { InvestorExperienceType, InvestorType } from "@/app/types/investor";
 
 import { api, authenticatedRequest } from "@/app/utils/api";
 import EditContactInfo from "../_components/edit_contact_info";
 import EditGeneralInfo from "../_components/edit_general_info";
 import Loading from "@/app/components/ui/custom/loading";
+import { Industry } from "@/app/types/industry";
+import EditInvestorPreferences from "../_components/edit_investor_preferences";
+import InvestExperience from "@/app/components/cards/investment_experience/invest_experience";
 
 interface DropdownOption {
   id: string | number;
   name: string;
 }
 
-const FounderProfileEdit = () => {
-  const [founder, setFounder] = useState<FounderType>();
+const InvestorProfileEdit = () => {
+  const [investor, setInvestor] = useState<InvestorType>();
   const [error, setError] = useState<string | null>(null);
+  const [hasChanges, setHasChanges] = useState<boolean>(false);
 
   const [fullName, setFullName] = useState<string | null>(null);
   const [contactPhone, setContactPhone] = useState<string | null>(null);
   const [contactEmail, setContactEmail] = useState<string | null>(null);
   const [bio, setBio] = useState<string | null>(null);
+  const [position, setPosition] = useState<string | null>(null);
+  const [company, setCompany] = useState<string | null>(null);
   const [industry, setIndustry] = useState<Industry | null>(null);
   const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false);
   const [options, setOptions] = useState<Industry[]>([]);
-
-  const [initialValues, setInitialValues] = useState<{
-    fullName: string | null;
-    contactPhone: string | null;
-    contactEmail: string | null;
-    bio: string | null;
-    industry: Industry | null;
-    avatarUrl: string | null;
-    experiences: Experience[];
-  } | null>(null);
-  const [hasChanges, setHasChanges] = useState(false);
 
   const [fullNameError, setFullNameError] = useState<string | null>(null);
   const [emailError, setEmailError] = useState<string | null>(null);
   const [phoneError, setPhoneError] = useState<string | null>(null);
 
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [experiences, setExperiences] = useState<InvestorExperienceType[] | []>(
+    []
+  );
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [preferred_stages, setStages] = useState<string[] | []>([]);
+  const [investment_min, setInvestmentMin] = useState<string | null>(null);
+  const [investment_max, setInvestmentMax] = useState<string | null>(null);
+
+  const [initialValues, setInitialValues] = useState<{
+    fullName: string | null;
+    contactPhone: string | null;
+    contactEmail: string | null;
+    company: string | null;
+    position: string | null;
+    bio: string | null;
+    industry: Industry | null;
+    avatarUrl: string | null;
+    preferred_stages: string[] | null;
+    investment_min: string | null;
+    investment_max: string | null;
+    experience: InvestorExperienceType[] | [];
+  } | null>(null);
+
+  const handleChangeStages = (selectedValues: string[] | []) => {
+    setStages(selectedValues);
+  };
 
   const router = useRouter();
 
@@ -60,7 +76,7 @@ const FounderProfileEdit = () => {
     setAvatarUrl(newUrl);
   };
 
-  const handleIndustryChange = (option: DropdownOption | null) => {
+  const handleIndystryChange = (option: DropdownOption | null) => {
     if (option) {
       setIndustry({ id: Number(option.id), name: option.name });
     } else {
@@ -78,33 +94,27 @@ const FounderProfileEdit = () => {
         if (list.data) {
           setOptions(list.data || []);
         }
-        const response: AxiosResponse<FounderType> =
-          await authenticatedRequest<FounderType>("/profile/me/", "get");
+        const response: AxiosResponse<InvestorType> =
+          await authenticatedRequest<InvestorType>("/profile/me/", "get");
         if (response.data) {
-          setFounder(response.data);
+          setInvestor(response.data);
           setFullName(response.data.full_name || null);
           setContactPhone(response.data.contact_phone || "");
           setContactEmail(response.data.contact_email || "");
           setBio(response.data.bio || "");
-          setExperiences(response.data.experience);
+          setPosition(response.data.position || "");
+          setCompany(response.data.company || "");
+          setExperiences(response.data.experience || []);
+          setStages(response.data.preferred_stages || []);
+          setInvestmentMin(response.data.investment_min || null);
+          setInvestmentMax(response.data.investment_max || null);
           if (response.data.industry) {
             setIndustry(response.data.industry);
           }
           setAvatarUrl(response.data.avatar || null);
-          setInitialValues({
-            fullName: response.data.full_name || null,
-            contactPhone: response.data.contact_phone || null,
-            contactEmail: response.data.contact_email || null,
-            bio: response.data.bio || null,
-            industry: response.data.industry || null,
-            avatarUrl: response.data.avatar || null,
-            experiences: response.data.experience || null,
-          });
         }
       } catch (err: any) {
         setError(err?.message || "Ошибка при загрузке.");
-      } finally {
-        setIsLoading(false);
       }
     };
 
@@ -116,23 +126,32 @@ const FounderProfileEdit = () => {
       setHasChanges(false);
       return;
     }
+
     const changed =
       fullName !== initialValues.fullName ||
       contactPhone !== initialValues.contactPhone ||
       contactEmail !== initialValues.contactEmail ||
       bio !== initialValues.bio ||
-      industry !== initialValues.industry ||
+      company !== initialValues.company ||
+      position !== initialValues.position ||
       avatarUrl !== initialValues.avatarUrl ||
-      JSON.stringify(experiences) !== JSON.stringify(initialValues.experiences);
-    setHasChanges(changed);
+      preferred_stages !== initialValues.preferred_stages ||
+      investment_max !== initialValues.investment_max ||
+      investment_min !== initialValues.investment_min ||
+      JSON.stringify(experiences) !== JSON.stringify(initialValues.experience);
+    setHasChanges(changed );
   }, [
     fullName,
     contactPhone,
     contactEmail,
     bio,
-    industry,
+    company,
     avatarUrl,
+    position,
     experiences,
+    preferred_stages,
+    investment_min,
+    investment_max,
     initialValues,
   ]);
 
@@ -140,24 +159,17 @@ const FounderProfileEdit = () => {
     let isValid = true;
 
     if (contactEmail === "") {
-      setEmailError("Это обязательное поле.");
+      setEmailError("Заполните это поле.");
       isValid = false;
     } else {
       setEmailError(null);
     }
 
     if (fullName === "") {
-      setFullNameError("Это обязательное поле.");
+      setFullNameError("Заполните это поле.");
       isValid = false;
     } else {
       setFullNameError(null);
-    }
-
-    if (contactPhone === "") {
-      setPhoneError("Это обязательное поле.");
-      isValid = false;
-    } else {
-      setPhoneError(null);
     }
 
     if (!industry) {
@@ -165,19 +177,38 @@ const FounderProfileEdit = () => {
     }
 
     setIsSaveButtonActive(isValid && hasChanges);
+    const hasAnyChanges =
+      fullName !== initialValues?.fullName ||
+      contactPhone !== initialValues?.contactPhone ||
+      contactEmail !== initialValues?.contactEmail ||
+      bio !== initialValues?.bio ||
+      company !== initialValues?.company ||
+      position !== initialValues?.position ||
+      avatarUrl !== initialValues?.avatarUrl ||
+      JSON.stringify(preferred_stages) !==
+        JSON.stringify(initialValues?.preferred_stages) ||
+      investment_min !== initialValues?.investment_min ||
+      investment_max !== initialValues?.investment_max ||
+      JSON.stringify(experiences) !== JSON.stringify(initialValues?.experience);
+
+    setHasChanges(hasAnyChanges);
+    setIsSaveButtonActive(isValid && hasChanges);
   }, [
     fullName,
-    contactEmail,
     contactPhone,
-    industry,
+    contactEmail,
     bio,
+    company,
+    position,
     avatarUrl,
     experiences,
-    hasChanges,
+    preferred_stages,
+    investment_min,
+    investment_max,
+    initialValues,
   ]);
 
   const handleSubmit = async () => {
-    setIsLoading(true);
     try {
       const payload = {
         full_name: fullName,
@@ -185,35 +216,45 @@ const FounderProfileEdit = () => {
         contact_phone: contactPhone,
         contact_email: contactEmail,
         bio: bio,
+        position: position,
+        company: company,
         avatar: avatarUrl,
         experience: experiences,
+        investment_min: investment_min ? Number(investment_min) : null,
+        investment_max: investment_max ? Number(investment_max) : null,
+        preferred_stages: preferred_stages,
       };
 
-      console.log(payload);
+      console.log("form", payload);
+
       await authenticatedRequest("/profile/me/", "put", payload);
 
-      const response: AxiosResponse<FounderType> =
-        await authenticatedRequest<FounderType>("/profile/me/", "get");
+      const response: AxiosResponse<InvestorType> =
+        await authenticatedRequest<InvestorType>("/profile/me/", "get");
 
-      setFounder(response.data);
-      setExperiences(response.data.experience);
+      setInvestor(response.data);
+      setExperiences(response.data.experience || []);
+
       setInitialValues({
         fullName,
         contactPhone,
         contactEmail,
+        company,
+        position,
         bio,
         industry,
         avatarUrl,
-        experiences,
+        preferred_stages,
+        investment_min,
+        investment_max,
+        experience: experiences,
       });
-
       setHasChanges(false);
 
       router.replace("/profile/me");
     } catch (error: any) {
       console.error("Error updating profile:", error);
-      setIsLoading(false);
-      alert("Failed to update profile. Please try again.");
+      alert("Не удалось обновить профиль. Попробуйте еще раз.");
     }
   };
 
@@ -221,7 +262,7 @@ const FounderProfileEdit = () => {
     return <div>Ошибка: {error}</div>;
   }
 
-  if (!founder || isLoading) {
+  if (!investor) {
     return <Loading />;
   }
 
@@ -242,28 +283,40 @@ const FounderProfileEdit = () => {
           <EditGeneralInfo
             fullName={fullName}
             setFullName={setFullName}
-            label="Сфера"
+            label={"Профессия"}
             option={industry}
-            setOption={handleIndustryChange}
+            setOption={handleIndystryChange}
             bio={bio}
             setBio={setBio}
+            position={position}
+            setPosition={setPosition}
+            company={company}
+            setCompany={setCompany}
             options={options}
             fullNameError={fullNameError}
             setFullNameError={setFullNameError}
           />
 
-          <Label label="Опыт работы">
-            <JobExperience
-              onExperiencesChange={setExperiences}
+          <EditInvestorPreferences
+            preferred_stages={preferred_stages}
+            setStages={handleChangeStages}
+            investment_max={investment_min}
+            setInvestmentMin={setInvestmentMin}
+            investment_min={investment_max}
+            setInvestmentMax={setInvestmentMax}
+          />
+          <Label label="Предыдущие инвестиции">
+            <InvestExperience
               experiences={experiences}
               isEdit={true}
+              onExperiencesChange={setExperiences}
             />
           </Label>
         </div>
 
         <div className="flex flex-col gap-y-4 col-span-1">
           <ImageUploader
-            avatar={founder.avatar}
+            avatar={investor.avatar}
             onChange={handleAvatarChange}
             defaultUrl="/default-user.png"
           />
@@ -283,4 +336,4 @@ const FounderProfileEdit = () => {
   );
 };
 
-export default FounderProfileEdit;
+export default InvestorProfileEdit;

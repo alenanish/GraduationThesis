@@ -5,12 +5,22 @@ import { Experience } from "@/app/types/experience";
 interface JobExperienceProps {
   experiences: Experience[];
   isEdit: boolean;
+  onExperiencesChange?: (newExperiences: Experience[]) => void;
 }
 
 const JobExperience: React.FC<JobExperienceProps> = ({
   experiences,
   isEdit = false,
+  onExperiencesChange,
 }) => {
+
+  const handleDelete = (index: number) => {
+    if (!onExperiencesChange) return;
+    const newExperiences = [...experiences];
+    newExperiences.splice(index, 1);
+    onExperiencesChange(newExperiences);
+  };
+
   return (
     <div>
       <div className="flex flex-col gap-y-2 ">
@@ -18,16 +28,19 @@ const JobExperience: React.FC<JobExperienceProps> = ({
           <div>
             <ul>
               {experiences.map((experience: Experience, index: number) => (
-                <ExperienceCard isEdit={isEdit} key={index} {...experience} />
+                <ExperienceCard
+                  onDelete={() => handleDelete(index)}
+                  isEdit={isEdit}
+                  key={index}
+                  {...experience}
+                />
               ))}
             </ul>
           </div>
         ) : (
-          !isEdit && (
-            <p className=" text-body-s italic text-base-400">
-              Опыт работы не указан.
-            </p>
-          )
+          <p className=" text-body-s italic text-base-400">
+            Опыт работы не указан.
+          </p>
         )}
       </div>
     </div>

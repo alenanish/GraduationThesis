@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../../context/auth_context";
 import InvestorProfile from "./_roles/investor_profile_edit";
 import SpecialistProfile from "./_roles/specialist_profile_edit";
@@ -8,6 +8,8 @@ import FounderProfileEdit from "./_roles/founder_profile_edit";
 const ProfilePage = () => {
   const { user } = useAuth();
   const role = user?.role;
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   return (
     <div className="w-full">

@@ -6,8 +6,17 @@ import InvestorProfile from "./_roles/investor_profile";
 import SpecialistProfile from "./_roles/specialist_profile";
 
 const ProfilePage = () => {
-  const { user } = useAuth();
+  const { isAuthenticated, logout, user } = useAuth();
+
+  if (!isAuthenticated) {
+    logout();
+    return;
+  }
   const role = user?.role;
+
+  if (!user) {
+    logout();
+  }
 
   return (
     <div className="w-full pt-1">
@@ -18,7 +27,7 @@ const ProfilePage = () => {
       ) : role === "specialist" ? (
         <SpecialistProfile />
       ) : (
-        <p>Неизвестная роль пользователя.</p>
+        <></>
       )}
     </div>
   );

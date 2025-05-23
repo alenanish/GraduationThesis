@@ -1,30 +1,23 @@
 import { Industry } from "./industry";
 import { User } from "./user";
 
-interface InvestorType extends User{
-  company?: string;
-  position?: string;
+interface InvestorType extends User {
+  company: string;
+  position: string;
   industry: Industry;
-  preferred_stages?: number[];
-  investment_min?: number;
-  investment_max?: number;
-  experience?: InvestorExperienceType[] | [];
+  preferred_stages: string[] | [];
+  investment_min: string;
+  investment_max: string;
+  experience: InvestorExperienceType[] | [];
 }
 
-type ProjectState =
-      | "expectation"
-      | "in-process"
-      | "launch"
-      | "results-analysis"
-      | "completed";
-
 interface InvestorExperienceType {
-  id: number,
+  id?: number;
   title: string;
-  industry: Industry;
-  stage: ProjectState;
-  date: string; 
-  description?: string;
+  industry: string;
+  stage: string;
+  date: string;
+  description: string;
 }
 
 interface InvestorCardType extends InvestorType {

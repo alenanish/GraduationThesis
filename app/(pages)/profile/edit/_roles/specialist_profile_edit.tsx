@@ -8,41 +8,45 @@ import { Button, JobExperience, Label } from "@/app/components/ui";
 
 import ImageUploader from "../_components/image_uploader";
 
-import { FounderType } from "@/app/types/founder";
-import { Industry } from "@/app/types/industry";
+import { SpecialistType } from "@/app/types/specialist";
+import { Profession } from "@/app/types/profession";
 import { Experience } from "@/app/types/experience";
 
 import { api, authenticatedRequest } from "@/app/utils/api";
 import EditContactInfo from "../_components/edit_contact_info";
 import EditGeneralInfo from "../_components/edit_general_info";
 import Loading from "@/app/components/ui/custom/loading";
+import NewSkillsList from "../_components/new_skill";
+import { Skill } from "@/app/types/skill";
 
 interface DropdownOption {
   id: string | number;
   name: string;
 }
 
-const FounderProfileEdit = () => {
-  const [founder, setFounder] = useState<FounderType>();
+const SpecialistProfileEdit = () => {
+  const [specialist, setSpecialist] = useState<SpecialistType>();
   const [error, setError] = useState<string | null>(null);
 
   const [fullName, setFullName] = useState<string | null>(null);
   const [contactPhone, setContactPhone] = useState<string | null>(null);
   const [contactEmail, setContactEmail] = useState<string | null>(null);
   const [bio, setBio] = useState<string | null>(null);
-  const [industry, setIndustry] = useState<Industry | null>(null);
+  const [profession, setProfession] = useState<Profession | null>(null);
   const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false);
-  const [options, setOptions] = useState<Industry[]>([]);
+  const [options, setOptions] = useState<Profession[]>([]);
 
   const [initialValues, setInitialValues] = useState<{
     fullName: string | null;
     contactPhone: string | null;
     contactEmail: string | null;
     bio: string | null;
-    industry: Industry | null;
+    profession: Profession | null;
     avatarUrl: string | null;
-    experiences: Experience[];
+    experience: Experience[];
+    skills: Skill[];
   } | null>(null);
+
   const [hasChanges, setHasChanges] = useState(false);
 
   const [fullNameError, setFullNameError] = useState<string | null>(null);
@@ -50,9 +54,12 @@ const FounderProfileEdit = () => {
   const [phoneError, setPhoneError] = useState<string | null>(null);
 
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
-  const [experiences, setExperiences] = useState<Experience[]>([]);
+  const [experience, setExperience] = useState<Experience[]>([]);
+  const [skills, setSkills] = useState<Skill[]>([]);
 
-  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [listOfSkills, setListOfSkills] = useState<Skill[]>([]);
+
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const router = useRouter();
 
@@ -60,45 +67,53 @@ const FounderProfileEdit = () => {
     setAvatarUrl(newUrl);
   };
 
-  const handleIndustryChange = (option: DropdownOption | null) => {
+  const handleProfessionChange = (option: DropdownOption | null) => {
     if (option) {
-      setIndustry({ id: Number(option.id), name: option.name });
+      setProfession({ id: Number(option.id), name: option.name });
     } else {
-      setIndustry(null);
+      setProfession(null);
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
       setError(null);
+
       try {
-        const list: AxiosResponse<Industry[]> = await api.get<Industry[]>(
-          "/industries/"
-        );
-        if (list.data) {
-          setOptions(list.data || []);
+        const list_professions: AxiosResponse<Profession[]> = await api.get<
+          Profession[]
+        >("/professions/");
+        if (list_professions.data) {
+          setOptions(list_professions.data || []);
         }
-        const response: AxiosResponse<FounderType> =
-          await authenticatedRequest<FounderType>("/profile/me/", "get");
+
+        const list_skills: AxiosResponse<Skill[]> = await api.get<Skill[]>(
+          "/skills/"
+        );
+        if (list_skills.data) {
+          setListOfSkills(list_skills.data || []);
+        }
+        const response: AxiosResponse<SpecialistType> =
+          await authenticatedRequest<SpecialistType>("/profile/me/", "get");
         if (response.data) {
-          setFounder(response.data);
+          setSpecialist(response.data);
           setFullName(response.data.full_name || null);
           setContactPhone(response.data.contact_phone || "");
           setContactEmail(response.data.contact_email || "");
           setBio(response.data.bio || "");
-          setExperiences(response.data.experience);
-          if (response.data.industry) {
-            setIndustry(response.data.industry);
-          }
+          setExperience(response.data.experience);
+          setProfession(response.data.profession);
           setAvatarUrl(response.data.avatar || null);
+          setSkills(response.data.skills);
           setInitialValues({
             fullName: response.data.full_name || null,
             contactPhone: response.data.contact_phone || null,
             contactEmail: response.data.contact_email || null,
             bio: response.data.bio || null,
-            industry: response.data.industry || null,
+            profession: response.data.profession || null,
             avatarUrl: response.data.avatar || null,
-            experiences: response.data.experience || null,
+            experience: response.data.experience || null,
+            skills: response.data.skills || null,
           });
         }
       } catch (err: any) {
@@ -116,23 +131,26 @@ const FounderProfileEdit = () => {
       setHasChanges(false);
       return;
     }
+
     const changed =
       fullName !== initialValues.fullName ||
       contactPhone !== initialValues.contactPhone ||
       contactEmail !== initialValues.contactEmail ||
       bio !== initialValues.bio ||
-      industry !== initialValues.industry ||
+      profession !== initialValues.profession ||
       avatarUrl !== initialValues.avatarUrl ||
-      JSON.stringify(experiences) !== JSON.stringify(initialValues.experiences);
+      JSON.stringify(skills) !== JSON.stringify(initialValues.skills) ||
+      JSON.stringify(experience) !== JSON.stringify(initialValues.experience);
     setHasChanges(changed);
   }, [
     fullName,
     contactPhone,
     contactEmail,
     bio,
-    industry,
+    profession,
     avatarUrl,
-    experiences,
+    experience,
+    skills,
     initialValues,
   ]);
 
@@ -160,7 +178,7 @@ const FounderProfileEdit = () => {
       setPhoneError(null);
     }
 
-    if (!industry) {
+    if (!profession) {
       isValid = false;
     }
 
@@ -169,10 +187,11 @@ const FounderProfileEdit = () => {
     fullName,
     contactEmail,
     contactPhone,
-    industry,
+    profession,
     bio,
     avatarUrl,
-    experiences,
+    experience,
+    skills,
     hasChanges,
   ]);
 
@@ -181,30 +200,32 @@ const FounderProfileEdit = () => {
     try {
       const payload = {
         full_name: fullName,
-        industry_id: industry?.id,
+        profession_id: profession?.id,
         contact_phone: contactPhone,
         contact_email: contactEmail,
         bio: bio,
         avatar: avatarUrl,
-        experience: experiences,
+        experience: experience,
+        skill_ids: skills.map((skill) => skill.id),
       };
+      console.log(skills);
 
-      console.log(payload);
       await authenticatedRequest("/profile/me/", "put", payload);
 
-      const response: AxiosResponse<FounderType> =
-        await authenticatedRequest<FounderType>("/profile/me/", "get");
+      const response: AxiosResponse<SpecialistType> =
+        await authenticatedRequest<SpecialistType>("/profile/me/", "get");
 
-      setFounder(response.data);
-      setExperiences(response.data.experience);
+      setSpecialist(response.data);
+      setExperience(response.data.experience);
       setInitialValues({
         fullName,
         contactPhone,
         contactEmail,
         bio,
-        industry,
+        profession,
         avatarUrl,
-        experiences,
+        experience,
+        skills,
       });
 
       setHasChanges(false);
@@ -212,7 +233,6 @@ const FounderProfileEdit = () => {
       router.replace("/profile/me");
     } catch (error: any) {
       console.error("Error updating profile:", error);
-      setIsLoading(false);
       alert("Failed to update profile. Please try again.");
     }
   };
@@ -221,7 +241,7 @@ const FounderProfileEdit = () => {
     return <div>Ошибка: {error}</div>;
   }
 
-  if (!founder || isLoading) {
+  if (!specialist || isLoading) {
     return <Loading />;
   }
 
@@ -242,9 +262,9 @@ const FounderProfileEdit = () => {
           <EditGeneralInfo
             fullName={fullName}
             setFullName={setFullName}
-            label="Сфера"
-            option={industry}
-            setOption={handleIndustryChange}
+            label="Профессия"
+            option={profession}
+            setOption={handleProfessionChange}
             bio={bio}
             setBio={setBio}
             options={options}
@@ -254,16 +274,23 @@ const FounderProfileEdit = () => {
 
           <Label label="Опыт работы">
             <JobExperience
-              onExperiencesChange={setExperiences}
-              experiences={experiences}
+              onExperiencesChange={setExperience}
+              experiences={experience}
               isEdit={true}
             />
           </Label>
+          <NewSkillsList
+            onSkillsChange={(skills) => {
+              setSkills(skills);
+            }}
+            allSkills={listOfSkills}
+            initialSkills={specialist.skills}
+          />
         </div>
 
         <div className="flex flex-col gap-y-4 col-span-1">
           <ImageUploader
-            avatar={founder.avatar}
+            avatar={specialist.avatar}
             onChange={handleAvatarChange}
             defaultUrl="/default-user.png"
           />
@@ -283,4 +310,4 @@ const FounderProfileEdit = () => {
   );
 };
 
-export default FounderProfileEdit;
+export default SpecialistProfileEdit;

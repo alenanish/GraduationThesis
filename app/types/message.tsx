@@ -8,8 +8,3 @@ export interface MessageType {
   timestamp: string; 
   is_read: boolean;
 }
-
-export interface ChatItemType extends MessageType {
-  
-
-}

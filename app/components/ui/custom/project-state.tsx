@@ -8,10 +8,10 @@ import {
 } from "../../icons";
 
 type ProjectState =
-  | "expectation"
-  | "in-process"
+  | "waiting"
+  | "in_progress"
   | "launch"
-  | "results-analysis"
+  | "analysis"
   | "completed";
 
 interface ProjectStateProps {
@@ -21,7 +21,7 @@ interface ProjectStateProps {
 }
 
 const ProjectState: React.FC<ProjectStateProps> = ({
-  state = "expectation",
+  state = "waiting",
   className = "",
   size = 28,
   ...rest
@@ -31,11 +31,11 @@ const ProjectState: React.FC<ProjectStateProps> = ({
   let icon, text, color;
 
   switch (state) {
-    case "expectation":
+    case "waiting":
       icon = <Hourglass size={size} color={"var(--color-prime-500)"} />;
       text = "Ожидание";
       break;
-    case "in-process":
+    case "in_progress":
       icon = <Cached size={size} color={"var(--color-prime-500)"} />;
       text = "В процессе";
       break;
@@ -43,7 +43,7 @@ const ProjectState: React.FC<ProjectStateProps> = ({
       icon = <RocketLaunch size={size} color={"var(--color-prime-500)"} />;
       text = "Запуск";
       break;
-    case "results-analysis":
+    case "analysis ":
       icon = <BidLandscape color={"var(--color-prime-500)"} />;
       text = "Анализ результатов";
       break;

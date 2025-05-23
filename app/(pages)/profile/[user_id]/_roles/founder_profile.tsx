@@ -1,24 +1,37 @@
 "use client";
+import ContactInfo from "@/app/components/cards/show/contact_info";
 import { Edit, Gmail, Phone } from "@/app/components/icons";
-import { IconButton, JobExperience } from "@/app/components/ui";
+import { Avatar, Button, IconButton, JobExperience } from "@/app/components/ui";
+import Loading from "@/app/components/ui/custom/loading";
 import { FounderType } from "@/app/types/founder";
 import { authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
-const FounderProfile = () => {
+interface FounderProfileProps {
+  user_id: number;
+}
+
+const FounderProfile: React.FC<FounderProfileProps> = ({ user_id }) => {
   const [founder, setFounder] = useState<FounderType>();
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       setError(null);
       try {
         const response: AxiosResponse<FounderType> =
-          await authenticatedRequest<FounderType>("/profile/me/", "get");
+          await authenticatedRequest<FounderType>(
+            `/profile/${user_id}/`,
+            "get"
+          );
         setFounder(response.data);
       } catch (err: any) {
         setError(err?.message || "Ошибка при загрузке.");
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -27,6 +40,9 @@ const FounderProfile = () => {
 
   if (error) {
     return <div>Ошибка: {error}</div>;
+  }
+  if (loading) {
+    return <Loading />;
   }
 
   if (!founder) {
@@ -44,13 +60,7 @@ const FounderProfile = () => {
               {founder.industry?.name}
             </p>
           </div>
-          <div>
-            <Link href="/profile/edit" passHref>
-              <IconButton size="s" color="base" variant="tertiary">
-                {<Edit />}
-              </IconButton>
-            </Link>
-          </div>
+          <div></div>
         </div>
         <div className="bg-base-0 p-4 rounded-[8px] flex flex-col gap-y-2 ">
           <h2 className="text-h5 font-medium">Описание</h2>
@@ -66,26 +76,18 @@ const FounderProfile = () => {
       </div>
 
       <div className="flex flex-col gap-y-4 col-span-1">
-        {founder.avatar ? (
-          <img src={founder.avatar} className=" h-auto object-cover" />
-        ) : (
-          <img
-            src={"/DefaultUserProfile.png"}
-            className="  h-auto object-cover"
-          />
-        )}
+        <Avatar avatar={founder.avatar} role="user" />
 
-        <div className="bg-base-0 p-4 rounded-[8px] flex flex-col gap-y-2 ">
-          <h2 className="text-body-m font-medium">Контакты:</h2>
-          <div className="flex flex-row gap-2 items-center">
-            <Phone size={16} color="var(--color-prime-500)" />{" "}
-            {founder.contact_phone}
-          </div>
-          <div className="flex flex-row gap-2 items-center">
-            <Gmail size={16} color="var(--color-prime-500)" />{" "}
-            {founder.contact_email}
-          </div>
-        </div>
+        <Link href={`/messages/${founder.user_id}`} passHref>
+          <Button className="w-full" type="button">
+            Написать
+          </Button>
+        </Link>
+
+        <ContactInfo
+          contact_email={founder.contact_email}
+          contact_phone={founder.contact_phone}
+        />
       </div>
     </div>
   );

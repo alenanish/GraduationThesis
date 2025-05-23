@@ -11,6 +11,7 @@ interface AvatarProps {
 const Avatar: React.FC<AvatarProps> = ({ avatar, role, className = "" }) => {
   return (
     <img
+    alt="User avatar"
       src={
         avatar
           ? avatar

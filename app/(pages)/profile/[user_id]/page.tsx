@@ -6,14 +6,14 @@ import { User } from "@/app/types/user";
 import FounderProfile from "./_roles/founder_profile";
 import InvestorProfile from "./_roles/investor_profile";
 import SpecialistProfile from "./_roles/specialist_profile";
-import { use } from 'react'
- 
+import { use } from "react";
+
 export default function Page({
   params,
 }: {
-  params: Promise<{ user_id: number }>
+  params: Promise<{ user_id: number }>;
 }) {
-  const { user_id } = use(params)
+  const { user_id } = use(params);
   const [user, setUser] = useState<User>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -54,9 +54,9 @@ export default function Page({
   return (
     <div className="w-full pt-1">
       {user.role === "startup" ? (
-        <FounderProfile />
+        <FounderProfile user_id={user_id} />
       ) : user.role === "investor" ? (
-        <InvestorProfile />
+        <InvestorProfile user_id={user_id}/>
       ) : user.role === "specialist" ? (
         <SpecialistProfile user_id={user_id} />
       ) : (

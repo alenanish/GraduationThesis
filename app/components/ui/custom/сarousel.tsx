@@ -14,12 +14,14 @@ interface CarouselProps {
   items: CarouselItem[];
   showSteppers?: boolean;
   showButtons?: boolean;
+  itemWidth?: string; 
 }
 
 const Carousel: React.FC<CarouselProps> = ({
   items,
   showSteppers = true,
   showButtons = false,
+  itemWidth = "70%", 
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -45,57 +47,61 @@ const Carousel: React.FC<CarouselProps> = ({
 
   return (
     <div
-      className=" relative w-full h-fit flex items-center justify-center"
+      className="relative w-full overflow-hidden flex items-center justify-center"
       ref={carouselRef}
     >
-      {/* Previous Item */}
-      <div className="absolute scale-[0.8] translate-x-[-25%] blur-xs left-0 h-full w-1/3 shadow-none transition-all duration-300 hover:blur-[2px]">
-        <img
-          src={items[previousIndex].imageUrl}
-          alt={items[previousIndex].altText}
-          className="object-cover h-full w-full"
-          onClick={handlePrev}
-        />
-      </div>
-
-      {/* Active Item */}
-      <div
-        className="relative h-full w-fit transition-all m- duration-300"
-        style={{ zIndex: 1 }}
-      >
-        <img
-          src={items[activeIndex].imageUrl}
-          alt={items[activeIndex].altText}
-          className="object-cover h-full w-full transform"
-        />
-        {/* Stepper */}
-        {showSteppers && (
-          <div className="absolute bottom-7 left-1/2 transform -translate-x-1/2 flex space-x-2">
-            {items.map((_, index) => (
-              <button
-                key={index}
-                className={`h-2 w-8 rounded-full focus:outline-none ${
-                  index === activeIndex
-                    ? "bg-prime-500"
-                    : "bg-prime-100 hover:bg-prime-600"
-                }`}
-                onClick={() => setActiveIndex(index)}
-              />
-            ))}
+      <div className="relative w-full h-full flex items-center justify-center">
+        {/* Previous Item */}
+        <div className="absolute left-0 h-full w-1/3 transition-all duration-300 transform origin-center">
+          <div className="h-full w-full  flex justify-end"> {/* Added flex and justify-end */}
+            <img
+              src={items[previousIndex].imageUrl}
+              alt={items[previousIndex].altText}
+              className="object-cover h-full w-full blur-xs hover:blur-none cursor-pointer scale-[0.8]"
+              onClick={handlePrev}
+            />
           </div>
-        )}
-      </div>
+        </div>
 
-      {/* Next Item */}
-      <div
-        className={`absolute scale-[0.8] translate-x-[25%] blur-xs right-0 h-full w-1/3 transition-all duration-300  hover:blur-[2px]`}
-      >
-        <img
-          src={items[nextIndex].imageUrl}
-          alt={items[nextIndex].altText}
-          className="object-cover h-full w-full"
-          onClick={handleNext}
-        />
+        {/* Active Item */}
+        <div
+          className="relative h-full transition-all duration-300"
+          style={{ width: itemWidth, zIndex: 1 }}
+        >
+          <img
+            src={items[activeIndex].imageUrl}
+            alt={items[activeIndex].altText}
+            className="object-cover h-full w-full"
+          />
+          {/* Stepper */}
+          {showSteppers && (
+            <div className="absolute bottom-7 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              {items.map((_, index) => (
+                <button
+                  key={index}
+                  className={`h-2 w-8 rounded-full focus:outline-none ${
+                    index === activeIndex
+                      ? "bg-prime-500"
+                      : "bg-prime-100 hover:bg-prime-600"
+                  }`}
+                  onClick={() => setActiveIndex(index)}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        {/* Next Item */}
+        <div className="absolute right-0 h-full w-1/3 transition-all duration-300 transform origin-center">
+          <div className="h-full w-full overflow-hidden flex justify-start"> {/* Added flex and justify-start */}
+            <img
+              src={items[nextIndex].imageUrl}
+              alt={items[nextIndex].altText}
+              className="object-cover h-full w-full blur-xs hover:blur-none cursor-pointer scale-[0.8]"
+              onClick={handleNext}
+            />
+          </div>
+        </div>
       </div>
 
       {showButtons && (
@@ -105,7 +111,7 @@ const Carousel: React.FC<CarouselProps> = ({
           onClick={handlePrev}
           className="absolute top-1/2 left-2 transform -translate-y-1/2"
         >
-          <ArrowForward />
+          <ArrowBackward />
         </IconButton>
       )}
 
@@ -117,7 +123,7 @@ const Carousel: React.FC<CarouselProps> = ({
           className="absolute top-1/2 right-2 transform -translate-y-1/2"
           aria-label="Next Slide"
         >
-          <ArrowBackward />
+          <ArrowForward />
         </IconButton>
       )}
     </div>

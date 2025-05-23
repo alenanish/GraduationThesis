@@ -2,15 +2,15 @@ import React, { useState, FC, useCallback } from "react";
 import { CheckboxBlank, CheckboxMarked } from "../../icons";
 
 interface CheckboxProps {
-  label: string;
-  value: string;
+  name: string;
+  id: string;
   checked?: boolean;
   onChange?: (value: string, checked: boolean) => void;
 }
 
 const Checkbox: FC<CheckboxProps> = ({
-  label,
-  value,
+  name,
+  id,
   checked = false,
   onChange,
 }) => {
@@ -21,9 +21,9 @@ const Checkbox: FC<CheckboxProps> = ({
     const newChecked = !isChecked;
     setIsChecked(newChecked);
     if (onChange) {
-      onChange(value, newChecked);
+      onChange(id, newChecked);
     }
-  }, [isChecked, value, onChange]);
+  }, [isChecked, id, onChange]);
 
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -52,7 +52,7 @@ const Checkbox: FC<CheckboxProps> = ({
       ) : (
         <CheckboxBlank color={blankColor} />
       )}
-      <label className="text-body-s text-base-800">{label}</label>
+      <label className="text-body-s text-base-800">{name}</label>
     </div>
   );
 };

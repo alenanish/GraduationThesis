@@ -1,5 +1,4 @@
 "use client";
-
 import { Edit } from "@/app/components/icons";
 import {
   Avatar,
@@ -11,18 +10,18 @@ import {
   JobExperience,
 } from "@/app/components/ui";
 import ContactInfo from "@/app/components/cards/show/contact_info";
-import { FounderType } from "@/app/types/founder";
+import { SpecialistType } from "@/app/types/specialist";
 import { authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
 import Link from "next/link";
 import React, { useState, useEffect } from "react";
+import SkillsList from "@/app/components/cards/show/skills";
 import { Experience } from "@/app/types/experience";
-import ExperienceModal from "../_forms/experience_modal";
 import Loading from "@/app/components/ui/custom/loading";
-import SuccessNotification from "@/app/components/ui/text/success-notification";
+import ExperienceModal from "../_forms/experience_modal";
 
-const FounderProfile = () => {
-  const [founder, setFounder] = useState<FounderType | null>(null);
+const SpecialistProfile = () => {
+  const [specialist, setSpecialist] = useState<SpecialistType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -44,20 +43,21 @@ const FounderProfile = () => {
   };
 
   useEffect(() => {
-    if (founder && experiences.length > 0) {
+    if (specialist && experiences.length > 0) {
       const updateExperiences = async () => {
         try {
-          const response: AxiosResponse<FounderType> =
-            await authenticatedRequest<FounderType>("/profile/me/", "put", {
+          const response: AxiosResponse<SpecialistType> =
+            await authenticatedRequest<SpecialistType>("/profile/me/", "put", {
               experience: experiences,
             });
           if (response.status === 200) {
-            setFounder(response.data);
+            setSpecialist(response.data);
             setSuccessMessage("Опыт успешно обновлен!");
             handleCloseModal();
           }
         } catch (err: any) {
           setError(err?.message || "Ошибка при обновлении опыта.");
+          setIsLoading(false);
         } finally {
           setIsLoading(false);
         }
@@ -70,9 +70,9 @@ const FounderProfile = () => {
     const fetchData = async () => {
       setError(null);
       try {
-        const response: AxiosResponse<FounderType> =
-          await authenticatedRequest<FounderType>("/profile/me/", "get");
-        setFounder(response.data);
+        const response: AxiosResponse<SpecialistType> =
+          await authenticatedRequest<SpecialistType>("/profile/me/", "get");
+        setSpecialist(response.data);
         setExperiences(response.data.experience);
       } catch (err: any) {
         setError(err?.message || "Ошибка при загрузке.");
@@ -87,7 +87,7 @@ const FounderProfile = () => {
     return <Loading />;
   }
 
-  if (error) {
+  if (!isLoading && error) {
     return (
       <ErrorMessage
         onClose={() => {
@@ -99,7 +99,7 @@ const FounderProfile = () => {
     );
   }
 
-  if (!founder) {
+  if (!specialist) {
     return (
       <ErrorMessage
         onClose={() => {
@@ -115,18 +115,18 @@ const FounderProfile = () => {
     <div className="gap-x-4 grid grid-cols-5">
       <div className="flex flex-col gap-y-4 col-span-4">
         <Header
-          title={founder.full_name}
-          subTitle={founder.industry?.name}
+          title={specialist.full_name}
+          subTitle={specialist.profession?.name}
           button={
-            <Link href="/profile/edit">
+            <Link href="/profile/edit" passHref>
               <IconButton size="s" color="base" variant="tertiary">
-                <Edit />
+                {<Edit />}
               </IconButton>
             </Link>
           }
         />
 
-        <Bio bio={founder.bio} />
+        <Bio bio={specialist.bio} />
 
         <div className="bg-base-0 p-4 rounded-[8px] flex flex-col gap-y-2 ">
           <div className="flex flex-row justify-between items-center">
@@ -137,8 +137,9 @@ const FounderProfile = () => {
             </Button>
           </div>
 
-          <JobExperience experiences={founder.experience} isEdit={false} />
+          <JobExperience experiences={specialist.experience} isEdit={false} />
         </div>
+        <SkillsList skills={specialist.skills} className=" flex-wrap" />
       </div>
       <ExperienceModal
         isOpen={isModalOpen}
@@ -147,15 +148,15 @@ const FounderProfile = () => {
       />
 
       <div className="flex flex-col gap-y-4 col-span-1">
-        <Avatar avatar={founder.avatar} role="user" />
+        <Avatar avatar={specialist.avatar} role="user" />
 
         <ContactInfo
-          contact_email={founder.contact_email}
-          contact_phone={founder.contact_phone}
+          contact_email={specialist.contact_email}
+          contact_phone={specialist.contact_phone}
         />
       </div>
     </div>
   );
 };
 
-export default FounderProfile;
+export default SpecialistProfile;

@@ -7,7 +7,7 @@ import ProjectState from "../../ui/custom/project-state";
 
 interface InvestorExperienceProps extends InvestorExperienceType {
   isEdit: boolean;
-  onDelete?: (id: number) => void;
+  onDelete?: () => void;
 }
 
 const InvestExperienceCard: React.FC<InvestorExperienceProps> = ({
@@ -20,14 +20,6 @@ const InvestExperienceCard: React.FC<InvestorExperienceProps> = ({
   isEdit,
   onDelete,
 }) => {
-  const handleDeleteClick = () => {
-    if (onDelete && id) {
-      {
-        onDelete(id);
-      }
-    }
-  };
-
   return (
     <div
       className="w-full h-fit  p-4 
@@ -43,7 +35,7 @@ const InvestExperienceCard: React.FC<InvestorExperienceProps> = ({
             <div className="flex flex-row gap-x-2 text-body-m text-base-900">
               <p className="font-medium">{title}</p>
               <p>-</p>
-              <p>{industry.name}</p>
+              <p>{industry}</p>
             </div>
             {isEdit && (
               <div className="">
@@ -52,7 +44,7 @@ const InvestExperienceCard: React.FC<InvestorExperienceProps> = ({
                   size="s"
                   variant="tertiary"
                   color="base"
-                  onClick={handleDeleteClick}
+                  onClick={onDelete}
                 >
                   <Delete size={20} />
                 </IconButton>

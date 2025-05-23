@@ -23,7 +23,7 @@ interface InputProps
   onFocus?: FocusEventHandler<HTMLInputElement>;
   onBlur?: FocusEventHandler<HTMLInputElement>;
   onClickRightIcon?: MouseEventHandler<HTMLSpanElement>;
-  label: string;
+  label?: string;
   errorText?: string | null;
   helperText?: string;
   className?: string;
@@ -181,7 +181,7 @@ const Input: React.FC<InputProps> = ({
   };
 
   return (
-    <div className={`${size === 'm'? 'pb-4 pt-5': 'pb-4 pt-4'}  w-full  `}>
+    <div className={`${label && (size === 'm'? 'pb-4 pt-5': size === 's'? 'pb-4 pt-4' : '')}  w-full  `}>
       <div className="w-full relative ">
         {label && (
           <label htmlFor={id} className={getLabelStyles()}>

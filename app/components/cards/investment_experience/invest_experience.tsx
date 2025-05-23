@@ -3,14 +3,23 @@ import { InvestorExperienceType } from "@/app/types/investor";
 import InvestExperienceCard from "./invest_experience_card";
 
 interface InvestExperienceProps {
-  experiences?: InvestorExperienceType[] | [];
+  experiences: InvestorExperienceType[] | [];
   isEdit: boolean;
+  onExperiencesChange?: (newExperiences: InvestorExperienceType[]) => void;
 }
 
 const InvestExperience: React.FC<InvestExperienceProps> = ({
   experiences,
   isEdit = false,
+  onExperiencesChange,
 }) => {
+  const handleDelete = (index: number) => {
+    if (!onExperiencesChange) return;
+    const newExperiences = [...experiences];
+    newExperiences.splice(index, 1);
+    onExperiencesChange(newExperiences);
+  };
+
   return (
     <div>
       <div className="flex flex-col gap-y-2 ">
@@ -20,6 +29,7 @@ const InvestExperience: React.FC<InvestExperienceProps> = ({
               {experiences.map(
                 (experience: InvestorExperienceType, index: number) => (
                   <InvestExperienceCard
+                    onDelete={() => handleDelete(index)}
                     isEdit={isEdit}
                     key={index}
                     {...experience}
@@ -30,7 +40,9 @@ const InvestExperience: React.FC<InvestExperienceProps> = ({
           </div>
         ) : (
           !isEdit && (
-            <p className=" text-body-s italic text-base-400">Опыт не указан.</p>
+            <p className=" text-body-s italic text-base-400">
+              Предыдущие инвестициине указаны.
+            </p>
           )
         )}
       </div>
