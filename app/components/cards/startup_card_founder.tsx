@@ -2,11 +2,11 @@
 import React from "react";
 import { Avatar, Button, IconButton, ProjectState } from "@/app/components/ui";
 import Link from "next/link";
-import {  Delete } from "../icons";
-import { StartupFounderType } from "../../types/startup";
+import { Delete } from "../icons";
+import { StartupCardType } from "../../types/startup";
 
 interface StartupProps {
-  startup: StartupFounderType;
+  startup: StartupCardType;
 }
 
 const StartupCardFounder: React.FC<StartupProps> = ({ startup }) => {
@@ -22,10 +22,6 @@ const StartupCardFounder: React.FC<StartupProps> = ({ startup }) => {
         <Link key={startup.id} href={`/startups/${startup.id}`}>
           <div className="flex flex-row gap-x-4 items-center ">
             <h2 className="text-h4 text-base-900">{startup.title}</h2>
-            <h2 className="text-h4 text-base-900">-</h2>
-            <p className="text-base-700 text-body-s font-medium ">
-              {startup.industry && startup.industry.name}
-            </p>
           </div>
         </Link>
         <div className=" flex-grow ">
@@ -47,7 +43,7 @@ const StartupCardFounder: React.FC<StartupProps> = ({ startup }) => {
           <Button className="mt-2">Редактировать</Button>
         </Link>
       </div>
-      <IconButton type="button" variant="tertiary" color='base' size="s">
+      <IconButton type="button" variant="tertiary" color="base" size="s">
         <Delete />
       </IconButton>
     </div>

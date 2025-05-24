@@ -14,7 +14,7 @@ const ContactInfo: React.FC<ContactInfoProps> = ({
   contact_phone,
 }) => {
   return (
-    <Label label="Контакты">
+    <Label label="Контакты" >
       <div className="flex flex-row gap-2 items-center">
         <Phone size={16} color="var(--color-prime-500)" /> {contact_phone}
       </div>

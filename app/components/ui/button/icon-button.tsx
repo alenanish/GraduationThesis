@@ -8,7 +8,7 @@ interface IconButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: IconButtonType;
   size?: IconButtonSize;
   state?: IconButtonState;
-  color?: "prime" | "base" | "red";
+  color?: "prime" | "base" | "red" | "green" | "light-grey";
   children?: ReactNode;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   disabled?: boolean;
@@ -34,13 +34,19 @@ const IconButton: React.FC<IconButtonProps> = ({
           return `bg-base-500 
                 text-base-0 
                 hover:bg-base-800 
-                focus:bg-base-900 
+                active:bg-base-900 
                 disabled:bg-base-100`;
+        } else if (color === "light-grey") {
+          return `bg-base-300 
+              text-base-0 
+              hover:bg-base-400 
+              focus:bg-base-500 
+              disabled:bg-base-100`;
         } else {
           return `bg-prime-500 
               text-base-0 
               hover:bg-prime-600 
-              focus:bg-prime-700 
+              active:bg-prime-700 
               disabled:bg-base-100`;
         }
       case "secondary":
@@ -50,8 +56,8 @@ const IconButton: React.FC<IconButtonProps> = ({
               border-base-500
               hover:text-base-800
               hover:border-base-800
-              focus:border-base-900
-              focus:text-base-900
+              active:border-base-900
+              active:text-base-900
               disabled:border-base-100
               disabled:text-base-100 `;
         } else {
@@ -60,8 +66,8 @@ const IconButton: React.FC<IconButtonProps> = ({
               border-prime-500
               hover:text-prime-600
               hover:border-prime-600
-              focus:border-prime-700
-              focus:text-prime-700
+              active:border-prime-700
+              active:text-prime-700
               disabled:border-base-100
               disabled:text-base-100 `;
         }
@@ -70,23 +76,31 @@ const IconButton: React.FC<IconButtonProps> = ({
           return `text-base-500 
             hover:text-base-800
             hover:bg-base-50 
-            focus:bg-base-100
-            focus:text-base-700
+            active:bg-base-100
+            active:text-base-700
             disabled:text-base-100`;
         } else if (color === "red") {
           return `text-red-500 
                 hover:text-red-600
                 hover:bg-red-100 
-                focus:bg-red-200
-                focus:text-red-700
+                active:bg-red-200
+                active:text-red-700
+                disabled:text-base-100
+                disabled:bg-transparent`;
+        } else if (color === "green") {
+          return `text-green-500 
+                hover:text-green-600
+                hover:bg-green-100 
+                active:bg-green-200
+                active:text-green-700
                 disabled:text-base-100
                 disabled:bg-transparent`;
         } else {
           return `text-prime-500 
             hover:text-prime-600
             hover:bg-prime-100 
-            focus:bg-prime-200
-            focus:text-prime-700
+            active:bg-prime-200
+            active:text-prime-700
             disabled:text-base-100
             disabled:hover:bg-transparent `;
         }
@@ -94,7 +108,7 @@ const IconButton: React.FC<IconButtonProps> = ({
         return `bg-prime-500 
               text-base-0 
               hover:bg-prime-600 
-              focus:bg-prime-700 
+              active:bg-prime-700 
               disabled:bg-base-100`;
     }
   };

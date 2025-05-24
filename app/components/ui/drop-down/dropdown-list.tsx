@@ -1,25 +1,24 @@
 "use client";
-import React, { useState, useRef, useEffect, FocusEventHandler } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { ArrowDown, ArrowUp } from "../../icons";
 
 interface DropdownOption {
-  id: number;
+  id: string | number;
   name: string;
 }
 
 interface DropdownProps {
   id: string;
-  label: string;
+  label?: string;
   options: DropdownOption[];
   onChange: (option: DropdownOption) => void;
-  value?: number;
+  value?: number | string;
   placeholder?: string;
   border?: boolean;
   disabled?: boolean;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
-  id,
   label,
   options,
   onChange,
@@ -68,7 +67,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, []);
 
   return (
-    <div className="w-full relative inline-block text-left" ref={dropdownRef}>
+    <div className="w-full min-w-56 relative inline-block text-left " ref={dropdownRef}>
       <div>
         <label
           className={`${isOpen ? "text-prime-500" : "text-base-400"} 
@@ -94,14 +93,16 @@ const Dropdown: React.FC<DropdownProps> = ({
           } 
          
           transition-all  duration-150 inline-flex justify-between items-center w-full rounded-[32px] h-11 
-          px-4 py-3 bg-base-0 text-body-m focus-within:border-prime-500 focus-within:bg-base-0 hover:border-prime-200 hover:bg-prime-100`}
+          px-4 py-3 bg-base-0 text-body-s focus-within:border-prime-500 focus-within:bg-base-0 hover:border-prime-200 hover:bg-prime-100`}
           id="menu-button"
           aria-expanded={isOpen}
           aria-haspopup="true"
           onClick={toggleDropdown}
         >
-          <p className="truncate">{selectedOption ? selectedOption.name : placeholder}</p>
-          
+          <p className="truncate">
+            {selectedOption ? selectedOption.name : placeholder}
+          </p>
+
           {isOpen ? (
             <ArrowUp size={20} color="var(--color-base-500)" />
           ) : (
@@ -118,12 +119,12 @@ const Dropdown: React.FC<DropdownProps> = ({
       <div
         className={`${
           isOpen ? "block" : "hidden"
-        } absolute left-0 mt-2 w-full rounded-[8px] bg-base-0  active:outline-none`}
+        } absolute overflow-visible left-0 mt-1 w-full z-40 rounded-[8px] bg-base-0 active:outline-none`}
         role="menu"
         aria-orientation="vertical"
         aria-labelledby="menu-button"
       >
-        <div className="py-1 max-h-[260px] overflow-auto" role="none">
+        <div className=" py-1 max-h-[180px] overflow-auto" role="none">
           {options.map((option) => (
             <button
               key={option.id}

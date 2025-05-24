@@ -10,7 +10,6 @@ interface ExperienceCardProps extends Experience {
 }
 
 const ExperienceCard: React.FC<ExperienceCardProps> = ({
-  id,
   organization,
   position,
   start_date,

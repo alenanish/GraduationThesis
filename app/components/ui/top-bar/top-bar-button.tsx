@@ -1,7 +1,7 @@
 "use client";
 import React, { ButtonHTMLAttributes, MouseEvent, ReactNode } from "react";
 
-type ButtonSize = "s" | "m";
+type ButtonSize = "xs" | "s" | "m";
 type ButtonState = "enabled" | "disabled";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
@@ -11,15 +11,17 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children?: ReactNode;
   onClick?: (event: MouseEvent<HTMLButtonElement>) => void;
   className?: string;
+  isActive?: boolean;
 }
 
 const TopBarButton: React.FC<ButtonProps> = ({
-  size = "s",
+  size = "s" ,
   color = "prime",
   children,
   onClick,
   disabled,
   className = "",
+  isActive = false,
   ...rest
 }) => {
   const baseStyles =
@@ -45,9 +47,17 @@ const TopBarButton: React.FC<ButtonProps> = ({
     }
   };
 
+  const activeButtonStyle = () => {
+    if (isActive) {
+      return `bg-prime-100 text-prime-600 `;
+    } 
+  };
+
 
   const sizeStyles = () => {
     switch (size) {
+      case "xs":
+        return "h-8 text-caption px-4 py-2 ";
       case "s":
         return "h-10 text-body-s px-4 py-2 ";
       case "m":
@@ -68,6 +78,7 @@ const TopBarButton: React.FC<ButtonProps> = ({
     colorStyles(),
     sizeStyles(),
     stateStyles(),
+    activeButtonStyle(),
     className,
   ].join(" ");
 

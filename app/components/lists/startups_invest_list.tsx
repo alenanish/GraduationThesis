@@ -15,7 +15,7 @@ const StartupsInvestList: React.FC<StartupsListProps> = ({
 }) => {
   return (
     <>
-      {startups.length > 0 ? (
+      {startups && startups.length > 0 ? (
         <ul className="flex flex-col gap-5">
           {startups.map((startup: StartupForInvestmentsCardType) => (
             <StartupInvestCard key={startup.id} {...startup} />

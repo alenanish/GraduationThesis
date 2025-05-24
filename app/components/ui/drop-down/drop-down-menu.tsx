@@ -35,7 +35,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
     setIsOpen(!isOpen);
   };
 
-  const handleOptionClick = (label: string) => {
+  const handleOptionClick = () => {
     setIsOpen(false);
   };
 
@@ -86,7 +86,10 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
   }, [dropdownRef]);
 
   return (
-    <div className="relative inline-block text-left whitespace-pre-wrap " ref={dropdownRef}>
+    <div
+      className="relative inline-block text-left whitespace-pre-wrap "
+      ref={dropdownRef}
+    >
       <div>
         <IconButton
           variant={variant}
@@ -108,7 +111,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
                     size={size}
                     color={option.color ? option.color : "prime"}
                     className="w-full"
-                    onClick={() => handleOptionClick(option.label)}
+                    onClick={() => handleOptionClick()}
                   >
                     {option.label}
                   </MenuButton>
@@ -119,7 +122,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
                   key={index}
                   color={option.color ? option.color : "prime"}
                   className="w-full"
-                  onClick={() => handleOptionClick(option.label)}
+                  onClick={() => handleOptionClick()}
                 >
                   {option.label}
                 </MenuButton>

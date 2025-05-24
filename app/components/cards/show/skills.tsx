@@ -16,9 +16,9 @@ const SkillsList: React.FC<SkillsProps> = ({
   
 }) => {
   return (
-    <div className="flex flex-row gap-x-4 items-center mt-2">
+    <div className="flex flex-row gap-x-2 items-center">
       <h3 className="text-body-m text-base-900 ">Навыки:</h3>
-      <ul className={`${className} flex gap-2`}>
+      <ul className={`${className} flex gap-2 flex-wrap`}>
         {skills && skills.map((skill) => (
           <Link
             id={skill.name}

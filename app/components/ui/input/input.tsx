@@ -11,7 +11,7 @@ import React, {
 interface InputProps
   extends Omit<InputHTMLAttributes<HTMLInputElement>, "size" | "onChange"> {
   id: string;
-  name: string;
+  name?: string;
   state?: "enabled" | "disabled" | "error";
   size?: "s" | "m";
   isIconActive?: boolean;

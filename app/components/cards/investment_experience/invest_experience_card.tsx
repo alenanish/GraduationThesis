@@ -11,7 +11,6 @@ interface InvestorExperienceProps extends InvestorExperienceType {
 }
 
 const InvestExperienceCard: React.FC<InvestorExperienceProps> = ({
-  id,
   title,
   industry,
   stage,

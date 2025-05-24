@@ -8,7 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: ButtonType;
   size?: ButtonSize;
   state?: ButtonState;
-  color?: "prime" | "base" | "light-grey";
+  color?: "prime" | "base" | "light-grey" | "red";
   icon?: ReactNode;
   iconPosition?: "left" | "right";
   children?: ReactNode;
@@ -19,40 +19,43 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button: React.FC<ButtonProps> = ({
   variant = "primary",
   size = "m",
-  color = 'prime',
+  color = "prime",
   children,
   onClick,
   disabled,
+  icon,
+  iconPosition,
   className = "",
   ...rest
 }) => {
-  const baseStyles = " text-nowrap font-medium flex flex-row items-center justify-center gap-2 rounded-[32px] content-center ";
+  const baseStyles =
+    " text-nowrap font-medium flex flex-row items-center justify-center gap-2 rounded-[32px] content-center ";
 
   const variantStyles = () => {
     switch (variant) {
       case "primary":
-        if (color === 'base'){
+        if (color === "base") {
           return `bg-base-500 
             text-base-0 
             hover:bg-base-600 
             focus:bg-base-700 
             disabled:bg-base-100`;
-          } else if (color === 'light-grey'){
-            return `bg-base-300 
+        } else if (color === "light-grey") {
+          return `bg-base-300 
               text-base-0 
               hover:bg-base-400 
               focus:bg-base-500 
               disabled:bg-base-100`;
-            } else {
-            return `bg-prime-500 
+        } else {
+          return `bg-prime-500 
             text-base-0 
             hover:bg-prime-600 
             focus:bg-prime-700 
             disabled:bg-base-100`;
-          }
+        }
       case "secondary":
-         if (color === 'base') {
-            return `text-base-500
+        if (color === "base") {
+          return `text-base-500
             border-2
             border-base-500
             hover:text-base-800
@@ -61,8 +64,8 @@ const Button: React.FC<ButtonProps> = ({
             focus:text-base-900
             disabled:border-base-100
             disabled:text-base-100 `;
-          } else {
-            return `text-prime-400
+        } else {
+          return `text-prime-400
             border-2
             border-prime-400
             hover:text-prime-600
@@ -71,17 +74,24 @@ const Button: React.FC<ButtonProps> = ({
             focus:text-prime-700
             disabled:border-base-100
             disabled:text-base-100 `;
-          }
+        }
       case "tertiary":
-        if (color === 'base') {
+        if (color === "base") {
           return `text-base-700 
           hover:text-base-800
           hover:bg-base-50 
           focus:bg-base-100
           focus:text-base-900
           disabled:text-base-100`;
+        } else if (color === "red") {
+          return `text-red-500 
+                hover:text-red-600
+                hover:bg-red-100 
+                active:bg-red-200
+                active:text-red-700
+                disabled:text-base-100
+                disabled:bg-transparent`;
         } else {
-          
           return `text-prime-500 
           hover:text-prime-600
           hover:bg-prime-100 
@@ -132,7 +142,9 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       className={buttonClasses}
     >
+      {icon != undefined && iconPosition === "left" && icon}
       {children}
+      {icon != undefined && iconPosition === "right" && icon}
     </button>
   );
 };
