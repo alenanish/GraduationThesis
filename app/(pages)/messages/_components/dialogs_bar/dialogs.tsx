@@ -3,7 +3,6 @@ import { MessageType } from "@/app/types/message";
 import { useEffect, useState } from "react";
 import { authenticatedRequest } from "@/app/utils/api";
 import DialogItem from "./dialog_item";
-import Loading from "@/app/components/ui/custom/loading";
 import { ErrorMessage } from "@/app/components/ui";
 
 async function fetchDialogs(): Promise<MessageType[]> {
@@ -21,11 +20,9 @@ function Dialogs() {
   const [dialogs, setDialogs] = useState<MessageType[]>([]);
 
   const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const loadDialogs = async () => {
-      setIsLoading(true);
       try {
         const data = await fetchDialogs();
         setDialogs(data);
@@ -34,17 +31,11 @@ function Dialogs() {
       } catch (err: any) {
         console.error("Error fetching dialogs:", err);
         setError(err?.message || "Ошибка при загрузке.");
-      } finally {
-        setIsLoading(false);
       }
     };
 
     loadDialogs();
   }, []);
-
-  if (isLoading) {
-    return <Loading />;
-  }
 
   if (error) {
     return (
