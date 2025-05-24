@@ -2,6 +2,7 @@
 layer(base);
 @import "tailwindcss";
 
+
 @theme {
   --font-inter: Inter, sans-serif;
 
@@ -127,4 +128,22 @@ h1,
 h2,
 h3 {
   color: var(--color-base-900);
+}
+
+*::-webkit-scrollbar { 
+  width: 8px; 
+  height: 8px;              
+}
+*::-webkit-scrollbar-track {
+  background: transparent;       
+}
+*::-webkit-scrollbar-thumb {
+  background-color: var(--color-prime-200);   
+  border-radius: 100px;      
+ 
+}
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-prime-300);   
+  border-radius: 100px;      
+ 
 }

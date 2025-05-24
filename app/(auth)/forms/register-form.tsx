@@ -132,9 +132,8 @@ const RegisterForm = () => {
         handlePrevStep();
       } else {
         setShowError(true);
+        setIsLoading(false);
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 

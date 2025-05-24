@@ -1,8 +1,7 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import Logo from "@/app/components/assets/images/logo";
 import { DropDownMenu, TopBarButton } from "@/app/components/ui";
 import { Menu } from "@/app/components/icons";
@@ -37,7 +36,7 @@ const TopBar = () => {
           </Link>
           {menuItems.map((item) => (
             <Link key={item.label} href={item.href} passHref>
-              <TopBarButton  color="prime" size="s">
+              <TopBarButton color="prime" size="s">
                 {item.label}
               </TopBarButton>
             </Link>

@@ -66,9 +66,8 @@ const LoginForm = () => {
         setEmailError(error.response.data.non_field_errors[0]);
       } else {
         setShowError(true);
+        setIsLoading(false);
       }
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -134,6 +133,7 @@ const LoginForm = () => {
             }}
           />
           <div className="flex flex-col gap-y-2 ">
+            {/*
             <div className="place-items-end">
               <Button
                 className="w-fit"
@@ -144,6 +144,7 @@ const LoginForm = () => {
                 Забыли пароль?
               </Button>
             </div>
+            */}
 
             <Button type="submit" disabled={isLoading}>
               Войти

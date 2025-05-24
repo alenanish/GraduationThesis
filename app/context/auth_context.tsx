@@ -1,4 +1,5 @@
 "use client";
+
 import React, {
   createContext,
   useState,
@@ -34,52 +35,51 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const router = useRouter();
 
-  const storeToken = useCallback((token: string) => {
-    try {
-      sessionStorage.setItem("auth_token", token);
-    } catch (error) {
-      console.error("Error storing token in sessionStorage:", error);
-    }
-  }, []);
+  const isBrowser = typeof window !== "undefined";
+
+  const storeToken = useCallback(
+    (token: string) => {
+      if (isBrowser) {
+        try {
+          sessionStorage.setItem("auth_token", token);
+        } catch (error) {
+          console.error("Error storing token in sessionStorage:", error);
+        }
+      }
+    },
+    [isBrowser]
+  );
 
   const retrieveToken = useCallback(() => {
-    try {
-      return sessionStorage.getItem("auth_token");
-    } catch (error) {
-      console.error("Error retrieving token from sessionStorage:", error);
-      return null;
+    if (isBrowser) {
+      try {
+        return sessionStorage.getItem("auth_token");
+      } catch (error) {
+        console.error("Error retrieving token from sessionStorage:", error);
+        return null;
+      }
     }
-  }, []);
+    return null;
+  }, [isBrowser]);
 
-  const logout = useCallback(() => {
+  const logout = useCallback(async () => {
     const auth_token = retrieveToken();
 
-    const logoutRequest = async () => {
-      try {
-        if (auth_token) {
-          await api.post("/auth/token/logout/", `Token ${auth_token}`, {
-            headers: { Authorization: `Token ${auth_token}` }, 
-          });
+    try {
+      if (auth_token) {
+        await api.post("/auth/token/logout/", `Token ${auth_token}`, {
+          headers: { Authorization: `Token ${auth_token}` },
+        });
+        if (isBrowser) {
+          sessionStorage.removeItem("auth_token");
         }
-      } catch (error) {
-        console.error("Error logging out:", error);
+        setUser(null);
+        router.replace("/login");
       }
-    };
-
-    logoutRequest();
-
-    sessionStorage.removeItem("auth_token");
-    setUser(null);
-    router.push("/login");
-  }, [router, retrieveToken]);
-  useEffect(() => {
-    const storedToken = retrieveToken();
-    if (storedToken) {
-      getUserData();
-    } else {
-      setIsLoading(false);
+    } catch (error) {
+      console.error("Error logging out:", error);
     }
-  }, [retrieveToken]);
+  }, [router, isBrowser]);
 
   const getUserData = useCallback(async () => {
     setIsLoading(true);
@@ -110,8 +110,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         const response = await api.post<{ auth_token: string }>(
           "/auth/token/login/",
           {
-            password: password,
-            email: email,
+            email,
+            password,
           }
         );
         if (response.data && response.data.auth_token) {
@@ -136,7 +136,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       try {
         await getToken(email, password);
-        router.push("/home");
+        router.replace("/home");
       } finally {
         setIsLoading(false);
       }
@@ -149,7 +149,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       try {
         await getToken(email, password);
-        router.push("/profile/me");
+        router.replace("/profile/edit");
       } finally {
         setIsLoading(false);
       }
@@ -159,17 +159,26 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
   const isAuthenticated = !!retrieveToken();
 
-  const value = {
-    user,
-    login,
-    logout,
-    isLoading,
-    register,
-    isAuthenticated,
-  };
+  useEffect(() => {
+    const storedToken = retrieveToken();
+    if (storedToken) {
+      getUserData();
+    } else {
+      setIsLoading(false);
+    }
+  }, [retrieveToken, getUserData]);
 
   return (
-    <AuthContext.Provider value={value}>
+    <AuthContext.Provider
+      value={{
+        user,
+        isLoading,
+        login,
+        logout,
+        register,
+        isAuthenticated,
+      }}
+    >
       {isLoading ? <Loading /> : children}
     </AuthContext.Provider>
   );
