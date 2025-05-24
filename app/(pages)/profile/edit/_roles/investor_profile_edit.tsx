@@ -139,7 +139,7 @@ const InvestorProfileEdit = () => {
       investment_max !== initialValues.investment_max ||
       investment_min !== initialValues.investment_min ||
       JSON.stringify(experiences) !== JSON.stringify(initialValues.experience);
-    setHasChanges(changed );
+    setHasChanges(changed);
   }, [
     fullName,
     contactPhone,

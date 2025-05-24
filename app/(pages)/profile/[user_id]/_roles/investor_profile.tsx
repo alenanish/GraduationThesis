@@ -15,7 +15,6 @@ import {
   Label,
 } from "@/app/components/ui";
 import ContactInfo from "@/app/components/cards/show/contact_info";
-import SkillsList from "@/app/components/cards/show/skills";
 import InvestExperience from "@/app/components/cards/investment_experience/invest_experience";
 
 interface InvestorProfileProps {

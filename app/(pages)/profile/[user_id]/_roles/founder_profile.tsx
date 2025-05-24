@@ -1,7 +1,6 @@
 "use client";
 import ContactInfo from "@/app/components/cards/show/contact_info";
-import { Edit, Gmail, Phone } from "@/app/components/icons";
-import { Avatar, Button, IconButton, JobExperience } from "@/app/components/ui";
+import { Avatar, Button, JobExperience } from "@/app/components/ui";
 import Loading from "@/app/components/ui/custom/loading";
 import { FounderType } from "@/app/types/founder";
 import { authenticatedRequest } from "@/app/utils/api";
@@ -60,7 +59,6 @@ const FounderProfile: React.FC<FounderProfileProps> = ({ user_id }) => {
               {founder.industry?.name}
             </p>
           </div>
-          <div></div>
         </div>
         <div className="bg-base-0 p-4 rounded-[8px] flex flex-col gap-y-2 ">
           <h2 className="text-h5 font-medium">Описание</h2>

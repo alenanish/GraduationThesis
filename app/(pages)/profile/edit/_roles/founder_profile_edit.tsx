@@ -189,7 +189,7 @@ const FounderProfileEdit = () => {
         experience: experiences,
       };
 
-      console.log(payload);
+     
       await authenticatedRequest("/profile/me/", "put", payload);
 
       const response: AxiosResponse<FounderType> =

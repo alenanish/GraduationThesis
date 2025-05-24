@@ -2,12 +2,7 @@
 import React, { useEffect, useState } from "react";
 
 import Modal from "@/app/components/ui/custom/modal";
-import {
-  Button,
-  Input,
-  RadioGroup,
-  TextArea,
-} from "@/app/components/ui";
+import { Button, Input, RadioGroup, TextArea } from "@/app/components/ui";
 import { InvestorExperienceType } from "@/app/types/investor";
 
 interface InvestExperienceModalProps {
@@ -16,6 +11,14 @@ interface InvestExperienceModalProps {
   modalTitle?: string;
   saveChanges: (experience: InvestorExperienceType) => void;
 }
+
+const stages = [
+  { label: "Ожидание", value: "waiting" },
+  { label: "В процессе", value: "in_progress" },
+  { label: "Запуск", value: "launch" },
+  { label: "Анализ результатов", value: "analysis" },
+  { label: "Завершен", value: "completed" },
+];
 
 const InvestExperienceModal: React.FC<InvestExperienceModalProps> = ({
   isOpen,
@@ -31,13 +34,6 @@ const InvestExperienceModal: React.FC<InvestExperienceModalProps> = ({
 
   const [error, setError] = useState<string | null>(null);
 
-  const stages = [
-    { label: "Ожидание", value: "waiting" },
-    { label: "В процессе", value: "in_progress" },
-    { label: "Запуск", value: "launch" },
-    { label: "Анализ результатов", value: "analysis" },
-    { label: "Завершен", value: "completed" },
-  ];
   const isFilled =
     industry != null && stage != "" && title != "" && description != "";
 
@@ -109,14 +105,14 @@ const InvestExperienceModal: React.FC<InvestExperienceModalProps> = ({
               />
             </div>
           </div>
-          <div className='flex flex-col w-1/3'>
-          <h3>Стадия</h3>
-          <RadioGroup
-            options={stages}
-            onChange={setStage}
-            value={stage}
-            className="space-y-2 w-fit"
-          />
+          <div className="flex flex-col w-1/3">
+            <h3>Стадия</h3>
+            <RadioGroup
+              options={stages}
+              onChange={setStage}
+              value={stage}
+              className="space-y-2 w-fit"
+            />
           </div>
         </div>
 

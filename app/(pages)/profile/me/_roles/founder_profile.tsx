@@ -19,7 +19,6 @@ import React, { useState, useEffect } from "react";
 import { Experience } from "@/app/types/experience";
 import ExperienceModal from "../_forms/experience_modal";
 import Loading from "@/app/components/ui/custom/loading";
-import SuccessNotification from "@/app/components/ui/text/success-notification";
 
 const FounderProfile = () => {
   const [founder, setFounder] = useState<FounderType | null>(null);

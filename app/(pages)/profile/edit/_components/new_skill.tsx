@@ -1,6 +1,6 @@
 "use client";
 
-import { Add, Cancel, Close, Plus } from "@/app/components/icons";
+import { Add, Close } from "@/app/components/icons";
 import { Button, IconButton, Input } from "@/app/components/ui";
 import { Skill } from "@/app/types/skill";
 import React, { useState, useEffect } from "react";
@@ -93,7 +93,7 @@ const NewSkillsList: React.FC<NewSkillsListProps> = ({
                     placeholder="Искать навык"
                   />
 
-                  <div className="max-h-[150px] py-1 overflow-auto rounded-[8px] bg-base-0 mt-1">
+                  <div className=" max-h-[150px] py-1 overflow-auto rounded-[8px] bg-base-0 mt-1">
                     {filteredSkills && filteredSkills.length > 0 ? (
                       filteredSkills.map((skill) => (
                         <button

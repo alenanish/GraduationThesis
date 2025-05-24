@@ -78,7 +78,6 @@ const SpecialistProfileEdit = () => {
   useEffect(() => {
     const fetchData = async () => {
       setError(null);
-
       try {
         const list_professions: AxiosResponse<Profession[]> = await api.get<
           Profession[]
@@ -86,7 +85,6 @@ const SpecialistProfileEdit = () => {
         if (list_professions.data) {
           setOptions(list_professions.data || []);
         }
-
         const list_skills: AxiosResponse<Skill[]> = await api.get<Skill[]>(
           "/skills/"
         );
