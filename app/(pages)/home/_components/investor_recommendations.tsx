@@ -1,8 +1,9 @@
-"use client"
-import React, { useState, useEffect } from 'react';
-import { authenticatedRequest } from '@/app/utils/api';
-import { StartupForInvestmentsCardType } from '@/app/types/startup';
-import { StartupCardInvestor } from '@/app/components/ui';
+"use client";
+import React, { useState, useEffect } from "react";
+import { authenticatedRequest } from "@/app/utils/api";
+import { StartupForInvestmentsCardType } from "@/app/types/startup";
+import { StartupCardInvestor } from "@/app/components/ui";
+import Loading from "@/app/components/ui/custom/loading";
 
 const InvestorRecommendations = () => {
   const [startups, setStartups] = useState<StartupForInvestmentsCardType[]>([]);
@@ -14,11 +15,13 @@ const InvestorRecommendations = () => {
       setLoading(true);
       setError(null);
       try {
-        const response = await authenticatedRequest<StartupForInvestmentsCardType[]>('/search/for_investments/', 'get');
+        const response = await authenticatedRequest<
+          StartupForInvestmentsCardType[]
+        >("/startups/recommendations/", "get");
         setStartups(response.data);
-        setLoading(false);
       } catch (err: any) {
-        setError(err.message || 'Ошибка при загрузке стартапов.');
+        setError(err.message || "Ошибка при загрузке стартапов.");
+      } finally {
         setLoading(false);
       }
     };
@@ -27,7 +30,7 @@ const InvestorRecommendations = () => {
   }, []);
 
   if (loading) {
-    return <div>Загрузка стартапов...</div>;
+    return <Loading />;
   }
 
   if (error) {
@@ -35,8 +38,7 @@ const InvestorRecommendations = () => {
   }
 
   return (
-    <div>
-      <h2>Рекомендованные стартапы:</h2>
+    <>
       {startups.length > 0 ? (
         <ul>
           {startups.map((startup) => (
@@ -44,9 +46,11 @@ const InvestorRecommendations = () => {
           ))}
         </ul>
       ) : (
-        <div>Нет рекомендованных стартапов.</div>
+        <p className=" text-body-s italic text-base-400">
+          Пока нет рекомендаций
+        </p>
       )}
-    </div>
+    </>
   );
 };
 

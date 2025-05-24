@@ -1,5 +1,6 @@
 "use client";
 import SpecialistsList from "@/app/components/lists/specialists_list";
+import Loading from "@/app/components/ui/custom/loading";
 import { SpecialistCardType } from "@/app/types/specialist";
 import { authenticatedRequest } from "@/app/utils/api";
 import React, { useState, useEffect } from "react";
@@ -11,7 +12,6 @@ const FounderRecommendations = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       setError(null);
       try {
         const response = await authenticatedRequest<SpecialistCardType[]>(
@@ -19,10 +19,9 @@ const FounderRecommendations = () => {
           "get"
         );
         setSpecialists(response.data);
-        console.log(response.data);
-        setLoading(false);
       } catch (err: any) {
         setError(err?.message || "Ошибка при загрузке специалистов.");
+      } finally {
         setLoading(false);
       }
     };
@@ -31,7 +30,7 @@ const FounderRecommendations = () => {
   }, []);
 
   if (loading) {
-    return <div>Загрузка специалистов...</div>;
+    return <Loading />;
   }
 
   if (error) {

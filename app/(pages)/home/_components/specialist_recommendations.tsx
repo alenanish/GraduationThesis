@@ -1,27 +1,27 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import StartupCard from "@/app/components/ui/card/startup_card_specialist";
+import StartupCard from "@/app/components/cards/startup_card_specialist";
 import { authenticatedRequest } from "@/app/utils/api";
-import { StartupCardType } from "@/app/types/startup";
+import { StartupSpecCardType } from "@/app/types/startup";
+import Loading from "@/app/components/ui/custom/loading";
 
 const SpecialistRecommendations = () => {
-  const [startups, setStartups] = useState<StartupCardType[]>([]);
+  const [startups, setStartups] = useState<StartupSpecCardType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       setError(null);
       try {
-        const response = await authenticatedRequest<StartupCardType[]>(
-          "/search/startups/",
+        const response = await authenticatedRequest<StartupSpecCardType[]>(
+          "/startups/recommendations/",
           "get"
         );
         setStartups(response.data);
-        setLoading(false);
       } catch (err: any) {
         setError(err.message || "Ошибка при загрузке стартапов.");
+      } finally {
         setLoading(false);
       }
     };
@@ -30,7 +30,7 @@ const SpecialistRecommendations = () => {
   }, []);
 
   if (loading) {
-    return <div>Загрузка стартапов...</div>;
+    return <Loading />;
   }
 
   if (error) {
@@ -38,18 +38,19 @@ const SpecialistRecommendations = () => {
   }
 
   return (
-    <div>
-      <h2>Рекомендованные стартапы:</h2>
+    <>
       {startups.length > 0 ? (
-        <ul>
+        <ul className="">
           {startups.map((startup) => (
             <StartupCard key={startup.id} {...startup} />
           ))}
         </ul>
       ) : (
-        <div>Нет рекомендованных стартапов.</div>
+        <p className=" text-body-s italic text-base-400">
+          Пока нет рекомендаций
+        </p>
       )}
-    </div>
+    </>
   );
 };
 

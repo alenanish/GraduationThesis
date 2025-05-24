@@ -1,11 +1,12 @@
 "use client";
 import Recommendations from "@/app/(pages)/home/_components/recommendations";
-import Carousel from "@/app/components/ui/сarousel";
+import { Label } from "@/app/components/ui";
+import Carousel from "@/app/components/ui/custom/сarousel";
 import React from "react";
 
 const HomePage = () => {
   return (
-    <div className="flex flex-col gap-y-4 my-4">
+    <div className=" flex flex-col gap-y-4 ">
       <Carousel
         items={[
           {
@@ -30,12 +31,12 @@ const HomePage = () => {
             description: "Description 3",
           },
         ]}
+        itemWidth="60%"
       />
 
-      <div className="mx-4 bg-base-0  rounded-[14px] p-4 flex flex-col gap-y-5">
-        <h2 className="text-base-900 text-h4 font-medium">Рекомендации</h2>
+      <Label label="Рекомендации" size="l">
         <Recommendations />
-      </div>
+      </Label>
     </div>
   );
 };
