@@ -3,7 +3,6 @@ import React from "react";
 import { Avatar, Button, ProjectState } from "@/app/components/ui";
 import Link from "next/link";
 import { StartupSpecCardType } from "../../types/startup";
-import FavoriteButton from "../ui/button/favorite_button";
 
 const InvitationCard: React.FC<StartupSpecCardType> = ({
   id,
@@ -34,6 +33,10 @@ const InvitationCard: React.FC<StartupSpecCardType> = ({
           <p className="text-base-500 text-h5 overflow-hidden truncate">
             {description}
           </p>
+        </div>
+        <div className="flex flex-row gap-x-2 w-1/2"> 
+          <Button size='m' className="w-full">Принять</Button>
+          <Button color="base" className="w-full">Отклонить</Button>
         </div>
       </div>
     </div>

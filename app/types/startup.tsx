@@ -20,6 +20,7 @@ interface StartupType {
 
 interface StartupSpecCardType extends StartupType {
   required_specialists?: RequiredSpecialist[] | [];
+  role: string;
 }
 
 interface StartupForInvestmentsCardType extends StartupType {
@@ -27,10 +28,10 @@ interface StartupForInvestmentsCardType extends StartupType {
 }
 
 interface RequiredSpecialist {
-  id: number;
+  id?: number;
   profession: Profession;
   profession_id?: number;
-  skills_ids: number[];
+  skills_ids?: number[];
   skills: Skill[];
   specialist?: SpecialistType | null;
 }
@@ -49,11 +50,21 @@ interface Invitation {
   created_at: string;
 }
 
+interface MyStartupType {
+  id: number;
+  role: string;
+  title: string;
+  image: string | null;
+  description: string;
+  stage: string;
+}
+
 export type {
   StartupType,
   StartupSpecCardType,
   StartupForInvestmentsCardType,
   StartupCardType,
   RequiredSpecialist,
-  Invitation
+  Invitation,
+  MyStartupType
 };

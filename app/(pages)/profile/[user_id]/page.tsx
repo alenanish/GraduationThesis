@@ -35,8 +35,12 @@ export default function Page({
         if (user_id === response.data.user_id) {
           router.replace("/profile/me");
         }
+        return;
       } catch (err: any) {
         setError(err?.message || "Ошибка при загрузке пользователя.");
+        
+      }
+      finally {
         setLoading(false);
       }
     };

@@ -15,7 +15,7 @@ const InvestorsList: React.FC<InvestorsListProps> = ({
 }) => {
   return (
     <>
-      {investors.length > 0 ? (
+      {investors && investors.length > 0 ? (
         <ul className="flex flex-col gap-5">
           {investors.map((investor: InvestorCardType) => (
             <InvestorCard key={investor.user_id} {...investor} />

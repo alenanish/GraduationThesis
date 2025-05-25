@@ -2,10 +2,10 @@
 import React from "react";
 import { Avatar, Button, ProjectState } from "@/app/components/ui";
 import Link from "next/link";
-import { StartupCardType } from "../../types/startup";
+import { MyStartupType, StartupCardType } from "../../types/startup";
 
 interface StartupProps {
-  startup: StartupCardType;
+  startup: MyStartupType;
 }
 
 const StartupCardFounder: React.FC<StartupProps> = ({ startup }) => {

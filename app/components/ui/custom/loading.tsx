@@ -7,7 +7,7 @@ interface LoadingProps {
 }
 
 const Loading: React.FC<LoadingProps> = ({
-  size = 150,
+  size = 100,
   text = "",
   color = "var(--color-prime-300)",
 }) => {

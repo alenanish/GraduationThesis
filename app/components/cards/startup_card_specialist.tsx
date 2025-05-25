@@ -15,7 +15,7 @@ const StartupSpecCard: React.FC<StartupSpecCardType> = ({
   required_specialists,
   founder_id,
 }) => {
-  
+ 
   return (
     <div
       className="w-full h-[250px] flex flex-row gap-x-4 p-4 justify-start justify-items-center

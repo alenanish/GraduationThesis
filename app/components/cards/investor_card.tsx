@@ -30,7 +30,7 @@ const InvestorCard: React.FC<InvestorCardType> = ({
             <h2 className="text-h4 text-base-900">{full_name}</h2>
             <h2 className="text-h4 text-base-900">-</h2>
             <p className="text-base-700 text-body-s font-medium ">
-              {industry.name}
+              {}
             </p>
           </div>
         </Link>

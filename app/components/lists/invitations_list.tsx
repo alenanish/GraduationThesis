@@ -1,16 +1,15 @@
 "use client";
 
-
-import { MyStartupType, StartupCardType } from "@/app/types/startup";
+import { StartupCardSpecialist } from "@/app/components/ui";
+import { StartupSpecCardType } from "@/app/types/startup";
 import React from "react";
-import StartupCardFounder from "../cards/startup_card_founder";
 
 interface StartupsListProps {
-  startups: MyStartupType[];
+  startups: StartupSpecCardType[];
   no_result_text?: string;
 }
 
-const StartupsFoundList: React.FC<StartupsListProps> = ({
+const StartupsSpecList: React.FC<StartupsListProps> = ({
   startups,
   no_result_text = "К сожалению, нет результатов",
 }) => {
@@ -18,8 +17,8 @@ const StartupsFoundList: React.FC<StartupsListProps> = ({
     <>
       {startups.length > 0 ? (
         <ul className="flex flex-col gap-5">
-          {startups.map((startup: MyStartupType) => (
-            <StartupCardFounder key={startup.id} startup={startup} />
+          {startups.map((startup: StartupSpecCardType) => (
+            <StartupCardSpecialist key={startup.id} {...startup} />
           ))}
         </ul>
       ) : (
@@ -29,4 +28,4 @@ const StartupsFoundList: React.FC<StartupsListProps> = ({
   );
 };
 
-export default StartupsFoundList;
+export default StartupsSpecList;
