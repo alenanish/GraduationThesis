@@ -22,7 +22,7 @@ import FavoriteButton from "@/app/components/ui/button/favorite_button";
 import { useAuth } from "@/app/context/auth_context";
 import SkillsList from "@/app/components/cards/show/skills";
 import ContactInfo from "@/app/components/cards/show/contact_info";
-import VacancyForm from "./edit/vacancy_form";
+import VacancyForm from "./edit/_components/vacancy_form";
 import { Skill } from "@/app/types/skill";
 import { AxiosResponse } from "axios";
 

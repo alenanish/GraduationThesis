@@ -59,8 +59,10 @@ export default function StartupPageEdit({ params }: StartupPageEditProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleDelete = async () => {
+    setIsLoading(true);
     await authenticatedRequest(`/startups/${startup_id}/`, "delete");
-    useRouter().replace('/my-startups')
+    setIsModalOpen(false);
+    router.replace("/my_startups");
   };
 
   useEffect(() => {
