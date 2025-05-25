@@ -8,13 +8,12 @@ import Link from "next/link";
 
 const menuItems = [
   { label: "Главная", href: "/home" },
-  { label: "Мои стартапы", href: "/my_startups" },
   { label: "Избранное", href: "/favorites/startups" },
   { label: "Сообщения", href: "/messages" },
   { label: "Поиск", href: "/search" },
 ];
 
-const TopBar = () => {
+const TopBarForInvestor = () => {
   const [isMobile] = useState(false);
 
   const profileItems = [
@@ -74,4 +73,4 @@ const TopBar = () => {
   );
 };
 
-export default TopBar;
+export default TopBarForInvestor;

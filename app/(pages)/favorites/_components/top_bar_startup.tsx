@@ -1,13 +1,17 @@
 "use client";
 import React, { useState } from "react";
-
 import Link from "next/link";
 import { TopBarButton } from "@/app/components/ui";
 
-const TopBar = () => {
-  const [activeItem, setActiveItem] = useState("Стартапы"); 
+interface MenuItem {
+  label: string;
+  href: string;
+}
 
-  const menuItems = [
+const TopBarStartup = ({ }) => {
+  const [activeItem, setActiveItem] = useState("Стартапы");
+
+  const menuItemsStartup: MenuItem[] = [
     {
       label: "Стартапы",
       href: "/favorites/startups",
@@ -20,25 +24,23 @@ const TopBar = () => {
       label: "Инвесторы",
       href: "/favorites/investors",
     },
-    {
-      label: "Для инвестирования",
-      href: "/favorites/startups_for_investments",
-    },
   ];
 
+  
   const handleItemClick = (label: string) => {
     setActiveItem(label);
   };
 
+
   const menuButtons = () => {
     return (
       <div className="flex flex-row gap-1">
-        {menuItems.map((item) => (
+        {menuItemsStartup.map((item) => (
           <Link key={item.label} href={item.href} passHref>
             <TopBarButton
               color="prime"
               size="xs"
-              isActive={activeItem === item.label} 
+              isActive={activeItem === item.label}
               onClick={() => handleItemClick(item.label)}
             >
               {item.label}
@@ -56,5 +58,5 @@ const TopBar = () => {
   );
 };
 
-export default TopBar;
+export default TopBarStartup;
 

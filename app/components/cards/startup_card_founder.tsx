@@ -1,8 +1,7 @@
 "use client";
 import React from "react";
-import { Avatar, Button, IconButton, ProjectState } from "@/app/components/ui";
+import { Avatar, Button, ProjectState } from "@/app/components/ui";
 import Link from "next/link";
-import { Delete } from "../icons";
 import { StartupCardType } from "../../types/startup";
 
 interface StartupProps {
@@ -43,9 +42,6 @@ const StartupCardFounder: React.FC<StartupProps> = ({ startup }) => {
           <Button className="mt-2">Редактировать</Button>
         </Link>
       </div>
-      <IconButton type="button" variant="tertiary" color="base" size="s">
-        <Delete />
-      </IconButton>
     </div>
   );
 };

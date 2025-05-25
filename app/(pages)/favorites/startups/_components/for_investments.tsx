@@ -1,13 +1,13 @@
 "use client";
-import InvestorsList from "@/app/components/lists/investors_list";
+import StartupsInvestList from "@/app/components/lists/startups_invest_list";
 import { ErrorMessage } from "@/app/components/ui";
 import Loading from "@/app/components/ui/custom/loading";
-import { InvestorCardType } from "@/app/types/investor";
+import { StartupForInvestmentsCardType } from "@/app/types/startup";
 import { authenticatedRequest } from "@/app/utils/api";
 import React, { useEffect, useState } from "react";
 
-const FavouriteInvestors = ({}) => {
-  const [results, setResults] = useState<InvestorCardType[]>([]);
+const FavouriteStartupsForInvest = ({}) => {
+  const [results, setResults] = useState<StartupForInvestmentsCardType[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -16,13 +16,13 @@ const FavouriteInvestors = ({}) => {
       setLoading(true);
       setError(null);
       try {
-        const response = await authenticatedRequest<InvestorCardType[]>(
-          `/favorites/investors/`,
-          "get"
-        );
+        const response = await authenticatedRequest<
+          StartupForInvestmentsCardType[]
+        >("/favorites/startup_for_investor/", "get");
         setResults(response.data);
+        console.log(response.data);
       } catch (err: any) {
-        setError(err.message || "Ошибка при загрузке инвесторов.");
+        setError(err.message || "Ошибка при загрузке стартапов.");
       } finally {
         setLoading(false);
       }
@@ -49,10 +49,10 @@ const FavouriteInvestors = ({}) => {
 
   return (
     <div>
-      <h2 className="text-h4 font-medium text-base-900 mb-1">Инвесторы</h2>
-      <InvestorsList investors={results} />
+      <h2 className="text-h4 font-medium text-base-900 mb-1">Для инвестиций</h2>
+      <StartupsInvestList startups={results} />
     </div>
   );
 };
 
-export default FavouriteInvestors;
+export default FavouriteStartupsForInvest;

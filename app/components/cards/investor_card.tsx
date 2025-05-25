@@ -24,9 +24,8 @@ const InvestorCard: React.FC<InvestorCardType> = ({
     >
       <Avatar avatar={avatar} role='user' />
 
-      {/* Content */}
       <div className="flex flex-col gap-y-2 w-[calc(100%-56px)] md:w-[calc(100%-318px)]">
-        <Link key={user_id} href={`/investor/${user_id}`}>
+        <Link key={user_id} href={`/profile/${user_id}`}>
           <div className="flex flex-row gap-x-4 items-center">
             <h2 className="text-h4 text-base-900">{full_name}</h2>
             <h2 className="text-h4 text-base-900">-</h2>

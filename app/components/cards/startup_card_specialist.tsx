@@ -15,6 +15,7 @@ const StartupSpecCard: React.FC<StartupSpecCardType> = ({
   required_specialists,
   founder_id,
 }) => {
+  
   return (
     <div
       className="w-full h-[250px] flex flex-row gap-x-4 p-4 justify-start justify-items-center
@@ -29,7 +30,7 @@ const StartupSpecCard: React.FC<StartupSpecCardType> = ({
             <h2 className="text-h4 text-base-900">{title}</h2>
             <h2 className="text-h4 text-base-900">-</h2>
             <p className="text-base-700 text-body-s font-medium ">
-              {industry.name}
+              {industry?.name}
             </p>
           </div>
         </Link>
@@ -66,7 +67,7 @@ const StartupSpecCard: React.FC<StartupSpecCardType> = ({
       </div>
 
       <FavoriteButton
-        isInitiallyFavorited={is_favorited}
+        isInitiallyFavorited={is_favorited || false}
         item={{ startup_id: id }}
       />
     </div>

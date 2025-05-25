@@ -1,26 +1,28 @@
 "use client";
-import StartupsInvestList from "@/app/components/lists/startups_invest_list";
+import StartupsSpecList from "@/app/components/lists/startups_spec_list";
 import { ErrorMessage } from "@/app/components/ui";
 import Loading from "@/app/components/ui/custom/loading";
-import { StartupForInvestmentsCardType } from "@/app/types/startup";
+import { useAuth } from "@/app/context/auth_context";
+import { StartupSpecCardType } from "@/app/types/startup";
 import { authenticatedRequest } from "@/app/utils/api";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
-const FavouriteStartupsForInvest = ({}) => {
-  const [results, setResults] = useState<StartupForInvestmentsCardType[]>([]);
-  const [loading, setLoading] = useState(false);
+const FavouriteStartups = ({}) => {
+  const [results, setResults] = useState<StartupSpecCardType[]>([]);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       setError(null);
       try {
-        const response = await authenticatedRequest<
-          StartupForInvestmentsCardType[]
-        >(`/favorites/startup_for_specialist/`, "get");
+        const response = await authenticatedRequest<StartupSpecCardType[]>(
+          `/favorites/startup_for_specialist/`,
+          "get"
+        );
         setResults(response.data);
-        console.log(response.request);
       } catch (err: any) {
         setError(err.message || "Ошибка при загрузке стартапов.");
       } finally {
@@ -48,11 +50,11 @@ const FavouriteStartupsForInvest = ({}) => {
   }
 
   return (
-    <div >
-      <h2 className="text-h4 font-medium text-base-900 mb-1">Для инвестиций</h2>
-      <StartupsInvestList startups={results} />
+    <div>
+      <h2 className="text-h4 font-medium text-base-900 mb-1">Стартапы</h2>
+      <StartupsSpecList startups={results} />
     </div>
   );
 };
 
-export default FavouriteStartupsForInvest;
+export default FavouriteStartups;

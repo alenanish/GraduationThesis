@@ -5,6 +5,7 @@ import Link from "next/link";
 import { SpecialistCardType } from "../../types/specialist";
 import FavoriteButton from "../ui/button/favorite_button";
 import SkillsList from "./show/skills";
+import { Skill } from "@/app/types/skill";
 
 const SpecialistCard: React.FC<SpecialistCardType> = ({
   id,
@@ -18,6 +19,9 @@ const SpecialistCard: React.FC<SpecialistCardType> = ({
 }) => {
   const [isFavorited] = useState(initialIsFavorited);
 
+  function limitSkills(skills: Skill[], limit: number = 4): Skill[] {
+    return skills.length > limit ? skills.slice(0, limit) : skills;
+  }
   return (
     <div
       key={id}
@@ -25,7 +29,7 @@ const SpecialistCard: React.FC<SpecialistCardType> = ({
       bg-base-0 rounded-2xl overflow-hidden border-2 border-prime-500
       hover:shadow-[0_4px_16px_rgba(0,148,200,0.25)]"
     >
-      <Avatar avatar={avatar} role='user' />
+      <Avatar avatar={avatar} role="user" />
       <div className="flex flex-col gap-y-2 w-[calc(100%-56px)] md:w-[calc(100%-318px)]">
         <Link key={user_id} href={`/profile/${user_id}`} passHref>
           <div className="flex flex-row gap-x-4 items-center">
@@ -42,11 +46,7 @@ const SpecialistCard: React.FC<SpecialistCardType> = ({
           </p>
         </div>
 
-        <SkillsList
-          skills={skills}
-          maxSkillsToShow={3}
-          className=" flex-nowrap"
-        />
+        <SkillsList skills={limitSkills(skills)} className=" flex-nowrap" />
         <Link href={`/messages/${user_id}`} passHref>
           <Button className="mt-2">Открыть чат</Button>
         </Link>
