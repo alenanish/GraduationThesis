@@ -46,6 +46,7 @@ const EditInvestorPreferences: React.FC<InvestorPreferencesProps> = ({
             name="investment_min"
             label="Минимум"
             placeholder="Минимум"
+            type="number"
             value={investment_min?.toString()}
             onChange={setInvestmentMin}
             rightIcon={<CurrencyRuble size={16} />}
@@ -56,6 +57,7 @@ const EditInvestorPreferences: React.FC<InvestorPreferencesProps> = ({
             name="investment_max"
             label="Максимум"
             placeholder="Максимум"
+            type="number"
             value={investment_max?.toString()}
             onChange={setInvestmentMax}
             rightIcon={<CurrencyRuble size={16} />}
