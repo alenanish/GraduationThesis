@@ -1,6 +1,5 @@
 import { Send } from "@/app/components/icons";
 import { IconButton } from "@/app/components/ui";
-import Loading from "@/app/components/ui/custom/loading";
 import { authenticatedRequest } from "@/app/utils/api";
 import React, { useState, useCallback, useRef, useEffect } from "react";
 
@@ -113,7 +112,7 @@ const MessageInput: React.FC<MessageInputProps> = ({ recipient_id }) => {
         onClick={handleSendMessage}
         disabled={messageText.trim() === "" || isLoading}
       >
-        {isLoading ? <Loading size={24} /> : <Send size={24} />}
+        <Send size={24} />
       </IconButton>
     </div>
   );

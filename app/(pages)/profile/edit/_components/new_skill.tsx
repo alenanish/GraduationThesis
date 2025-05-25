@@ -29,10 +29,6 @@ const NewSkillsList: React.FC<NewSkillsListProps> = ({
 
   useEffect(() => {
     setSelectedSkills(initialSkills);
-    const filtered = allSkills.filter((skill) =>
-      skill.name.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredSkills(filtered);
   }, []);
 
   useEffect(() => {
@@ -40,7 +36,7 @@ const NewSkillsList: React.FC<NewSkillsListProps> = ({
       skill.name.toLowerCase().includes(searchTerm.toLowerCase())
     );
     setFilteredSkills(filtered);
-  }, [searchTerm, allSkills]);
+  }, [searchTerm]);
 
   const updateSkills = (skills: Skill[]) => {
     setSelectedSkills(skills);
@@ -81,7 +77,7 @@ const NewSkillsList: React.FC<NewSkillsListProps> = ({
                 {!isDropdownOpen ? <Add /> : <Close />}
               </IconButton>
               {isDropdownOpen && (
-                <div className="absolute left-14  max-w-1/2 min-w-sm z-50 ">
+                <div className="absolute left-14 max-w-1/2 min-w-sm z-50 ">
                   <Input
                     id="search_skill"
                     name="search_skill"

@@ -28,7 +28,9 @@ const SingleMessage: React.FC<SingleMessageProps> = ({
     return (
       <div className="max-w-2/3 min-w-fit text-wrap whitespace-pre-wrap bg-base-0 rounded-[16px] p-2 text-body-s text-base-800 ">
         <p>{message.text}</p>
-        <span className="flex w-full justify-end">{isMyMessage && isRead(message.is_read)}</span>
+        <span className="flex w-full justify-end">
+          {isMyMessage && isRead(message.is_read)}
+        </span>
       </div>
     );
   };

@@ -54,7 +54,6 @@ const LoginForm = () => {
     }
 
     try {
-      console.log({ email, password });
       login(email, password);
     } catch (error: any) {
       if (

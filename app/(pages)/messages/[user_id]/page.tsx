@@ -6,7 +6,6 @@ import DialogHeader from "../_components/dialog/dialog_header";
 import { authenticatedRequest } from "@/app/utils/api";
 import MessageDisplay from "../_components/dialog/message_display";
 import MessageInput from "../_components/dialog/message_input";
-import Loading from "@/app/components/ui/custom/loading";
 import { ErrorMessage } from "@/app/components/ui";
 
 export default function Dialog({
@@ -21,7 +20,6 @@ export default function Dialog({
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
       setError(null);
       try {
         const response = await authenticatedRequest<User>(
@@ -45,9 +43,8 @@ export default function Dialog({
 
   return (
     <div className="h-[calc(100vh-72px)] flex flex-col w-full relative">
-      <DialogHeader user={user} isLoading={isLoading} />
-      {isLoading && <Loading />}
-      {!isLoading && error &&  (
+      <DialogHeader otherUser={user} isLoading={isLoading} />
+      {error && (
         <ErrorMessage
           onClose={() => {
             setError(null);

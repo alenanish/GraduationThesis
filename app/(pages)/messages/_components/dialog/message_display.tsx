@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { MessageType } from "@/app/types/message";
 import SingleMessage from "./message";
 import { authenticatedRequest } from "@/app/utils/api";
-import Loading from "@/app/components/ui/custom/loading";
 
 interface MessageDisplayProps {
   otherUserId: number;
@@ -13,13 +12,11 @@ const MessageDisplay: React.FC<MessageDisplayProps> = ({ otherUserId }) => {
     return message.sender.user_id !== otherUserId;
   };
 
-  const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [messages, setMessages] = useState<MessageType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      setIsLoading(true);
       setError(null);
       try {
         const messagesResponse = await authenticatedRequest<MessageType[]>(
@@ -37,16 +34,12 @@ const MessageDisplay: React.FC<MessageDisplayProps> = ({ otherUserId }) => {
         console.error("Error fetching user:", err);
         setError(err?.message || "Ошибка при загрузке.");
       } finally {
-        setIsLoading(false);
       }
     };
 
     fetchData();
   }, [otherUserId]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
   return (
     <div className="mt-16 mb-12 space-y-2 flex-grow overflow-y-auto">
       {messages.map((message) => (
