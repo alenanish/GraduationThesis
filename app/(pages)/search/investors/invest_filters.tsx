@@ -33,7 +33,7 @@ interface SearchFiltersProps {
   }) => void;
 }
 
-const ForInvestSearchFilters: React.FC<SearchFiltersProps> = ({
+const InvestSearchFilters: React.FC<SearchFiltersProps> = ({
   industries,
   onSearch,
 }) => {
@@ -113,4 +113,4 @@ const ForInvestSearchFilters: React.FC<SearchFiltersProps> = ({
   );
 };
 
-export default ForInvestSearchFilters;
+export default InvestSearchFilters;

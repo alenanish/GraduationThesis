@@ -4,8 +4,8 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/app/context/auth_context";
 import Loading from "@/app/components/ui/custom/loading";
 import { useRouter } from "next/navigation";
-import SearchInvestStartups from "./(investors)/search_invest_sratups";
-import SerchSpecStartups from "./(specialists)/search_spec_sratups.tsx";
+import SearchSpecStartups from "./(specialists)/search_spec_sratups";
+import SearchInvestStartups from "./(investors)/search_invest_sratups.tsx";
 
 const SearchStartups = () => {
   const { user } = useAuth();
@@ -23,7 +23,7 @@ const SearchStartups = () => {
   return (
     <>
       {role === "investor" && <SearchInvestStartups />}
-      {role === "specialist" && <SerchSpecStartups />}
+      {role === "specialist" && <SearchSpecStartups />}
     </>
   );
 };

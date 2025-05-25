@@ -25,6 +25,7 @@ interface StartupSpecCardType extends StartupType {
 
 interface StartupForInvestmentsCardType extends StartupType {
   investment_needed: string;
+  is_favorited: boolean;
 }
 
 interface RequiredSpecialist {
@@ -66,5 +67,5 @@ export type {
   StartupCardType,
   RequiredSpecialist,
   Invitation,
-  MyStartupType
+  MyStartupType,
 };

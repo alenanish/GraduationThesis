@@ -2,7 +2,7 @@
 import { api } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
 import React, { useState, useEffect, useCallback } from "react";
-import ForInvestSearchFilters from "../(investors)/for_invest_filters";
+import ForInvestSearchFilters from "./for_invest_filters";
 import Loading from "@/app/components/ui/custom/loading";
 import { ErrorMessage } from "@/app/components/ui";
 import StartupsInvestList from "@/app/components/lists/startups_invest_list";
@@ -39,8 +39,10 @@ async function searchStartups(
   }
 }
 
-function SerchSpecStartups() {
-  const [startups, setStartups] = useState<StartupForInvestmentsCardType[] | []>([]);
+function SearchInvestStartups() {
+  const [startups, setStartups] = useState<
+    StartupForInvestmentsCardType[] | []
+  >([]);
   const [isLoading, setIsLoading] = useState(true);
   const [industries, setIndustries] = useState<DropdownOption[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -102,7 +104,7 @@ function SerchSpecStartups() {
       try {
         const results = await searchStartups(cleanedFilters);
         setStartups(results);
-        console.log('res', results);
+        console.log("res", results);
       } catch (error) {
         setError("Данные о стартапах не получены.");
         console.error("Ошибка при получении данных:", error);
@@ -137,11 +139,11 @@ function SerchSpecStartups() {
           onSearch={handleSearch}
         />
       </div>
-     <div className="w-3/4 pl-4">
+      <div className="w-3/4 pl-4">
         <StartupsInvestList startups={startups} />
       </div>
     </div>
   );
 }
 
-export default SerchSpecStartups;
+export default SearchInvestStartups;
