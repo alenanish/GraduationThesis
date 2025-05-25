@@ -283,7 +283,7 @@ const InvestorProfileEdit = () => {
           <EditGeneralInfo
             fullName={fullName}
             setFullName={setFullName}
-            label={"Профессия"}
+            label={"Сфера"}
             option={industry}
             setOption={handleIndystryChange}
             bio={bio}
