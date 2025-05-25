@@ -31,7 +31,7 @@ interface DropdownOption {
   name: string;
 }
 
-export default function EditStartupPage({
+export default function StartupPage({
   params,
 }: {
   params: Promise<{ startup_id: number }>;
@@ -64,7 +64,7 @@ export default function EditStartupPage({
   };
 
   useEffect(() => {
-    if (startup && requiredSpecialists.length > 0) {
+    if (startup && mine && requiredSpecialists.length > 0) {
       const updateReqSpec = async () => {
         try {
           const payload = {
@@ -234,18 +234,20 @@ export default function EditStartupPage({
         <div className="bg-base-0 p-4 rounded-[8px] flex flex-col gap-y-2 ">
           <div className="flex flex-row justify-between items-center">
             <h2 className="text-h5 font-medium">Специалисты</h2>
-            <Button variant="tertiary" size="s" onClick={handleOpenModal}>
-              Добавить специалиста
-            </Button>
-            <VacancyForm
-              isOpen={isModalOpen}
-              onClose={handleCloseModal}
-              onSubmit={handleFormSubmit}
-              professions={professions}
-              skills={skills}
-              className="w-sm "
-            />
+            {mine && (
+              <Button variant="tertiary" size="s" onClick={handleOpenModal}>
+                Добавить специалиста
+              </Button>
+            )}
           </div>
+          <VacancyForm
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            onSubmit={handleFormSubmit}
+            professions={professions}
+            skills={skills}
+            className="w-sm "
+          />
           <ul>
             {startup.required_specialists ? (
               startup.required_specialists.map((specialist) => (
