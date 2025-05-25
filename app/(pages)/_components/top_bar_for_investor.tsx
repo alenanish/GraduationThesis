@@ -10,7 +10,7 @@ const menuItems = [
   { label: "Главная", href: "/home" },
   { label: "Избранное", href: "/favorites/startups" },
   { label: "Сообщения", href: "/messages" },
-  { label: "Поиск", href: "/search" },
+  { label: "Поиск", href: "/search/startups" },
 ];
 
 const TopBarForInvestor = () => {
