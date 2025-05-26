@@ -3,29 +3,37 @@ import React, { useState } from "react";
 
 import Link from "next/link";
 import { TopBarButton } from "@/app/components/ui";
+import { useAuth } from "@/app/context/auth_context";
 
 const TopBar = () => {
   const [activeItem, setActiveItem] = useState("Стартапы");
-
-  const menuItems = [
-    { label: "Стартапы", href: "/search/startups"},
+  const { user } = useAuth();
+  const menuItemsFounder = [
     {
       label: "Специалисты",
-      href: "/search/specislists",
-      color: "base",
-      isActive: false,
+      href: "/search/specialists",
     },
     {
       label: "Инвесторы",
       href: "/search/investors",
-      color: "base",
       isActive: false,
     },
+  ];
+
+  const menuItemsInvestor = [
+    { label: "Стартапы", href: "/search/startups" },
     {
-      label: "Для инвестирования",
-      href: "/search/for_investments",
-      color: "base",
+      label: "Инвесторы",
+      href: "/search/investors",
       isActive: false,
+    },
+  ];
+
+  const menuItemsSpecialist = [
+    { label: "Стартапы", href: "/search/startups" },
+    {
+      label: "Инвесторы",
+      href: "/search/investors",
     },
   ];
 
@@ -36,18 +44,56 @@ const TopBar = () => {
   const menuButtons = () => {
     return (
       <div className="flex flex-row gap-1">
-        {menuItems.map((item) => (
-          <Link key={item.label} href={item.href} passHref>
-            <TopBarButton
-              color="prime"
-              size="xs"
-              isActive={activeItem === item.label}
-              onClick={() => handleItemClick(item.label)}
-            >
-              {item.label}
-            </TopBarButton>
-          </Link>
-        ))}
+        {user?.role == "startup" && (
+          <>
+            {menuItemsFounder.map((item) => (
+              <Link key={item.label} href={item.href} passHref>
+                <TopBarButton
+                  color="prime"
+                  size="xs"
+                  isActive={activeItem === item.label}
+                  onClick={() => handleItemClick(item.label)}
+                >
+                  {item.label}
+                </TopBarButton>
+              </Link>
+            ))}
+          </>
+        )}
+
+        {user?.role == "investor" && (
+          <>
+            {menuItemsInvestor.map((item) => (
+              <Link key={item.label} href={item.href} passHref>
+                <TopBarButton
+                  color="prime"
+                  size="xs"
+                  isActive={activeItem === item.label}
+                  onClick={() => handleItemClick(item.label)}
+                >
+                  {item.label}
+                </TopBarButton>
+              </Link>
+            ))}
+          </>
+        )}
+
+        {user?.role == "specialist" && (
+          <>
+            {menuItemsSpecialist.map((item) => (
+              <Link key={item.label} href={item.href} passHref>
+                <TopBarButton
+                  color="prime"
+                  size="xs"
+                  isActive={activeItem === item.label}
+                  onClick={() => handleItemClick(item.label)}
+                >
+                  {item.label}
+                </TopBarButton>
+              </Link>
+            ))}
+          </>
+        )}
       </div>
     );
   };
