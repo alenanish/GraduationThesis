@@ -58,6 +58,7 @@ interface MyStartupType {
   image: string | null;
   description: string;
   stage: string;
+  invitation_id: number;
 }
 
 export type {

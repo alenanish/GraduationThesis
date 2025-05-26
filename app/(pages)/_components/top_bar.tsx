@@ -5,8 +5,24 @@ import Logo from "../../components/assets/images/logo";
 import { DropDownMenu, TopBarButton } from "../../components/ui/index";
 import { DefaultAccount, Menu } from "../../components/icons";
 import Link from "next/link";
+import { useAuth } from "@/app/context/auth_context";
 
-const menuItems = [
+const menuItemsFounder = [
+  { label: "Главная", href: "/home" },
+  { label: "Мои стартапы", href: "/my_startups" },
+  { label: "Избранное", href: "/favorites/startups" },
+  { label: "Сообщения", href: "/messages" },
+  { label: "Поиск", href: "/search/specialists" },
+];
+
+const menuItemsInvestor = [
+  { label: "Главная", href: "/home" },
+  { label: "Избранное", href: "/favorites/startups" },
+  { label: "Сообщения", href: "/messages" },
+  { label: "Поиск", href: "/search/startups" },
+];
+
+const menuItemsSpecialist = [
   { label: "Главная", href: "/home" },
   { label: "Мои стартапы", href: "/my_startups" },
   { label: "Избранное", href: "/favorites/startups" },
@@ -15,6 +31,7 @@ const menuItems = [
 ];
 
 const TopBar = () => {
+  const { user } = useAuth();
   const [isMobile] = useState(false);
 
   const profileItems = [
@@ -31,7 +48,13 @@ const TopBar = () => {
           </Link>
           <DropDownMenu
             icon={<Menu size={24} />}
-            options={menuItems}
+            options={
+              user?.role == "startup"
+                ? menuItemsFounder
+                : user?.role == "investor"
+                ? menuItemsInvestor
+                : menuItemsSpecialist
+            }
             position="right"
           />
         </div>
@@ -42,13 +65,41 @@ const TopBar = () => {
           <Link href={"/home"} passHref>
             <Logo size={36} variant="top-bar" />
           </Link>
-          {menuItems.map((item) => (
-            <Link key={item.label} href={item.href} passHref>
-              <TopBarButton color="prime" size="s">
-                {item.label}
-              </TopBarButton>
-            </Link>
-          ))}
+          {user?.role == "startup" && (
+            <>
+              {menuItemsFounder.map((item) => (
+                <Link key={item.label} href={item.href} passHref>
+                  <TopBarButton color="prime" size="s">
+                    {item.label}
+                  </TopBarButton>
+                </Link>
+              ))}
+            </>
+          )}
+
+          {user?.role == "investor" && (
+            <>
+              {menuItemsInvestor.map((item) => (
+                <Link key={item.label} href={item.href} passHref>
+                  <TopBarButton color="prime" size="s">
+                    {item.label}
+                  </TopBarButton>
+                </Link>
+              ))}
+            </>
+          )}
+
+          {user?.role == "specialist" && (
+            <>
+              {menuItemsSpecialist.map((item) => (
+                <Link key={item.label} href={item.href} passHref>
+                  <TopBarButton color="prime" size="s">
+                    {item.label}
+                  </TopBarButton>
+                </Link>
+              ))}
+            </>
+          )}
         </div>
       );
     }

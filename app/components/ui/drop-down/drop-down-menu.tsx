@@ -35,7 +35,15 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
     setIsOpen(!isOpen);
   };
 
-  const handleOptionClick = () => {
+  const handleOptionClick = (option: {
+    label: string;
+    href?: string;
+    color?: string | undefined;
+    onClick?: () => void;
+  }) => {
+    if (option.onClick) {
+      option.onClick();
+    }
     setIsOpen(false);
   };
 
@@ -111,7 +119,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
                     size={size}
                     color={option.color ? option.color : "prime"}
                     className="w-full"
-                    onClick={() => handleOptionClick()}
+                    onClick={() => handleOptionClick(option)}
                   >
                     {option.label}
                   </MenuButton>
@@ -122,7 +130,7 @@ const DropDownMenu: React.FC<DropDownMenuProps> = ({
                   key={index}
                   color={option.color ? option.color : "prime"}
                   className="w-full"
-                  onClick={() => handleOptionClick()}
+                  onClick={() => handleOptionClick(option)}
                 >
                   {option.label}
                 </MenuButton>
