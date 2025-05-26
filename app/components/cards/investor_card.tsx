@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import { Avatar, Button, IconButton } from "@/app/components/ui";
+import { Avatar, Button } from "@/app/components/ui";
 import Link from "next/link";
 import { CurrencyRuble } from "../icons";
 import { InvestorCardType } from "../../types/investor";

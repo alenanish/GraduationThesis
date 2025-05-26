@@ -41,7 +41,7 @@ const TopBarFavourites = () => {
     if (currentItem) {
       setActiveItem(currentItem.label);
     }
-  }, [pathname, user?.role]);
+  }, [pathname, user?.role, menuItems]);
 
   const handleItemClick = (item: MenuItem) => {
     setActiveItem(item.label);

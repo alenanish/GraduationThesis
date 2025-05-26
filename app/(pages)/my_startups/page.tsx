@@ -5,8 +5,8 @@ import { useAuth } from "@/app/context/auth_context";
 import Loading from "@/app/components/ui/custom/loading";
 import { useRouter } from "next/navigation";
 import { authenticatedRequest } from "@/app/utils/api";
-import { MyStartupType, StartupCardType } from "@/app/types/startup";
-import { Button } from "@/app/components/ui";
+import { MyStartupType } from "@/app/types/startup";
+import { Button, ErrorMessage } from "@/app/components/ui";
 import StartupsFoundList from "@/app/components/lists/startups_found_list";
 import CurStartupsSpecList from "./_components/spec_current_startups_list";
 
@@ -46,10 +46,22 @@ const CurrentStartups = () => {
 
   if (!user) {
     router.replace("/");
+    return;
   }
 
   if (!(user?.role === "startup" || user?.role === "specialist")) {
-    useRouter().replace("/not-found");
+    router.replace("/not-found");
+    return;
+  }
+
+  if (error) {
+    <ErrorMessage
+      onClose={() => {
+        setError(null);
+      }}
+    >
+      {error}
+    </ErrorMessage>;
   }
 
   return (

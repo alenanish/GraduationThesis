@@ -43,7 +43,7 @@ const Carousel: React.FC<CarouselProps> = ({
     const intervalId = setInterval(handleNext, 5000);
 
     return () => clearInterval(intervalId);
-  }, [activeIndex]);
+  }, [activeIndex, handleNext]);
 
   return (
     <div

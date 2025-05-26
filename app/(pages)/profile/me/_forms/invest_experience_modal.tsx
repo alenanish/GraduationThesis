@@ -1,5 +1,5 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 
 import Modal from "@/app/components/ui/custom/modal";
 import { Button, Input, RadioGroup, TextArea } from "@/app/components/ui";
@@ -31,8 +31,6 @@ const InvestExperienceModal: React.FC<InvestExperienceModalProps> = ({
   const [stage, setStage] = useState<string>("");
   const [date, setDate] = useState<string>("");
   const [description, setDescription] = useState<string>("");
-
-  const [error, setError] = useState<string | null>(null);
 
   const isFilled =
     industry != null && stage != "" && title != "" && description != "";
@@ -67,7 +65,7 @@ const InvestExperienceModal: React.FC<InvestExperienceModalProps> = ({
       date: formatDate(date),
       description: description,
     };
-    handleClear;
+    handleClear();
     saveChanges(newExperience);
   };
 

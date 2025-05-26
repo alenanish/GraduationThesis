@@ -60,7 +60,7 @@ const ExperienceModal: React.FC<ExperienceModalProps> = ({
       organization: organization,
       description: description,
     };
-    handleClear;
+    handleClear();
     saveChanges(newExperience);
   };
 

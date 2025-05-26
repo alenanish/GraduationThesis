@@ -4,6 +4,7 @@ import {
   Avatar,
   Bio,
   Button,
+  ErrorMessage,
   Header,
   IconButton,
 } from "@/app/components/ui";
@@ -87,6 +88,18 @@ const InvestorProfile = () => {
     return;
   }
 
+  if (error) {
+    return (
+      <ErrorMessage
+        onClose={() => {
+          setError(null);
+        }}
+      >
+        {error}
+      </ErrorMessage>
+    );
+  }
+
   return (
     <div className="gap-x-4 grid grid-cols-5">
       <div className="flex flex-col gap-y-4 col-span-4">
@@ -95,7 +108,11 @@ const InvestorProfile = () => {
             title={investor.full_name}
             subTitle={investor.industry?.name}
             button={
-              <div onClick={()=>{router.push("/profile/edit")}}>
+              <div
+                onClick={() => {
+                  router.push("/profile/edit");
+                }}
+              >
                 <IconButton size="s" color="base" variant="tertiary">
                   {<Edit />}
                 </IconButton>

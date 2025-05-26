@@ -7,12 +7,10 @@ import { Button, Input, TextArea } from "@/app/components/ui";
 import Loading from "@/app/components/ui/custom/loading";
 import Dropdown from "@/app/components/ui/drop-down/dropdown-list";
 import { useAuth } from "@/app/context/auth_context";
-import { RequiredSpecialist } from "@/app/types/startup";
 import { api, authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import { Skill } from "@/app/types/skill";
 
 interface DropdownOption {
   id: string | number;
@@ -32,7 +30,6 @@ export default function StartupCreate() {
   const router = useRouter();
 
   const [industryOptions, setIndustryOptions] = useState<DropdownOption[]>([]);
-  const [allSkills, setAllSkills] = useState<Skill[]>([]);
 
   const [title, setTitle] = useState<string>("");
   const [image, setImage] = useState<string | null>(null);
@@ -40,9 +37,6 @@ export default function StartupCreate() {
   const [description, setDescription] = useState<string>("");
   const [stage, setStage] = useState<string>();
   const [investmentNeeded, setInvestmentNeeded] = useState<string>("");
-  const [requiredSpecialists, setRequiredSpecialists] = useState<
-    RequiredSpecialist[]
-  >([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -58,11 +52,6 @@ export default function StartupCreate() {
           setIndustryOptions(list.data);
         }
 
-        const skill_list: AxiosResponse<{ id: number; name: string }[]> =
-          await api.get("/skills/");
-        if (skill_list.data) {
-          setAllSkills(skill_list.data);
-        }
       } catch (err: any) {
         setError(err?.message || "Ошибка при загрузке.");
       } finally {
@@ -131,10 +120,6 @@ export default function StartupCreate() {
     setIsChanged(true);
   };
 
-  const handleReqSpecChange = (value: RequiredSpecialist[]) => {
-    setRequiredSpecialists(value);
-    setIsChanged(true);
-  };
 
   if (isLoading) return <Loading />;
   if (error) return <div className="text-red-500">{error}</div>;

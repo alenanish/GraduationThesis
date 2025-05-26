@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import { useAuth } from "../../../context/auth_context";
 import InvestorProfile from "./_roles/investor_profile_edit";
 import SpecialistProfile from "./_roles/specialist_profile_edit";

@@ -1,10 +1,6 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import {
-  Invitation,
-  RequiredSpecialist,
-  StartupCardType,
-} from "@/app/types/startup";
+import { RequiredSpecialist, StartupCardType } from "@/app/types/startup";
 import {
   Avatar,
   Button,
@@ -50,7 +46,6 @@ export default function StartupPage({
 
   const [professions, setProfessions] = useState<DropdownOption[]>([]);
   const [skills, setSkills] = useState<Skill[]>([]);
-  const [invitations, setInvitations] = useState<Invitation[]>([]);
 
   const [mine, setIsMine] = useState<boolean>();
 
@@ -102,7 +97,7 @@ export default function StartupPage({
       };
       updateReqSpec();
     }
-  }, [requiredSpecialists]);
+  }, [mine, requiredSpecialists]);
 
   useEffect(() => {
     const fetchStartup = async () => {
@@ -121,12 +116,6 @@ export default function StartupPage({
 
         const skill_list = await api.get<Skill[]>(`/skills/`);
         setSkills(skill_list.data);
-
-        const invits = await authenticatedRequest<Invitation[]>(
-          `/invitations/`,
-          "get"
-        );
-        setInvitations(invits.data);
       } catch (error) {
         console.error("Ошибка при загрузке данных стартапа:", error);
         setError("Не удалось загрузить данные стартапа.");

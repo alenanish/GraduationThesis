@@ -8,15 +8,18 @@ import SearchInvestStartups from "./(investors)/search_invest_sratups.tsx";
 
 const SearchStartups = () => {
   const { user } = useAuth();
+  const router = useRouter();
 
   const role = user?.role;
 
   if (!user) {
-    useRouter().replace("/");
+    router.replace("/");
+    return;
   }
 
   if (!(user?.role === "specialist" || user?.role === "investor")) {
-    useRouter().replace("/not-found");
+    router.replace("/not-found");
+    return;
   }
 
   return (

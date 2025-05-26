@@ -70,18 +70,18 @@ const NewInvestExperienceCard: React.FC<NewInvestExperienceCardProps> = ({
     e.preventDefault();
     setIsLoading(true);
     setError(null);
-    
+
     if (!isFilled) {
-        setError('Заполните все обязательные поля');
-        setIsLoading(false);
-        return
+      setError("Заполните все обязательные поля");
+      setIsLoading(false);
+      return;
     }
 
     try {
       const newExperience = {
         title: title,
         date: formatDate(date),
-        industry: {id: Number(industry.id), name: industry.name},
+        industry: industry.name,
         description: description,
         stage: stage.id.toString(),
       };

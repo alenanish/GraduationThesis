@@ -1,6 +1,6 @@
 "use client";
 
-import { MyStartupType, StartupCardType } from "@/app/types/startup";
+import { MyStartupType } from "@/app/types/startup";
 import React from "react";
 import StartupCardFounder from "../cards/startup_card_founder";
 

@@ -6,13 +6,11 @@ import CurStartupSpecCard from "./spec_current_startup_card";
 interface StartupsListProps {
   startups: MyStartupType[];
   no_result_text?: string;
-  isNew?: boolean;
 }
 
 const CurStartupsSpecList: React.FC<StartupsListProps> = ({
   startups,
   no_result_text = "К сожалению, нет результатов",
-  isNew = false,
 }) => {
   return (
     <>

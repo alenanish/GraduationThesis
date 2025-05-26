@@ -19,6 +19,7 @@ import { Experience } from "@/app/types/experience";
 import Loading from "@/app/components/ui/custom/loading";
 import ExperienceModal from "../_forms/experience_modal";
 import { useRouter } from "next/navigation";
+import SuccessNotification from "@/app/components/ui/text/success-notification";
 
 const SpecialistProfile = () => {
   const router = useRouter();
@@ -109,6 +110,18 @@ const SpecialistProfile = () => {
       >
         {error}
       </ErrorMessage>
+    );
+  }
+
+  if (successMessage) {
+    return (
+      <SuccessNotification
+        onClose={() => {
+          setSuccessMessage(null);
+        }}
+      >
+        {successMessage}
+      </SuccessNotification>
     );
   }
 
