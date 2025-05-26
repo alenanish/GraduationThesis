@@ -1,36 +1,89 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# README
 
-## Getting Started
+# ProStarter
 
-First, run the development server:
+ProStarter — это веб-приложение для поиска инвесторов и специалистов, которое помогает стартапам находить необходимые ресурсы для развития и роста.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+---
+
+Описание проекта
+
+Приложение позволяет:
+
+- Основателям стартапов, инвесторам и специалистам публиковать информацию о себу.
+- Инвесторам и специалистам искать стартапы для сотрудничества.
+- Управлять избранными стартапами и сообщениями.
+- Авторизоваться и управлять профилем.
+
+---
+
+Технологии
+
+- Next.js 15 — серверный рендеринг и маршрутизация.
+- React 19 — UI-компоненты.
+- TypeScript 5 — типизация.
+- Axios 1.8 — HTTP-клиент для API-запросов.
+- Tailwind CSS 4 — стилизация.
+- PostCSS & Autoprefixer — для обработки CSS.
+- ESLint — статический анализ кода.
+
+---
+
+ Структура проекта
+
+```
+/
+├── auth/                  # Компоненты и логика авторизации
+├── marketing/             # Маркетинговые страницы и компоненты
+├── pages/
+│   ├── favorites/         # Избранные стартапы, специалисты и инвесторы
+│   ├── home/              # Главная страница: Маркетинговый компонент и рекомендации
+│   ├── logout/            # Страница выхода из аккаунта
+│   ├── messages/          # Сообщения между пользователями
+│   ├── my_startups/       # Управление своими стартапами
+│   ├── profile/           # Профиль пользователя
+│   ├── search/            # Поиск стартапов, инвесторов и специалистов
+│   └── startups/          # Страницы стартапов
+├── context/
+│   └── auth_context.tsx   # Контекст авторизации
+├── services/
+│   └── protected_route.tsx # Защищённые маршруты
+├── types/                 # Описание TypeScript типов и интерфейсов
+├── utils/
+│   └── api.tsx            # Обертка для API-запросов (axios)
+├── globals.css            # Глобальные стили
+├── layout.tsx             # Основной layout приложения
+└── not-found.tsx          # Страница 404
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Установка и запуск
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. Клонируйте репозиторий:
+[git clone https://github.com/yourusername/startup-connect.git](https://github.com/alenanish/GraduationThesis.git)
+cd startup-connect
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+2. Установите зависимости:
+npm install
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+3. Запустите приложение в режиме разработки:
+npm run dev
 
-## Deploy on Vercel
+4. Откройте в браузере http://localhost:3000
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+---
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Основные возможности
+
+- Регистрация и авторизация пользователей.
+- Просмотр и редактирование профиля.
+- Управление собственными стартапами и вакансиями.
+- Поиск стартапов, инвесторов и специалистов по различным фильтрам.
+- Отправка приглашений и сообщений.
+- Система избранного для быстрого доступа к интересующим стартапам, специалистам и инвесторам.
+- Защищённые маршруты для авторизованных пользователей.
+
+---
