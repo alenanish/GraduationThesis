@@ -1,5 +1,5 @@
 "use client";
-import React, { use } from "react";
+import React from "react";
 import { Avatar, ProjectState } from "@/app/components/ui";
 import { MyStartupType } from "@/app/types/startup";
 import { useRouter } from "next/navigation";

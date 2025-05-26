@@ -97,7 +97,7 @@ function SearchSpecStartups() {
             : undefined,
       };
       const cleanedFilters: SearchFilters = Object.fromEntries(
-        Object.entries(searchFilters).filter(([_, v]) => v !== undefined)
+        Object.entries(searchFilters).filter(([v]) => v !== undefined)
       ) as SearchFilters;
 
       try {

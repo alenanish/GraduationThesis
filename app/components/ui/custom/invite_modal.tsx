@@ -27,7 +27,6 @@ const InviteModal: React.FC<InviteModalProps> = ({
   onClose,
   onInvite,
 }) => {
-  const [startups, setStartups] = useState<MyStartupType[]>([]);
   const [startupOptions, setStartupOptions] = useState<DropdownOption[]>([]);
   const [selectedStartupId, setSelectedStartupId] = useState<number | null>(
     null
@@ -61,7 +60,6 @@ const InviteModal: React.FC<InviteModalProps> = ({
       setLoading(true);
       authenticatedRequest<MyStartupType[]>("/startups/my-startups/", "get")
         .then((response) => {
-          setStartups(response.data);
           setStartupOptions(convertStartupsToOptions(response.data));
           setSelectedStartupId(null);
           setSelectedStartupDetails(null);
@@ -72,7 +70,6 @@ const InviteModal: React.FC<InviteModalProps> = ({
         .catch(() => setError("Ошибка при загрузке стартапов"))
         .finally(() => setLoading(false));
     } else {
-      setStartups([]);
       setStartupOptions([]);
       setSelectedStartupId(null);
       setSelectedStartupDetails(null);

@@ -5,18 +5,17 @@ import { useRouter } from "next/navigation";
 import MyStartupsTopBar from "./_components/top_bar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
+  const router = useRouter();
   const { user } = useAuth();
 
   if (!user) {
-    useRouter().replace("/");
-  }
-
-  if (!user) {
-    useRouter().replace("/");
+    router.replace("/");
+    return;
   }
 
   if (!(user?.role === "startup" || user?.role === "specialist")) {
-    useRouter().replace("/not-found");
+    router.replace("/not-found");
+    return;
   }
 
   return (

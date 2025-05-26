@@ -1,7 +1,6 @@
 "use client";
 import React, { useEffect, useState } from "react";
 
-import { useAuth } from "@/app/context/auth_context";
 import Loading from "@/app/components/ui/custom/loading";
 import { authenticatedRequest } from "@/app/utils/api";
 import { Invitation, MyStartupType } from "@/app/types/startup";
@@ -10,7 +9,6 @@ import { ErrorMessage } from "@/app/components/ui";
 
 const CurrentStartups = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const { user } = useAuth();
 
   const [results, setResults] = useState<MyStartupType[]>([]);
   const [error, setError] = useState<string | null>(null);

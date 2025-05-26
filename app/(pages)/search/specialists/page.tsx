@@ -84,7 +84,7 @@ function SearchSpecialists() {
           filters.skills && filters.skills.length > 0 ? filters.skills : null,
       };
       const cleanedFilters: SearchFilters = Object.fromEntries(
-        Object.entries(searchFilters).filter(([_, v]) => v !== undefined)
+        Object.entries(searchFilters).filter(([v]) => v !== undefined)
       ) as SearchFilters;
 
       try {

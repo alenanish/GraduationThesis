@@ -1,5 +1,5 @@
 import { Send } from "@/app/components/icons";
-import { IconButton } from "@/app/components/ui";
+import { ErrorMessage, IconButton } from "@/app/components/ui";
 import { authenticatedRequest } from "@/app/utils/api";
 import React, { useState, useCallback, useRef, useEffect } from "react";
 
@@ -91,6 +91,18 @@ const MessageInput: React.FC<MessageInputProps> = ({ recipient_id }) => {
     },
     [handleSendMessage]
   );
+
+  if (error) {
+    return (
+      <ErrorMessage
+        onClose={() => {
+          setError(null);
+        }}
+      >
+        {error}
+      </ErrorMessage>
+    );
+  }
 
   return (
     <div className="absolute bottom-0 rounded-[16px] w-full flex items-center justify-center pl-3 py-1 pr-1 bg-base-0 gap-2">

@@ -25,7 +25,6 @@ const FounderProfile = () => {
   const [founder, setFounder] = useState<FounderType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const [isModalOpen, setModalOpen] = useState(false);
   const [experiences, setExperiences] = useState<Experience[]>([]);
@@ -53,7 +52,6 @@ const FounderProfile = () => {
             });
           if (response.status === 200) {
             setFounder(response.data);
-            setSuccessMessage("Опыт успешно обновлен!");
             handleCloseModal();
           }
         } catch (err: any) {

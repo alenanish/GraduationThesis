@@ -4,6 +4,7 @@ import IconButton from "./icon-button";
 import { Favourite, NotFavourite } from "../../icons";
 import { authenticatedRequest } from "@/app/utils/api";
 import Loading from "../custom/loading";
+import ErrorMessage from "../text/error-message";
 
 interface FavoriteButtonProps {
   item: { user_id?: number; startup_id?: number };
@@ -41,6 +42,18 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
       setIsLoading(false);
     }
   };
+
+  if (error) {
+    return (
+      <ErrorMessage
+        onClose={() => {
+          setError(null);
+        }}
+      >
+        {error}
+      </ErrorMessage>
+    );
+  }
 
   return (
     <div>

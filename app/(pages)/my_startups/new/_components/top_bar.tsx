@@ -5,6 +5,7 @@ import { TopBarButton } from "@/app/components/ui";
 import { useRouter } from "next/navigation";
 
 const TopBar = () => {
+  const router = useRouter();
   const [activeItem, setActiveItem] = useState("Текущие");
 
   const menuItems = [
@@ -23,7 +24,6 @@ const TopBar = () => {
   };
 
   const menuButtons = () => {
-    const router = useRouter();
     return (
       <div className="flex flex-row gap-1">
         {menuItems.map((item) => (

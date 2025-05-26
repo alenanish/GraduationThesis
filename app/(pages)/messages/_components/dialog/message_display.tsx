@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { MessageType } from "@/app/types/message";
 import SingleMessage from "./message";
 import { authenticatedRequest } from "@/app/utils/api";
+import { ErrorMessage } from "@/app/components/ui";
 
 interface MessageDisplayProps {
   otherUserId: number;
@@ -39,6 +40,18 @@ const MessageDisplay: React.FC<MessageDisplayProps> = ({ otherUserId }) => {
 
     fetchData();
   }, [otherUserId]);
+
+  if (error) {
+    return (
+      <ErrorMessage
+        onClose={() => {
+          setError(null);
+        }}
+      >
+        {error}
+      </ErrorMessage>
+    );
+  }
 
   return (
     <div className="mt-16 mb-12 space-y-2 flex-grow overflow-y-auto">

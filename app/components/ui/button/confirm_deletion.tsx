@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Modal from "../custom/modal";
 import Button from "./button";
 

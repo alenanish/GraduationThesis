@@ -1,6 +1,5 @@
 "use client";
 
-import { StartupCardSpecialist } from "@/app/components/ui";
 import { MyStartupType } from "@/app/types/startup";
 import React from "react";
 import NewStartupSpecCard from "./spec_new_startup_card";
