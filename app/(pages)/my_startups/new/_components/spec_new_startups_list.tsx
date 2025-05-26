@@ -14,7 +14,6 @@ interface StartupsListProps {
 const NewStartupsSpecList: React.FC<StartupsListProps> = ({
   startups,
   no_result_text = "К сожалению, нет результатов",
-  isNew = false,
 }) => {
   return (
     <>

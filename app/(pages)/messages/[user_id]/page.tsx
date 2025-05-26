@@ -14,7 +14,7 @@ export default function Dialog({
   params: Promise<{ user_id: number }>;
 }) {
   const { user_id } = use(params);
-  const [user, setUser] = useState<User | null>(null);
+  const [user, setUser] = useState<User>();
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,9 +41,11 @@ export default function Dialog({
     fetchData();
   }, [user_id]);
 
+  if (!user) return;
+
   return (
     <div className="h-[calc(100vh-72px)] flex flex-col w-full relative">
-      <DialogHeader otherUser={user} isLoading={isLoading} />
+      <DialogHeader otherUser={user} />
       {error && (
         <ErrorMessage
           onClose={() => {

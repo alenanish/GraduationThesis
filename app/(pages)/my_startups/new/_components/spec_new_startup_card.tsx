@@ -3,6 +3,7 @@ import React from "react";
 import { Avatar, Button, ProjectState } from "@/app/components/ui";
 import Link from "next/link";
 import { MyStartupType } from "@/app/types/startup";
+import InvitationButtons from "./invitations_buttons";
 
 const NewStartupSpecCard: React.FC<MyStartupType> = ({
   id,
@@ -11,6 +12,7 @@ const NewStartupSpecCard: React.FC<MyStartupType> = ({
   image,
   role,
   stage,
+  invitation_id
 }) => {
   return (
     <div
@@ -35,10 +37,7 @@ const NewStartupSpecCard: React.FC<MyStartupType> = ({
           </p>
         </div>
 
-        <div className="flex flex-row gap-x-2">
-          <Button>Принять</Button>
-          <Button color="base">Отклонить</Button>
-        </div>
+        <InvitationButtons invitation_id={invitation_id} />
       </div>
     </div>
   );
