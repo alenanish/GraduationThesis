@@ -22,7 +22,6 @@ interface DropdownOption {
   name: string;
 }
 
-
 interface SearchFiltersProps {
   industries: DropdownOption[];
   onSearch: (filters: {

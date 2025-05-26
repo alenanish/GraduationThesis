@@ -13,14 +13,15 @@ import ContactInfo from "@/app/components/cards/show/contact_info";
 import { SpecialistType } from "@/app/types/specialist";
 import { authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import SkillsList from "@/app/components/cards/show/skills";
 import { Experience } from "@/app/types/experience";
 import Loading from "@/app/components/ui/custom/loading";
 import ExperienceModal from "../_forms/experience_modal";
+import { useRouter } from "next/navigation";
 
 const SpecialistProfile = () => {
+  const router = useRouter();
   const [specialist, setSpecialist] = useState<SpecialistType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -118,11 +119,15 @@ const SpecialistProfile = () => {
           title={specialist.full_name}
           subTitle={specialist.profession?.name}
           button={
-            <Link href="/profile/edit" passHref>
+            <div
+              onClick={() => {
+                router.push("/profile/edit");
+              }}
+            >
               <IconButton size="s" color="base" variant="tertiary">
                 {<Edit />}
               </IconButton>
-            </Link>
+            </div>
           }
         />
 

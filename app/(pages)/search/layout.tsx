@@ -6,9 +6,9 @@ import NotFoundPage from "@/app/not-found";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
-  
+
   if (!user) {
-    return <NotFoundPage />
+    return <NotFoundPage />;
   }
 
   return (

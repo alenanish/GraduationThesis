@@ -79,7 +79,22 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     } catch (error) {
       console.error("Error logging out:", error);
     }
-  }, [router, isBrowser]);
+  }, [router, isBrowser, retrieveToken]);
+
+  const isUserProfileComplete = (user: User | null): boolean => {
+    if (!user) return false;
+    if (
+      !user.full_name ||
+      !user.contact_email ||
+      !user.contact_phone ||
+      !user.bio ||
+      false
+    ) {
+      return false;
+    }
+
+    return true;
+  };
 
   const getUserData = useCallback(async () => {
     setIsLoading(true);
@@ -89,12 +104,16 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         "get"
       );
       setUser(response.data);
+
+      if (!isUserProfileComplete(response.data)) {
+        router.replace("/profile/edit");
+      }
     } catch (error: any) {
       console.error(error);
     } finally {
       setIsLoading(false);
     }
-  }, []);
+  }, [router]);
 
   const setToken = useCallback(
     (token: string) => {
@@ -136,12 +155,14 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       try {
         await getToken(email, password);
-        router.replace("/home");
+        if (user && isUserProfileComplete(user)) {
+          router.replace("/home");
+        }
       } finally {
         setIsLoading(false);
       }
     },
-    [getToken, router]
+    [getToken, router, user]
   );
 
   const register = useCallback(

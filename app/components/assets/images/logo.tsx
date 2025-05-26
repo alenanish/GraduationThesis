@@ -4,10 +4,13 @@ interface LogoProps {
   variant?: "top-bar" | "form";
   size?: string | number;
   className?: string;
-
 }
 
-const Logo: React.FC<LogoProps> = ({ size = "40", variant, className='' }) => {
+const Logo: React.FC<LogoProps> = ({
+  size = "40",
+  variant,
+  className = "",
+}) => {
   const calculatedSize = size;
   const sizeString =
     typeof calculatedSize === "number" ? `${calculatedSize}px` : calculatedSize;

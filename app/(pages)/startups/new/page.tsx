@@ -3,11 +3,11 @@
 import ImageUploader from "@/app/(pages)/profile/edit/_components/image_uploader";
 import ContactInfo from "@/app/components/cards/show/contact_info";
 import { Account } from "@/app/components/icons";
-import { Button, Input, Label, TextArea } from "@/app/components/ui";
+import { Button, Input, TextArea } from "@/app/components/ui";
 import Loading from "@/app/components/ui/custom/loading";
 import Dropdown from "@/app/components/ui/drop-down/dropdown-list";
 import { useAuth } from "@/app/context/auth_context";
-import { RequiredSpecialist, StartupCardType } from "@/app/types/startup";
+import { RequiredSpecialist } from "@/app/types/startup";
 import { api, authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
 import { useRouter } from "next/navigation";
@@ -87,10 +87,10 @@ export default function StartupCreate() {
     try {
       const response: AxiosResponse<{ id: number }> =
         await authenticatedRequest("/startups/", "post", payload);
-        
+
       router.push(`/startups/${response.data.id}`);
     } catch (err: any) {
-      console.log(err.response.data)
+      console.log(err.response.data);
       alert("Ошибка при создании: " + err.message);
     } finally {
       setIsLoading(false);

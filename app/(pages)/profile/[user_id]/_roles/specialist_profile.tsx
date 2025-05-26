@@ -2,7 +2,6 @@
 import { SpecialistType } from "@/app/types/specialist";
 import { authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 
 import FavoriteButton from "@/app/components/ui/button/favorite_button";
@@ -16,12 +15,14 @@ import {
 } from "@/app/components/ui";
 import ContactInfo from "@/app/components/cards/show/contact_info";
 import SkillsList from "@/app/components/cards/show/skills";
+import { useRouter } from "next/navigation";
 
 interface SpecialistProfileProps {
   user_id: number;
 }
 
 const SpecialistProfile: React.FC<SpecialistProfileProps> = ({ user_id }) => {
+  const router = useRouter();
   const [specialist, setSpecialist] = useState<SpecialistType>();
   const [error, setError] = useState(null);
   useEffect(() => {
@@ -69,16 +70,20 @@ const SpecialistProfile: React.FC<SpecialistProfileProps> = ({ user_id }) => {
         <Label label="Опыт работы">
           <JobExperience experiences={specialist.experience} isEdit={false} />
         </Label>
-        <SkillsList skills={specialist.skills} className=" flex-wrap"/>
+        <SkillsList skills={specialist.skills} className=" flex-wrap" />
       </div>
 
       <div className="flex flex-col gap-y-4 col-span-1">
         <Avatar avatar={specialist.avatar} role="user" />
-        <Link href={`/messages/${specialist.user_id}`} passHref>
+        <div
+          onClick={() => {
+            router.push(`/messages/${specialist.user_id}`);
+          }}
+        >
           <Button className="w-full" type="button">
             Написать
           </Button>
-        </Link>
+        </div>
 
         <ContactInfo
           contact_email={specialist.contact_email}

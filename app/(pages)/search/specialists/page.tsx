@@ -81,9 +81,7 @@ function SearchSpecialists() {
         profession: filters.profession || null,
         min_experience_years: filters.min_experience_years || null,
         skills:
-          filters.skills && filters.skills.length > 0
-            ? filters.skills
-            : null,
+          filters.skills && filters.skills.length > 0 ? filters.skills : null,
       };
       const cleanedFilters: SearchFilters = Object.fromEntries(
         Object.entries(searchFilters).filter(([_, v]) => v !== undefined)

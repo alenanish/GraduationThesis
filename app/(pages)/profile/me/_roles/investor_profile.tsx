@@ -11,14 +11,15 @@ import ContactInfo from "@/app/components/cards/show/contact_info";
 import { InvestorExperienceType, InvestorType } from "@/app/types/investor";
 import { authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import InvestExperience from "@/app/components/cards/investment_experience/invest_experience";
 import InvestorPreferences from "@/app/components/cards/show/investor_preferences";
 import Loading from "@/app/components/ui/custom/loading";
 import InvestExperienceModal from "../_forms/invest_experience_modal";
+import { useRouter } from "next/navigation";
 
 const InvestorProfile = () => {
+  const router = useRouter();
   const [investor, setInvestor] = useState<InvestorType>();
   const [error, setError] = useState(null);
 
@@ -94,11 +95,11 @@ const InvestorProfile = () => {
             title={investor.full_name}
             subTitle={investor.industry?.name}
             button={
-              <Link href="/profile/edit" passHref>
+              <div onClick={()=>{router.push("/profile/edit")}}>
                 <IconButton size="s" color="base" variant="tertiary">
                   {<Edit />}
                 </IconButton>
-              </Link>
+              </div>
             }
           />
           {investor.position && investor.company && (

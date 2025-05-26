@@ -24,13 +24,15 @@ async function searchInvestors(
   filters: SearchFilters
 ): Promise<InvestorCardType[]> {
   try {
-    const response: AxiosResponse<InvestorCardType[]> =
-      await api.get("/search/investors/", {
+    const response: AxiosResponse<InvestorCardType[]> = await api.get(
+      "/search/investors/",
+      {
         headers: {
           Authorization: `Token ${sessionStorage.getItem("auth_token")}`,
         },
         params: filters,
-      });
+      }
+    );
     console.log(response);
     return response.data;
   } catch (error) {
@@ -40,9 +42,7 @@ async function searchInvestors(
 }
 
 function SearchInvestInvestors() {
-  const [investors, setInvestors] = useState<
-    InvestorCardType[] | []
-  >([]);
+  const [investors, setInvestors] = useState<InvestorCardType[] | []>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [industries, setIndustries] = useState<DropdownOption[]>([]);
   const [error, setError] = useState<string | null>(null);
@@ -134,10 +134,7 @@ function SearchInvestInvestors() {
   return (
     <div className="flex">
       <div className="w-1/4">
-        <InvestSearchFilters
-          industries={industries}
-          onSearch={handleSearch}
-        />
+        <InvestSearchFilters industries={industries} onSearch={handleSearch} />
       </div>
       <div className="w-3/4 pl-4">
         <InvestorsList investors={investors} />

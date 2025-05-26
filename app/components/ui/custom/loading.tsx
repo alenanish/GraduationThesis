@@ -23,13 +23,16 @@ const Loading: React.FC<LoadingProps> = ({
           borderWidth: borderWidth,
           borderColor: color,
           borderTopColor: "transparent",
-          animation: `spin 2s linear infinite`
+          animation: `spin 2s linear infinite`,
         }}
       ></div>
-      {text && <div className="mb-2 text-center text-h5 italic text-base-600">{text}</div>}
+      {text && (
+        <div className="mb-2 text-center text-h5 italic text-base-600">
+          {text}
+        </div>
+      )}
     </div>
   );
 };
 
 export default Loading;
-

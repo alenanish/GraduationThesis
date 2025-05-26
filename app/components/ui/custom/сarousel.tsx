@@ -14,14 +14,14 @@ interface CarouselProps {
   items: CarouselItem[];
   showSteppers?: boolean;
   showButtons?: boolean;
-  itemWidth?: string; 
+  itemWidth?: string;
 }
 
 const Carousel: React.FC<CarouselProps> = ({
   items,
   showSteppers = true,
   showButtons = false,
-  itemWidth = "70%", 
+  itemWidth = "70%",
 }) => {
   const [activeIndex, setActiveIndex] = useState(0);
   const carouselRef = useRef<HTMLDivElement>(null);
@@ -53,7 +53,9 @@ const Carousel: React.FC<CarouselProps> = ({
       <div className="relative w-full h-full flex items-center justify-center">
         {/* Previous Item */}
         <div className="absolute left-0 h-full w-1/3 transition-all duration-300 transform origin-center">
-          <div className="h-full w-full  flex justify-end"> {/* Added flex and justify-end */}
+          <div className="h-full w-full  flex justify-end">
+            {" "}
+            {/* Added flex and justify-end */}
             <img
               src={items[previousIndex].imageUrl}
               alt={items[previousIndex].altText}
@@ -93,7 +95,9 @@ const Carousel: React.FC<CarouselProps> = ({
 
         {/* Next Item */}
         <div className="absolute right-0 h-full w-1/3 transition-all duration-300 transform origin-center">
-          <div className="h-full w-full overflow-hidden flex justify-start"> {/* Added flex and justify-start */}
+          <div className="h-full w-full overflow-hidden flex justify-start">
+            {" "}
+            {/* Added flex and justify-start */}
             <img
               src={items[nextIndex].imageUrl}
               alt={items[nextIndex].altText}

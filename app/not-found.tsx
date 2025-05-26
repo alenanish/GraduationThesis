@@ -1,3 +1,4 @@
+"use client";
 import NotFound from "./components/ui/text/not_found";
 
 export default function NotFoundPage() {

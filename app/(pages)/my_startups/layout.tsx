@@ -1,8 +1,8 @@
 "use client";
 import React from "react";
-import TopBar from "./_components/top_bar";
 import { useAuth } from "@/app/context/auth_context";
 import { useRouter } from "next/navigation";
+import MyStartupsTopBar from "./_components/top_bar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const { user } = useAuth();
@@ -23,7 +23,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
     <>
       {user?.role === "specialist" ? (
         <div className="w-full mt-10">
-          <TopBar />
+          <MyStartupsTopBar />
           <div>{children}</div>
         </div>
       ) : (

@@ -43,7 +43,7 @@ const SpecSearchFilters: React.FC<SearchFiltersProps> = ({
     const filters = {
       profession: profession ? profession.id.toString() : null,
       skills: required_skills.length > 0 ? required_skills : null,
-      min_experience_years: experience ? experience.toString() : '0',
+      min_experience_years: experience ? experience.toString() : "0",
     };
     onSearch(filters);
   }, [profession, skills, experience, onSearch]);
@@ -69,9 +69,7 @@ const SpecSearchFilters: React.FC<SearchFiltersProps> = ({
         placeholder="Навыки"
       />
 
-      <h2 className="text-body-m font-medium text-base-800 mb-1">
-       Опыт:
-      </h2>
+      <h2 className="text-body-m font-medium text-base-800 mb-1">Опыт:</h2>
 
       <Input
         size="s"

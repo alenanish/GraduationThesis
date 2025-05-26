@@ -15,7 +15,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 }
 
 const TopBarButton: React.FC<ButtonProps> = ({
-  size = "s" ,
+  size = "s",
   color = "prime",
   children,
   onClick,
@@ -37,7 +37,7 @@ const TopBarButton: React.FC<ButtonProps> = ({
           disabled:text-base-100
           disabled:bg-transparent`;
     } else {
-          return `text-prime-500 
+      return `text-prime-500 
           hover:text-prime-600
           hover:bg-prime-100 
           active:bg-prime-200
@@ -50,9 +50,8 @@ const TopBarButton: React.FC<ButtonProps> = ({
   const activeButtonStyle = () => {
     if (isActive) {
       return `bg-prime-100 text-prime-600 `;
-    } 
+    }
   };
-
 
   const sizeStyles = () => {
     switch (size) {

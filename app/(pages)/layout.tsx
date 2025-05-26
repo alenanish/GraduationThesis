@@ -2,15 +2,12 @@
 
 import TopBar from "./_components/top_bar";
 import ProtectedRoute from "../services/protected_route";
-import { useAuth } from "../context/auth_context";
 
 export default function RootLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const { user } = useAuth();
-
   return (
     <ProtectedRoute>
       <TopBar />

@@ -14,13 +14,14 @@ import ContactInfo from "@/app/components/cards/show/contact_info";
 import { FounderType } from "@/app/types/founder";
 import { authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
-import Link from "next/link";
 import React, { useState, useEffect } from "react";
 import { Experience } from "@/app/types/experience";
 import ExperienceModal from "../_forms/experience_modal";
 import Loading from "@/app/components/ui/custom/loading";
+import { useRouter } from "next/navigation";
 
 const FounderProfile = () => {
+  const router = useRouter();
   const [founder, setFounder] = useState<FounderType | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -117,11 +118,15 @@ const FounderProfile = () => {
           title={founder.full_name}
           subTitle={founder.industry?.name}
           button={
-            <Link href="/profile/edit">
+            <div
+              onClick={() => {
+                router.push("/profile/edit");
+              }}
+            >
               <IconButton size="s" color="base" variant="tertiary">
                 <Edit />
               </IconButton>
-            </Link>
+            </div>
           }
         />
 

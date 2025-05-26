@@ -14,7 +14,7 @@ interface ExperienceModalProps {
 
 const ExperienceModal: React.FC<ExperienceModalProps> = ({
   isOpen,
-  onClose,  
+  onClose,
   title = "Добавить опыт",
   saveChanges,
 }) => {

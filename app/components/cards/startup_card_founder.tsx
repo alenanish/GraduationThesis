@@ -1,14 +1,15 @@
 "use client";
 import React from "react";
 import { Avatar, Button, ProjectState } from "@/app/components/ui";
-import Link from "next/link";
-import { MyStartupType, StartupCardType } from "../../types/startup";
+import { MyStartupType } from "../../types/startup";
+import { useRouter } from "next/navigation";
 
 interface StartupProps {
   startup: MyStartupType;
 }
 
 const StartupCardFounder: React.FC<StartupProps> = ({ startup }) => {
+  const router = useRouter();
   return (
     <div
       className="w-full h-[250px] flex flex-row gap-x-4 p-4 justify-start justify-items-center
@@ -18,11 +19,16 @@ const StartupCardFounder: React.FC<StartupProps> = ({ startup }) => {
       <Avatar avatar={startup.image} role="startup" />
 
       <div className="flex flex-col gap-y-2 w-[calc(100%-56px)] md:w-[calc(100%-318px)]">
-        <Link key={startup.id} href={`/startups/${startup.id}`}>
+        <div
+          key={startup.id}
+          onClick={() => {
+            router.push(`/startups/${startup.id}`);
+          }}
+        >
           <div className="flex flex-row gap-x-4 items-center ">
             <h2 className="text-h4 text-base-900">{startup.title}</h2>
           </div>
-        </Link>
+        </div>
         <div className=" flex-grow ">
           <p className="text-base-500 text-h5 overflow-hidden truncate">
             {startup.description}
@@ -34,13 +40,14 @@ const StartupCardFounder: React.FC<StartupProps> = ({ startup }) => {
           <ProjectState size={20} state={startup.stage} />
         </div>
 
-        <Link
-          href={`/startups/${startup.id}/edit`}
+        <div
+          onClick={() => {
+            router.push(`/startups/${startup.id}/edit`);
+          }}
           className="w-fit mt-2"
-          passHref
         >
           <Button className="mt-2">Редактировать</Button>
-        </Link>
+        </div>
       </div>
     </div>
   );

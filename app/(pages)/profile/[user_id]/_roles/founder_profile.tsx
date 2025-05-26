@@ -5,7 +5,7 @@ import Loading from "@/app/components/ui/custom/loading";
 import { FounderType } from "@/app/types/founder";
 import { authenticatedRequest } from "@/app/utils/api";
 import { AxiosResponse } from "axios";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 
 interface FounderProfileProps {
@@ -13,6 +13,7 @@ interface FounderProfileProps {
 }
 
 const FounderProfile: React.FC<FounderProfileProps> = ({ user_id }) => {
+  const router = useRouter();
   const [founder, setFounder] = useState<FounderType>();
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -76,11 +77,15 @@ const FounderProfile: React.FC<FounderProfileProps> = ({ user_id }) => {
       <div className="flex flex-col gap-y-4 col-span-1">
         <Avatar avatar={founder.avatar} role="user" />
 
-        <Link href={`/messages/${founder.user_id}`} passHref>
+        <div
+          onClick={() => {
+            router.push(`/messages/${founder.user_id}`);
+          }}
+        >
           <Button className="w-full" type="button">
             Написать
           </Button>
-        </Link>
+        </div>
 
         <ContactInfo
           contact_email={founder.contact_email}

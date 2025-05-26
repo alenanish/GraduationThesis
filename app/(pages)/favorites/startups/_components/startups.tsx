@@ -2,17 +2,14 @@
 import StartupsSpecList from "@/app/components/lists/startups_spec_list";
 import { ErrorMessage } from "@/app/components/ui";
 import Loading from "@/app/components/ui/custom/loading";
-import { useAuth } from "@/app/context/auth_context";
 import { StartupSpecCardType } from "@/app/types/startup";
 import { authenticatedRequest } from "@/app/utils/api";
-import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 
 const FavouriteStartups = ({}) => {
   const [results, setResults] = useState<StartupSpecCardType[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-
 
   useEffect(() => {
     const fetchData = async () => {

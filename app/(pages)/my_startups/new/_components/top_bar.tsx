@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 
-import Link from "next/link";
 import { TopBarButton } from "@/app/components/ui";
+import { useRouter } from "next/navigation";
 
 const TopBar = () => {
   const [activeItem, setActiveItem] = useState("Текущие");
@@ -23,10 +23,16 @@ const TopBar = () => {
   };
 
   const menuButtons = () => {
+    const router = useRouter();
     return (
       <div className="flex flex-row gap-1">
         {menuItems.map((item) => (
-          <Link key={item.label} href={item.href} passHref>
+          <div
+            key={item.label}
+            onClick={() => {
+              router.push(item.href);
+            }}
+          >
             <TopBarButton
               color="prime"
               size="xs"
@@ -35,7 +41,7 @@ const TopBar = () => {
             >
               {item.label}
             </TopBarButton>
-          </Link>
+          </div>
         ))}
       </div>
     );

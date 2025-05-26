@@ -2,7 +2,6 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
-import Link from "next/link";
 
 import { Button, Label } from "@/app/components/ui";
 
@@ -272,11 +271,15 @@ const InvestorProfileEdit = () => {
         <Button size="s" disabled={!isSaveButtonActive} onClick={handleSubmit}>
           Сохранить
         </Button>
-        <Link href="/profile/me" passHref>
+        <div
+          onClick={() => {
+            router.push("/profile/me");
+          }}
+        >
           <Button size="s" variant="tertiary" color="base">
             Отменить
           </Button>
-        </Link>
+        </div>
       </div>
       <div className="grid grid-cols-5 gap-x-4 ">
         <div className="flex flex-col  gap-y-4 col-span-4">

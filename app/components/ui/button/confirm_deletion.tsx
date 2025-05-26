@@ -16,7 +16,6 @@ const ConfirmAction: React.FC<ConfirmActionProps> = ({
   message,
   isOpen,
 }) => {
- 
   if (!isOpen) return null;
 
   return (

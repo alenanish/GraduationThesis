@@ -5,7 +5,7 @@ import InviteModal from "@/app/components/ui/custom/invite_modal";
 import { useAuth } from "@/app/context/auth_context";
 import { User } from "@/app/types/user";
 import { authenticatedRequest } from "@/app/utils/api";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 
 interface DialogHeaderProps {
@@ -14,6 +14,7 @@ interface DialogHeaderProps {
 
 const DialogHeader: React.FC<DialogHeaderProps> = ({ otherUser }) => {
   const { user } = useAuth();
+  const router = useRouter();
   const [isInviteModalOpen, setInviteModalOpen] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -22,8 +23,8 @@ const DialogHeader: React.FC<DialogHeaderProps> = ({ otherUser }) => {
   const handleDelete = async () => {
     try {
       await authenticatedRequest(`/messages/${otherUser.user_id}/`, "delete");
-    } catch (e) {
-      setError("Ошибка при удалении переписки");
+    } catch (e: any) {
+      setError(`Ошибка при удалении переписки: ${e.response.data}`);
     }
   };
 
@@ -87,7 +88,11 @@ const DialogHeader: React.FC<DialogHeaderProps> = ({ otherUser }) => {
             <>
               <div className="w-10 h-10 rounded-full mr-2 text-prime-500">
                 {otherUser.avatar ? (
-                  <Link href={`/profile/${otherUser.user_id}`} passHref>
+                  <div
+                    onClick={() => {
+                      router.push(`/profile/${otherUser.user_id}`);
+                    }}
+                  >
                     <img
                       src={otherUser.avatar}
                       alt={`Avatar of ${otherUser.full_name}`}
@@ -95,11 +100,15 @@ const DialogHeader: React.FC<DialogHeaderProps> = ({ otherUser }) => {
                       height={40}
                       className="object-cover w-full h-full"
                     />
-                  </Link>
+                  </div>
                 ) : (
-                  <Link href={`/profile/${otherUser.user_id}`} passHref>
+                  <div
+                    onClick={() => {
+                      router.push(`/profile/${otherUser.user_id}`);
+                    }}
+                  >
                     <DefaultAccount size={40} />
-                  </Link>
+                  </div>
                 )}
               </div>
               <h2 className="text-body-m font-medium text-base-800">

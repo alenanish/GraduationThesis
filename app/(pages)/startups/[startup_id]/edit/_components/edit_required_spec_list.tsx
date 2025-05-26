@@ -67,7 +67,7 @@ const RequiredSpecialistDel: React.FC<RequiredSpecialistDelProps> = ({
                 </span>
 
                 <NewSkillsList
-                allSkills={allSkills}
+                  allSkills={allSkills}
                   initialSkills={specialist.skills}
                   onSkillsChange={(skills) =>
                     handleSkillsChange(specialist.id, skills)

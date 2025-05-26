@@ -25,8 +25,8 @@ export { default as StartupCardInvestor } from "../cards/startup_card_investor";
 
 export { default as SpecialistCard } from "../cards/specialist_card";
 export { default as InvestorCard } from "../cards/investor_card";
-export { default as StartupInvestCard } from '../cards/startup_card_investor' 
-export { default as StartupSpecCard } from "../cards/startup_card_specialist"
+export { default as StartupInvestCard } from "../cards/startup_card_investor";
+export { default as StartupSpecCard } from "../cards/startup_card_specialist";
 
 export { default as Header } from "../cards/show/header";
 export { default as Bio } from "../cards/show/bio";

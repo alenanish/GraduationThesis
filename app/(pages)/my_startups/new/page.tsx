@@ -4,20 +4,15 @@ import React, { useEffect, useState } from "react";
 import { useAuth } from "@/app/context/auth_context";
 import Loading from "@/app/components/ui/custom/loading";
 import { authenticatedRequest } from "@/app/utils/api";
-import {
-  Invitation,
-  MyStartupType
-} from "@/app/types/startup";
+import { Invitation, MyStartupType } from "@/app/types/startup";
 import NewStartupsSpecList from "./_components/spec_new_startups_list";
+import { ErrorMessage } from "@/app/components/ui";
 
 const CurrentStartups = () => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { user } = useAuth();
 
-  const role = user?.role;
-
   const [results, setResults] = useState<MyStartupType[]>([]);
-  const [invitations, setInvitations] = useState<Invitation[]>([]);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -35,7 +30,6 @@ const CurrentStartups = () => {
           "get"
         );
         console.log(invitations.data);
-        setInvitations(invitations.data);
       } catch (err: any) {
         setError(err.message || "Ошибка при загрузке стартапов.");
       } finally {
@@ -48,6 +42,18 @@ const CurrentStartups = () => {
 
   if (isLoading) {
     return <Loading />;
+  }
+
+  if (error) {
+    return (
+      <ErrorMessage
+        onClose={() => {
+          setError(null);
+        }}
+      >
+        {error}
+      </ErrorMessage>
+    );
   }
 
   return (

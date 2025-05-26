@@ -26,7 +26,8 @@ const Label: React.FC<LabelProps> = ({
   };
 
   const getContainerStyles = () => {
-    let baseStyles = className + " bg-base-0 p-4  text-base-900  flex flex-col gap-y-2";
+    let baseStyles =
+      className + " bg-base-0 p-4  text-base-900  flex flex-col gap-y-2";
 
     if (size === "m") {
       baseStyles += " rounded-[8px]";
@@ -38,9 +39,7 @@ const Label: React.FC<LabelProps> = ({
   };
 
   return (
-    <div
-      className={getContainerStyles()}
-    >
+    <div className={getContainerStyles()}>
       {label && <h2 className={getLabelStyles()}>{label}</h2>}
       {children}
     </div>

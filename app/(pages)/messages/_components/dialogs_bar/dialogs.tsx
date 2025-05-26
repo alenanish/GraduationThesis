@@ -51,9 +51,13 @@ function Dialogs() {
 
   return (
     <div className="fixed w-1/3 bg-base-0 rounded-[16px] h-[calc(100vh-72px)] flex-grow flex-col gap-1 p-1 ">
-      {dialogs ? ( dialogs.map((dialog) => (
-        <DialogItem key={dialog.id} dialogItem={dialog} />
-      ))) : (<p>У вас пока нет диалогов</p>)}
+      {dialogs ? (
+        dialogs.map((dialog) => (
+          <DialogItem key={dialog.id} dialogItem={dialog} />
+        ))
+      ) : (
+        <p>У вас пока нет диалогов</p>
+      )}
     </div>
   );
 }

@@ -1,8 +1,8 @@
 "use client";
 import React, { useState } from "react";
 import { Button } from "../../ui";
-import Link from "next/link";
 import { Profession } from "@/app/types/profession";
+import { useRouter } from "next/navigation";
 
 interface RequiredSpecialistsProps {
   required_specislists: Profession[] | [];
@@ -15,6 +15,7 @@ const RequiredSpecialistsList: React.FC<RequiredSpecialistsProps> = ({
   className = "",
   maxRequiredSpecialistsToShow = 3,
 }) => {
+  const router = useRouter();
   const [numberRequiredSpecialists] = useState<number>(
     maxRequiredSpecialistsToShow
       ? maxRequiredSpecialistsToShow
@@ -30,11 +31,11 @@ const RequiredSpecialistsList: React.FC<RequiredSpecialistsProps> = ({
       <h3 className="text-body-m text-base-900 ">Требуемые специалисты:</h3>
       <ul className={`${className} flex gap-2`}>
         {displayedRequiredSpecialists.map((profession) => (
-          <Link key={profession.id} href="/search/specialists" passHref>
-            <Button color="light-grey" size="s" key={profession.id}>
+          <div key={profession.id} >
+            <Button  onClick={()=>{router.push("/search/specialists")}} color="light-grey" size="s" key={profession.id}>
               {profession.name}
             </Button>
-          </Link>
+          </div>
         ))}
       </ul>
     </div>

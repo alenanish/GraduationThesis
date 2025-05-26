@@ -1,11 +1,11 @@
 "use client";
 import React, { useState } from "react";
 import { Avatar, Button } from "@/app/components/ui";
-import Link from "next/link";
 import { SpecialistCardType } from "../../types/specialist";
 import FavoriteButton from "../ui/button/favorite_button";
 import SkillsList from "./show/skills";
 import { Skill } from "@/app/types/skill";
+import { useRouter } from "next/navigation";
 
 const SpecialistCard: React.FC<SpecialistCardType> = ({
   id,
@@ -17,6 +17,7 @@ const SpecialistCard: React.FC<SpecialistCardType> = ({
   is_favorited: initialIsFavorited,
   avatar,
 }) => {
+  const router = useRouter();
   const [isFavorited] = useState(initialIsFavorited);
 
   function limitSkills(skills: Skill[], limit: number = 4): Skill[] {
@@ -31,15 +32,20 @@ const SpecialistCard: React.FC<SpecialistCardType> = ({
     >
       <Avatar avatar={avatar} role="user" />
       <div className="flex flex-col gap-y-2 w-[calc(100%-56px)] md:w-[calc(100%-318px)]">
-        <Link key={user_id} href={`/profile/${user_id}`} passHref>
-          <div className="flex flex-row gap-x-4 items-center">
-            <h2 className="text-h4 text-base-900">{full_name}</h2>
-            <h2 className="text-h4 text-base-900">-</h2>
-            <p className="text-base-700 text-body-s font-medium ">
-              {profession?.name}
-            </p>
-          </div>
-        </Link>
+        <div
+          className="flex flex-row gap-x-4 items-center"
+          key={user_id}
+          onClick={() => {
+            router.push(`/profile/${user_id}`);
+          }}
+        >
+          <h2 className="text-h4 text-base-900">{full_name}</h2>
+          <h2 className="text-h4 text-base-900">-</h2>
+          <p className="text-base-700 text-body-s font-medium ">
+            {profession?.name}
+          </p>
+        </div>
+
         <div className=" flex-grow ">
           <p className="text-base-500 text-h5 overflow-hidden truncate">
             {bio}
@@ -47,9 +53,15 @@ const SpecialistCard: React.FC<SpecialistCardType> = ({
         </div>
 
         <SkillsList skills={limitSkills(skills)} className=" flex-nowrap" />
-        <Link href={`/messages/${user_id}`} passHref>
-          <Button className="mt-2">Открыть чат</Button>
-        </Link>
+        <div className="mt-2">
+          <Button
+            onClick={() => {
+              router.push(`/messages/${user_id}`);
+            }}
+          >
+            Открыть чат
+          </Button>
+        </div>
       </div>
       <div>
         <FavoriteButton

@@ -9,27 +9,34 @@ interface MenuItem {
   href: string;
 }
 
-const MyStartupsTopBar = () => {
+const TopBarFavourites = () => {
   const { user } = useAuth();
   const router = useRouter();
   const pathname = usePathname();
 
   const [activeItem, setActiveItem] = useState<string>("");
 
-  const menuItems = [
-    {
-      label: "Текущие",
-      href: "/my_startups",
-    },
-    {
-      label: "Новые",
-      href: "/my_startups/new",
-    },
-  ];
+  const menuItems: Record<string, MenuItem[]> = {
+    startup: [
+      { label: "Стартапы", href: "/favorites/startups" },
+      { label: "Специалисты", href: "/favorites/specialists" },
+      { label: "Инвесторы", href: "/favorites/investors" },
+    ],
+    specialist: [
+      { label: "Стартапы", href: "/favorites/startups" },
+      { label: "Специалисты", href: "/favorites/specialists" },
+      { label: "Инвесторы", href: "/favorites/investors" },
+    ],
+    investor: [
+      { label: "Стартапы", href: "/favorites/startups" },
+      { label: "Специалисты", href: "/favorites/specialists" },
+      { label: "Инвесторы", href: "/favorites/investors" },
+    ],
+  };
 
   useEffect(() => {
     if (!user?.role) return;
-    const items = menuItems;
+    const items = menuItems[user.role];
     const currentItem = items.find((item) => pathname.endsWith(item.href));
     if (currentItem) {
       setActiveItem(currentItem.label);
@@ -48,12 +55,12 @@ const MyStartupsTopBar = () => {
   return (
     <header className="fixed top-13 left-0 p-2 bg-base-0 w-full h-10 flex flex-row items-center justify-between">
       <div className="flex flex-row gap-1 items-center">
-        {menuItems.map((item) => (
+        {menuItems[user.role].map((item) => (
           <TopBarButton
             key={item.label}
             onClick={() => handleItemClick(item)}
             isActive={activeItem === item.label}
-            size="xs"
+            size='xs'
           >
             {item.label}
           </TopBarButton>
@@ -63,4 +70,4 @@ const MyStartupsTopBar = () => {
   );
 };
 
-export default MyStartupsTopBar;
+export default TopBarFavourites;

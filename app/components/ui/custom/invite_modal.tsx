@@ -169,21 +169,21 @@ const InviteModal: React.FC<InviteModalProps> = ({
         />
 
         <div className="relative">
-        <DropdownList
-          id="vacancies"
-          label="Вакансия"
-          options={vacancyOptions}
-          onChange={handleVacancyChange}
-          value={selectedVacancyId ?? ""}
-          placeholder="Выберите вакансию"
-          disabled={loadingDetails || vacancyOptions.length === 0}
-          border
-        />
-        {selectedStartupId && vacancyOptions.length === 0 && (
-          <p className="absolute b-0 text-caption italic text-red-500">
-            Нет активных вакансий
-          </p>
-        )}
+          <DropdownList
+            id="vacancies"
+            label="Вакансия"
+            options={vacancyOptions}
+            onChange={handleVacancyChange}
+            value={selectedVacancyId ?? ""}
+            placeholder="Выберите вакансию"
+            disabled={loadingDetails || vacancyOptions.length === 0}
+            border
+          />
+          {selectedStartupId && vacancyOptions.length === 0 && (
+            <p className="absolute b-0 text-caption italic text-red-500">
+              Нет активных вакансий
+            </p>
+          )}
         </div>
 
         <div className="mt-2">

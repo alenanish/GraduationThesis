@@ -6,13 +6,12 @@ import Loading from "@/app/components/ui/custom/loading";
 import { useRouter } from "next/navigation";
 import { authenticatedRequest } from "@/app/utils/api";
 import { MyStartupType, StartupCardType } from "@/app/types/startup";
-import Link from "next/link";
 import { Button } from "@/app/components/ui";
 import StartupsFoundList from "@/app/components/lists/startups_found_list";
-import StartupsSpecList from "@/app/components/lists/startups_spec_list";
 import CurStartupsSpecList from "./_components/spec_current_startups_list";
 
 const CurrentStartups = () => {
+  const router = useRouter();
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const { user } = useAuth();
 
@@ -46,7 +45,7 @@ const CurrentStartups = () => {
   }
 
   if (!user) {
-    useRouter().replace("/");
+    router.replace("/");
   }
 
   if (!(user?.role === "startup" || user?.role === "specialist")) {
@@ -59,11 +58,15 @@ const CurrentStartups = () => {
         <div className="space-y-2">
           <div className="flex flex-row justify-between">
             <h2 className="text-h4 font-medium text-base-900 mb-1">Стартапы</h2>
-            <Link href={"/startups/new"} passHref>
+            <div
+              onClick={() => {
+                router.push("/startups/new");
+              }}
+            >
               <Button type="button" size="s">
                 Новый стартап
               </Button>
-            </Link>
+            </div>
           </div>
 
           <StartupsFoundList

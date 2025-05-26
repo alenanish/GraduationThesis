@@ -1,108 +1,82 @@
 "use client";
-import React, { useState } from "react";
-
-import Link from "next/link";
+import React, { useState, useEffect } from "react";
 import { TopBarButton } from "@/app/components/ui";
+import { useRouter, usePathname } from "next/navigation";
 import { useAuth } from "@/app/context/auth_context";
 
-const TopBar = () => {
-  const [activeItem, setActiveItem] = useState("Стартапы");
+interface MenuItem {
+  label: string;
+  href: string;
+}
+
+const TopBarSearch = () => {
   const { user } = useAuth();
-  const menuItemsFounder = [
-    {
-      label: "Специалисты",
-      href: "/search/specialists",
-    },
-    {
-      label: "Инвесторы",
-      href: "/search/investors",
-      isActive: false,
-    },
-  ];
+  const router = useRouter();
+  const pathname = usePathname();
 
-  const menuItemsInvestor = [
-    { label: "Стартапы", href: "/search/startups" },
-    {
-      label: "Инвесторы",
-      href: "/search/investors",
-      isActive: false,
-    },
-  ];
+  const [activeItem, setActiveItem] = useState<string>("");
 
-  const menuItemsSpecialist = [
-    { label: "Стартапы", href: "/search/startups" },
-    {
-      label: "Инвесторы",
-      href: "/search/investors",
-    },
-  ];
-
-  const handleItemClick = (label: string) => {
-    setActiveItem(label);
+  const menuItems: Record<string, MenuItem[]> = {
+    startup: [
+      {
+        label: "Специалисты",
+        href: "/search/specialists",
+      },
+      {
+        label: "Инвесторы",
+        href: "/search/investors",
+      },
+    ],
+    specialist: [
+      { label: "Стартапы", href: "/search/startups" },
+      {
+        label: "Инвесторы",
+        href: "/search/investors",
+      },
+    ],
+    investor: [
+      { label: "Стартапы", href: "/search/startups" },
+      {
+        label: "Инвесторы",
+        href: "/search/investors",
+      },
+    ],
   };
 
-  const menuButtons = () => {
-    return (
-      <div className="flex flex-row gap-1">
-        {user?.role == "startup" && (
-          <>
-            {menuItemsFounder.map((item) => (
-              <Link key={item.label} href={item.href} passHref>
-                <TopBarButton
-                  color="prime"
-                  size="xs"
-                  isActive={activeItem === item.label}
-                  onClick={() => handleItemClick(item.label)}
-                >
-                  {item.label}
-                </TopBarButton>
-              </Link>
-            ))}
-          </>
-        )}
+  useEffect(() => {
+    if (!user?.role) return;
+    const items = menuItems[user.role];
+    const currentItem = items.find((item) => pathname.endsWith(item.href));
+    if (currentItem) {
+      setActiveItem(currentItem.label);
+    }
+  }, [pathname, user?.role]);
 
-        {user?.role == "investor" && (
-          <>
-            {menuItemsInvestor.map((item) => (
-              <Link key={item.label} href={item.href} passHref>
-                <TopBarButton
-                  color="prime"
-                  size="xs"
-                  isActive={activeItem === item.label}
-                  onClick={() => handleItemClick(item.label)}
-                >
-                  {item.label}
-                </TopBarButton>
-              </Link>
-            ))}
-          </>
-        )}
-
-        {user?.role == "specialist" && (
-          <>
-            {menuItemsSpecialist.map((item) => (
-              <Link key={item.label} href={item.href} passHref>
-                <TopBarButton
-                  color="prime"
-                  size="xs"
-                  isActive={activeItem === item.label}
-                  onClick={() => handleItemClick(item.label)}
-                >
-                  {item.label}
-                </TopBarButton>
-              </Link>
-            ))}
-          </>
-        )}
-      </div>
-    );
+  const handleItemClick = (item: MenuItem) => {
+    setActiveItem(item.label);
+    router.push(item.href);
   };
+
+  if (!user?.role) {
+    return null;
+  }
 
   return (
     <header className="fixed top-13 left-0 p-2 bg-base-0 w-full h-10 flex flex-row items-center justify-between">
-      <div className="items-center">{menuButtons()}</div>
+      <div className="flex flex-row gap-1 items-center">
+        {menuItems[user.role].map((item) => (
+          <TopBarButton
+            key={item.label}
+            onClick={() => handleItemClick(item)}
+            isActive={activeItem === item.label}
+            size="xs"
+          >
+            {item.label}
+          </TopBarButton>
+        ))}
+      </div>
     </header>
   );
 };
 
-export default TopBar;
+export default TopBarSearch;

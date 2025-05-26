@@ -1,7 +1,7 @@
 "use client";
 
 import { User } from "@/app/types/user";
-import { useState, useEffect, use, useCallback } from "react";
+import { useState, useEffect, use } from "react";
 import DialogHeader from "../_components/dialog/dialog_header";
 import { authenticatedRequest } from "@/app/utils/api";
 import MessageDisplay from "../_components/dialog/message_display";

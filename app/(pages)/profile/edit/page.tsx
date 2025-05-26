@@ -9,8 +9,6 @@ const ProfilePage = () => {
   const { user } = useAuth();
   const role = user?.role;
 
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-
   return (
     <div className="w-full">
       {role === "startup" ? (

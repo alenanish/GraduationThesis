@@ -44,12 +44,7 @@ const FavoriteButton: React.FC<FavoriteButtonProps> = ({
 
   return (
     <div>
-      <IconButton
-        variant="secondary"
-        size="s"
-        onClick={handleFavoriteClick}
-        
-      >
+      <IconButton variant="secondary" size="s" onClick={handleFavoriteClick}>
         {isLoading ? (
           <Loading size={24} />
         ) : isFavorited ? (

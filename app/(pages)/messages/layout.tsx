@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React from "react";
 import Dialogs from "./_components/dialogs_bar/dialogs";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

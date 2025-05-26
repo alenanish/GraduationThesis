@@ -15,7 +15,6 @@ import {
   ProjectState,
 } from "@/app/components/ui";
 import { Account, CurrencyRuble, Edit } from "@/app/components/icons";
-import Link from "next/link";
 import { api, authenticatedRequest } from "@/app/utils/api";
 import Loading from "@/app/components/ui/custom/loading";
 import FavoriteButton from "@/app/components/ui/button/favorite_button";
@@ -25,6 +24,7 @@ import ContactInfo from "@/app/components/cards/show/contact_info";
 import VacancyForm from "./edit/_components/vacancy_form";
 import { Skill } from "@/app/types/skill";
 import { AxiosResponse } from "axios";
+import { useRouter } from "next/navigation";
 
 interface DropdownOption {
   id: string | number;
@@ -38,6 +38,8 @@ export default function StartupPage({
 }) {
   const { startup_id } = use(params);
   const { user } = useAuth();
+  const router = useRouter();
+
   const [startup, setStartup] = useState<StartupCardType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
@@ -173,11 +175,15 @@ export default function StartupPage({
           subTitle={startup.industry?.name}
           button={
             mine ? (
-              <Link href={`/startups/${startup_id}/edit`} passHref>
+              <div
+                onClick={() => {
+                  router.push(`/startups/${startup_id}/edit`);
+                }}
+              >
                 <IconButton size="s" color="base" variant="tertiary">
                   {<Edit />}
                 </IconButton>
-              </Link>
+              </div>
             ) : (
               <FavoriteButton
                 isInitiallyFavorited={startup.is_favorited}
@@ -260,12 +266,15 @@ export default function StartupPage({
                       <span className="px-6 h-fit mr-2">
                         {specialist.specialist.full_name}
                       </span>
-                      <Link
-                        href={`/messages/${specialist.specialist.user_id}`}
-                        passHref
+                      <div
+                        onClick={() => {
+                          router.push(
+                            `/messages/${specialist.specialist?.user_id}`
+                          );
+                        }}
                       >
                         <Button size="s">Открыть диалог</Button>
-                      </Link>
+                      </div>
                     </div>
                   ) : (
                     <div className="flex flex-row w-full gap-y-2 items-center ">
@@ -287,26 +296,33 @@ export default function StartupPage({
       <div className="flex flex-col gap-y-4 col-span-1">
         <Avatar avatar={startup.image} role="startup" />
         {!mine && (
-          <Link
+          <div
             key={startup.id}
-            href={`/messages/${startup.founder?.user_id}`}
+            onClick={() => {
+              router.push(`/messages/${startup.founder?.user_id}`);
+            }}
             className="w-full"
           >
             <Button className="w-full">Написать</Button>
-          </Link>
+          </div>
         )}
 
         <Label label="Руководитель">
           <div className="flex flex-row gap-2 items-center">
             <Account size={16} color="var(--color-prime-500)" />{" "}
-            <Link
-              href={
-                mine ? "/profile/me" : `/profile/${startup.founder?.user_id}`
+            <div
+              onClick={
+                mine
+                  ? () => {
+                      router.push("/profile/me");
+                    }
+                  : () => {
+                      router.push(`/profile/${startup.founder?.user_id}`);
+                    }
               }
-              passHref
             >
               {startup.founder?.full_name}
-            </Link>
+            </div>
           </div>
         </Label>
 
