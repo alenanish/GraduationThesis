@@ -21,12 +21,3 @@ jobs:
 
       - name: Push Docker image
         run: docker push ${{ secrets.DOCKER_USERNAME }}/diplomafrontend:latest
-
-      - name: Deploy to server
-        run: |
-          sshpass -p "${{ secrets.SERVER_PASSWORD }}" ssh -o StrictHostKeyChecking=no ${{ secrets.SERVER_USERNAME }}@${{ secrets.SERVER_HOST }} << 'EOF'
-          docker pull ${{ secrets.DOCKER_USERNAME }}/diplomafrontend:latest
-          docker stop frontend || true
-          docker rm frontend || true
-          docker run -d --name frontend -p 3000:3000 ${{ secrets.DOCKER_USERNAME }}/diplomafrontend:latest
-          EOF
