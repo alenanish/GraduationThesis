@@ -27,7 +27,7 @@ const EditContactInfo: React.FC<ContactInfoProps> = ({
   };
 
   function isValidContactNumber(phoneNumber: string) {
-    const regex = /^[0-9]{10}$/;
+    const regex = /^(?:\+7|8)\d{10}$/;
     return regex.test(phoneNumber);
   }
 
@@ -36,10 +36,12 @@ const EditContactInfo: React.FC<ContactInfoProps> = ({
       <h2 className="text-body-m font-medium">Контакты:</h2>
       <div className="content-end ">
         <Input
+          required
           id="contact_phone"
           name="contact_phone"
           label="Телефон"
           type="tel"
+          maxLength={12}
           placeholder="+70000000000"
           size="s"
           onChange={setContactPhone}
@@ -58,6 +60,7 @@ const EditContactInfo: React.FC<ContactInfoProps> = ({
       </div>
       <div className="content-end ">
         <Input
+          required
           id="contact_email"
           name="contact_email"
           label="Почта"

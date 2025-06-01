@@ -16,6 +16,7 @@ import Loading from "@/app/components/ui/custom/loading";
 import { Industry } from "@/app/types/industry";
 import EditInvestorPreferences from "../_components/edit_investor_preferences";
 import InvestExperience from "@/app/components/cards/investment_experience/invest_experience";
+import { useAuth } from "@/app/context/auth_context";
 
 interface DropdownOption {
   id: string | number;
@@ -23,6 +24,8 @@ interface DropdownOption {
 }
 
 const InvestorProfileEdit = () => {
+  const { isUserProfileComplited } = useAuth();
+
   const [investor, setInvestor] = useState<InvestorType>();
   const [error, setError] = useState<string | null>(null);
   const [hasChanges, setHasChanges] = useState<boolean>(false);
@@ -157,20 +160,26 @@ const InvestorProfileEdit = () => {
   useEffect(() => {
     let isValid = true;
 
-    if (contactEmail === "") {
-      setEmailError("Заполните это поле.");
+    if (contactEmail && contactEmail === "") {
+      setEmailError("Обязательное поле.");
       isValid = false;
     } else {
       setEmailError(null);
     }
 
-    if (fullName === "") {
-      setFullNameError("Заполните это поле.");
+    if (fullName && fullName === "") {
+      setFullNameError("Обязательное поле.");
       isValid = false;
     } else {
       setFullNameError(null);
     }
 
+    if (contactPhone && contactPhone === "") {
+      setPhoneError("Обязательное поле.");
+      isValid = false;
+    } else {
+      setPhoneError(null);
+    }
     if (!industry) {
       isValid = false;
     }
@@ -250,7 +259,7 @@ const InvestorProfileEdit = () => {
       });
       setHasChanges(false);
 
-      router.replace("/profile/me");
+      router.push(isUserProfileComplited ? "/profile/me" : "/home");
     } catch (error: any) {
       console.error("Error updating profile:", error);
       alert("Не удалось обновить профиль. Попробуйте еще раз.");
@@ -267,20 +276,42 @@ const InvestorProfileEdit = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row justify-end">
-        <Button size="s" disabled={!isSaveButtonActive} onClick={handleSubmit}>
-          Сохранить
-        </Button>
-        <div
-          onClick={() => {
-            router.push("/profile/me");
-          }}
-        >
-          <Button size="s" variant="tertiary" color="base">
-            Отменить
+      {isUserProfileComplited ? (
+        <div className="flex flex-row justify-end">
+          <Button
+            size="s"
+            disabled={!isSaveButtonActive}
+            onClick={handleSubmit}
+          >
+            Сохранить
+          </Button>
+          <div
+            onClick={() => {
+              router.push("/profile/me");
+            }}
+          >
+            <Button size="s" variant="tertiary" color="base">
+              Отменить
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-col gap-0.5">
+            <h2 className="text-h5">Регистрация</h2>
+            <p className="text-body-s text-base-400 italic">
+              Для завершения регистрации необходимо заполнить данные аккаунта
+            </p>
+          </div>
+          <Button
+            size="s"
+            disabled={!isSaveButtonActive}
+            onClick={handleSubmit}
+          >
+            Сохранить
           </Button>
         </div>
-      </div>
+      )}
       <div className="grid grid-cols-5 gap-x-4 ">
         <div className="flex flex-col  gap-y-4 col-span-4">
           <EditGeneralInfo

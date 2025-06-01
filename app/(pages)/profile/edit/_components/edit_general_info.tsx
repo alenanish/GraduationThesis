@@ -16,12 +16,12 @@ interface GeneralInfoProps {
   bio: string | null;
   setBio: (bio: string | null) => void;
   company?: string | null;
-  setCompany?: (company: string | null) => void ;
+  setCompany?: (company: string | null) => void;
   position?: string | null;
   setPosition?: (position: string | null) => void;
   options: DropdownOption[];
   fullNameError: string | null;
-  setFullNameError:  (error: string | null) => void;
+  setFullNameError: (error: string | null) => void;
 }
 
 const EditGeneralInfo: React.FC<GeneralInfoProps> = ({
@@ -49,6 +49,7 @@ const EditGeneralInfo: React.FC<GeneralInfoProps> = ({
       <div className="flex flex-row">
         <div className="flex flex-row h-20 gap-x-4 w-3/5 items-center ">
           <Input
+            required
             size="m"
             id="full_name"
             name="full_name"
@@ -68,6 +69,7 @@ const EditGeneralInfo: React.FC<GeneralInfoProps> = ({
           />
           <div className="mb-5 w-2/5">
             <DropdownList
+              required
               id={label}
               label={label}
               placeholder={label}
@@ -78,9 +80,8 @@ const EditGeneralInfo: React.FC<GeneralInfoProps> = ({
           </div>
         </div>
       </div>
-      {setCompany && setPosition && 
-      <div className="flex flex-row h-20 gap-x-4 w-1/2 items-center ">
-          
+      {setCompany && setPosition && (
+        <div className="flex flex-row h-20 gap-x-4 w-1/2 items-center ">
           <Input
             size="m"
             id="position"
@@ -99,7 +100,8 @@ const EditGeneralInfo: React.FC<GeneralInfoProps> = ({
             value={company ? company : ""}
             onChange={setCompany}
           />
-          </div>}
+        </div>
+      )}
 
       <div className="flex h-31 items-end ">
         <TextArea

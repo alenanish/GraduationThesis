@@ -39,7 +39,7 @@ const ImageUploader: React.FC<ImageUploaderProps> = ({
           try {
             const response = await authenticatedRequest<User>(
               "/profile/me/",
-              "post",
+              "put",
               formData
             );
 

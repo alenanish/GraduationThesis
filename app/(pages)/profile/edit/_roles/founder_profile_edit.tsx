@@ -14,6 +14,7 @@ import { api, authenticatedRequest } from "@/app/utils/api";
 import EditContactInfo from "../_components/edit_contact_info";
 import EditGeneralInfo from "../_components/edit_general_info";
 import Loading from "@/app/components/ui/custom/loading";
+import { useAuth } from "@/app/context/auth_context";
 
 interface DropdownOption {
   id: string | number;
@@ -21,6 +22,8 @@ interface DropdownOption {
 }
 
 const FounderProfileEdit = () => {
+  const { isUserProfileComplited } = useAuth();
+
   const [founder, setFounder] = useState<FounderType>();
   const [error, setError] = useState<string | null>(null);
 
@@ -137,22 +140,22 @@ const FounderProfileEdit = () => {
   useEffect(() => {
     let isValid = true;
 
-    if (contactEmail === "") {
-      setEmailError("Это обязательное поле.");
+    if (contactEmail && contactEmail === "") {
+      setEmailError("Обязательное поле.");
       isValid = false;
     } else {
       setEmailError(null);
     }
 
-    if (fullName === "") {
-      setFullNameError("Это обязательное поле.");
+    if (fullName && fullName === "") {
+      setFullNameError("Обязательное поле.");
       isValid = false;
     } else {
       setFullNameError(null);
     }
 
-    if (contactPhone === "") {
-      setPhoneError("Это обязательное поле.");
+    if (contactPhone && contactPhone === "") {
+      setPhoneError("Обязательное поле.");
       isValid = false;
     } else {
       setPhoneError(null);
@@ -206,7 +209,7 @@ const FounderProfileEdit = () => {
 
       setHasChanges(false);
 
-      router.replace("/profile/me");
+      router.push(isUserProfileComplited ? "/profile/me" : "/home");
     } catch (error: any) {
       console.error("Error updating profile:", error);
       setIsLoading(false);
@@ -224,20 +227,41 @@ const FounderProfileEdit = () => {
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex flex-row justify-end">
-        <Button size="s" disabled={!isSaveButtonActive} onClick={handleSubmit}>
-          Сохранить
-        </Button>
-        <div
-          onClick={() => {
-            router.push("/profile/me");
-          }}
-        >
-          <Button size="s" variant="tertiary" color="base">
-            Отменить
+      {isUserProfileComplited ? (
+        <div className="flex flex-row justify-end">
+          <Button
+            size="s"
+            disabled={!isSaveButtonActive}
+            onClick={handleSubmit}
+          >
+            Сохранить
+          </Button>
+          <div
+            onClick={() => {
+              router.push("/profile/me");
+            }}
+          >
+            <Button size="s" variant="tertiary" color="base">
+              Отменить
+            </Button>
+          </div>
+        </div>
+      ) : (
+        <div className="flex flex-row justify-between items-center">
+          <div className="flex flex-col gap-0.5"> 
+          <h2 className="text-h5">Регистрация</h2>
+          <p className="text-body-s text-base-400 italic">Для завершения регистрации необходимо заполнить данные аккаунта</p>
+          </div>
+          <Button
+            size="s"
+            disabled={!isSaveButtonActive}
+            onClick={handleSubmit}
+          >
+            Сохранить
           </Button>
         </div>
-      </div>
+      )}
+
       <div className="grid grid-cols-5 gap-x-4 ">
         <div className="flex flex-col  gap-y-4 col-span-4">
           <EditGeneralInfo
