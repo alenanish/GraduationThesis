@@ -47,6 +47,7 @@ const Input: React.FC<InputProps> = ({
   onClickRightIcon,
   errorText,
   className,
+  required,
   ...rest
 }) => {
   const inputRef = useRef<HTMLInputElement>(null);
@@ -172,20 +173,35 @@ const Input: React.FC<InputProps> = ({
       baseStyles += " text-base-400";
     }
 
-    {/*if (!(isFocused || inputValue != "")) {
+    {
+      /*if (!(isFocused || inputValue != "")) {
       baseStyles += " hidden";
       }
-    */}
+    */
+    }
 
     return baseStyles;
   };
 
   return (
-    <div className={`${label && (size === 'm'? 'pb-4 pt-5': size === 's'? 'pb-4 pt-4' : '')}  w-full  `}>
+    <div
+      className={`${
+        label && (size === "m" ? "pb-4 pt-5" : size === "s" ? "pb-4 pt-4" : "")
+      }  w-full  `}
+    >
       <div className="w-full relative ">
         {label && (
           <label htmlFor={id} className={getLabelStyles()}>
             {label}
+            {required && (
+              <span
+                className="text-red-600 ml-0.5"
+                title="Обязательное поле"
+                aria-label="Обязательное поле."
+              >
+                *
+              </span>
+            )}
           </label>
         )}
         <div
@@ -218,7 +234,13 @@ const Input: React.FC<InputProps> = ({
           )}
         </div>
         {(errorText || state === "error") && (
-          <p className={`${size === 'm'? 'text-body-s bottom-[-20]': 'text-caption bottom-[-18]'}  absolute  text-red-500 text-body-s mt-1`}>
+          <p
+            className={`${
+              size === "m"
+                ? "text-body-s bottom-[-20]"
+                : "text-caption bottom-[-18]"
+            }  absolute  text-red-500 mt-1`}
+          >
             {errorText}
           </p>
         )}
