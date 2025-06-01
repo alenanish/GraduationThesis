@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Input, Button, ErrorMessage } from "../../components/ui";
 import { PasswordSee, PasswordNoSee } from "../../components/icons";
 import { useAuth } from "@/app/context/auth_context";
+import { api } from "@/app/utils/api";
 
 const LoginForm = () => {
   const router = useRouter();
@@ -29,14 +30,14 @@ const LoginForm = () => {
     let isValid = true;
 
     if (!email) {
-      setEmailError("Заполните это поле.");
+      setEmailError("Обязательное поле.");
       isValid = false;
     } else {
       setEmailError(null);
     }
 
     if (!password) {
-      setPasswordError("Заполните это поле.");
+      setPasswordError("Обязательное поле.");
       isValid = false;
     } else {
       setPasswordError(null);
@@ -54,6 +55,10 @@ const LoginForm = () => {
     }
 
     try {
+      await api.post<{ auth_token: string }>("/auth/token/login/", {
+        email,
+        password,
+      });
       login(email, password);
     } catch (error: any) {
       if (
@@ -65,8 +70,9 @@ const LoginForm = () => {
         setEmailError(error.response.data.non_field_errors[0]);
       } else {
         setShowError(true);
-        setIsLoading(false);
       }
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -146,7 +152,7 @@ const LoginForm = () => {
             */}
 
             <Button type="submit" disabled={isLoading}>
-              Войти
+              {isLoading ? "Выполняем вход..." : "Войти"}
             </Button>
             <Button
               className="w-full"

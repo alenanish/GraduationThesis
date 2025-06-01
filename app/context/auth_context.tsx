@@ -43,7 +43,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         try {
           sessionStorage.setItem("auth_token", token);
         } catch (error) {
-          console.error("Error storing token in sessionStorage:", error);
+          console.error(error);
+          setUser(null);
         }
       }
     },
@@ -55,7 +56,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       try {
         return sessionStorage.getItem("auth_token");
       } catch (error) {
-        console.error("Error retrieving token from sessionStorage:", error);
+        console.error(error);
+        setUser(null);
         return null;
       }
     }
@@ -67,9 +69,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
 
     try {
       if (auth_token) {
-        await api.post("/auth/token/logout/", `Token ${auth_token}`, {
-          headers: { Authorization: `Token ${auth_token}` },
-        });
+        await authenticatedRequest(
+          "/auth/token/logout/",
+          "post",
+          `Token ${auth_token}`
+        );
         if (isBrowser) {
           sessionStorage.removeItem("auth_token");
         }
@@ -81,13 +85,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     }
   }, [router, isBrowser, retrieveToken]);
 
-  const isUserProfileComplete = (user: User | null): boolean => {
+  const isUserProfileComplete = (): boolean => {
     if (!user) return false;
     if (
       !user.full_name ||
       !user.contact_email ||
       !user.contact_phone ||
-      !user.bio ||
       false
     ) {
       return false;
@@ -104,10 +107,6 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         "get"
       );
       setUser(response.data);
-
-      if (!isUserProfileComplete(response.data)) {
-        router.replace("/profile/edit");
-      }
     } catch (error: any) {
       console.error(error);
     } finally {
@@ -137,12 +136,8 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
           setToken(response.data.auth_token);
           await getUserData();
         } else {
-          console.error("Token not found in response");
-          logout();
+          setUser(null);
         }
-      } catch (error: any) {
-        console.error("Error fetching token:", error);
-        logout();
       } finally {
         setIsLoading(false);
       }
@@ -155,8 +150,12 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
       setIsLoading(true);
       try {
         await getToken(email, password);
-        if (user && isUserProfileComplete(user)) {
+
+        if (user && isUserProfileComplited) {
           router.replace("/home");
+        }
+        if (!isUserProfileComplited) {
+          router.replace("/profile/edit");
         }
       } finally {
         setIsLoading(false);
@@ -179,6 +178,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
   );
 
   const isAuthenticated = !!retrieveToken();
+  const isUserProfileComplited = isUserProfileComplete();
 
   useEffect(() => {
     const storedToken = retrieveToken();
@@ -198,6 +198,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         logout,
         register,
         isAuthenticated,
+        isUserProfileComplited,
       }}
     >
       {isLoading ? <Loading /> : children}

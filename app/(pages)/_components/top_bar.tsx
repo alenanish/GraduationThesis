@@ -36,7 +36,7 @@ const menuItems: Record<string, MenuItem[]> = {
 };
 
 const TopBar = () => {
-  const { user } = useAuth();
+  const { user, isUserProfileComplited } = useAuth();
   const [isMobile] = useState(false);
   const router = useRouter();
   if (!user?.role) return;
@@ -47,12 +47,12 @@ const TopBar = () => {
   ];
 
   const menuButtons = () => {
-    if (isMobile) {
+    if (isMobile && isUserProfileComplited) {
       return (
         <div className="flex flex-row gap-1">
           <div
             onClick={() => {
-              router.push("/home");
+              router.push(isUserProfileComplited ? "/home" : "");
             }}
           >
             <Logo size={36} variant="top-bar" />
@@ -64,12 +64,12 @@ const TopBar = () => {
           />
         </div>
       );
-    } else {
+    } else if (isUserProfileComplited) {
       return (
         <div className="flex flex-row gap-1">
           <div
             onClick={() => {
-              router.push("/home");
+              router.push(isUserProfileComplited ? "/home" : "");
             }}
           >
             <Logo size={36} variant="top-bar" />
@@ -87,6 +87,16 @@ const TopBar = () => {
           </>
         </div>
       );
+    } else {
+      return (
+        <div
+          onClick={() => {
+            router.push(isUserProfileComplited ? "/home" : "");
+          }}
+        >
+          <Logo size={36} variant="top-bar" />
+        </div>
+      );
     }
   };
 
@@ -94,8 +104,12 @@ const TopBar = () => {
     return (
       <DropDownMenu
         variant="tertiary"
-        icon={<DefaultAccount color="var(--color-prime-500)" size={40} />}
-        options={profileItems}
+        icon={  <DefaultAccount color="var(--color-prime-500)" size={40} />}
+        options={
+          isUserProfileComplited
+            ? profileItems
+            : [{ label: "Выйти", href: "/logout", color: "base" }]
+        }
         position="left"
       />
     );

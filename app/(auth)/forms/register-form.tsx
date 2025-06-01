@@ -105,14 +105,13 @@ const RegisterForm = () => {
     setIsLoading(true);
 
     try {
-      const response = await api.post(`/auth/users/`, {
+      await api.post(`/auth/users/`, {
         email: email,
         password: password,
         re_password: re_password,
         role: role,
       });
 
-      console.log("Registration successful:", response.data);
       register(email, password);
     } catch (error: any) {
       if (
@@ -259,6 +258,9 @@ const RegisterForm = () => {
 
         {step === 2 && (
           <div className="flex flex-col gap-y-4">
+            <h2 className="text-body-m text-wrap">
+              Пожалуйста, выберите роль для своего профиля
+            </h2>
             <RadioGroup
               options={roleOptions}
               onChange={handleRoleChange}

@@ -7,4 +7,5 @@ export interface AuthContextType {
   logout: () => void;
   isLoading: boolean;
   isAuthenticated: boolean;
+  isUserProfileComplited: boolean;
 }

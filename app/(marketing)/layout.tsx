@@ -3,7 +3,7 @@
 import { useRouter } from "next/navigation";
 import { useAuth } from "../context/auth_context";
 import TopBar from "./_components/top_bar";
-import { useEffect } from "react";
+import Loading from "../components/ui/custom/loading";
 
 export default function MainLayout({
   children,
@@ -13,19 +13,14 @@ export default function MainLayout({
  const { isAuthenticated, isLoading } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    if (isAuthenticated && !isLoading) {
-      router.push("/home");
-    }
-  }, [isAuthenticated, isLoading, router]);
-
+  if (isAuthenticated && !isLoading) {
+    router.back();
+    return;
+  }
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading />;
   }
 
-  if (isAuthenticated) {
-    return null;
-  }
   return (
     <>
       <TopBar />

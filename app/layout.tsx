@@ -17,7 +17,7 @@ export default function RootLayout({
           content="Найдите идеальных специалистов и инвесторов для вашего стартапа. Платформа для поиска партнеров, экспертов и финансирования стартапов."
         />
         <title>ProStarter</title>
-        <link rel="icon" href="/logo.svg" />
+        <link rel="icon" href="/favicon.ico" />
       </head>
       <body>
         <AuthProvider>{children} </AuthProvider>
