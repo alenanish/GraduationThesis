@@ -26,7 +26,6 @@ function Dialogs() {
       try {
         const data = await fetchDialogs();
         setDialogs(data);
-        console.log(data);
         setError(null);
       } catch (err: any) {
         console.error("Error fetching dialogs:", err);

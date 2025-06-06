@@ -22,6 +22,7 @@ interface TextAreaProps
   errorText?: string | null;
   helperText?: string;
   rows?: number;
+  required?: boolean;
 }
 
 const TextArea: React.FC<TextAreaProps> = ({
@@ -38,6 +39,7 @@ const TextArea: React.FC<TextAreaProps> = ({
   onBlur,
   errorText,
   rows = 4,
+  required,
   ...rest
 }) => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -154,10 +156,19 @@ const TextArea: React.FC<TextAreaProps> = ({
   };
 
   return (
-    <div className="w-full">
+    <div className="w-full relative">
       {label && (
         <label htmlFor={id} className={getLabelStyles()}>
           {label}
+          {required && (
+            <span
+              className="text-red-600 ml-0.5"
+              title="Обязательное поле"
+              aria-label="Обязательное поле."
+            >
+              *
+            </span>
+          )}
         </label>
       )}
       <div
@@ -184,7 +195,9 @@ const TextArea: React.FC<TextAreaProps> = ({
         <p className="mt-1 text-caption text-base-500">{helperText}</p>
       )}
       {errorText && (
-        <p className="mt-1 text-caption text-red-500">{errorText}</p>
+        <p className="text-body-s bottom-[-18] absolute  text-red-500 ">
+          {errorText}
+        </p>
       )}
     </div>
   );

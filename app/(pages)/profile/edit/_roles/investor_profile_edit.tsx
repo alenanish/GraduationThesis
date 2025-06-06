@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 
-import { Button, Label } from "@/app/components/ui";
+import { Button, ErrorMessage, Label } from "@/app/components/ui";
 
 import ImageUploader from "../_components/image_uploader";
 
@@ -25,6 +25,7 @@ interface DropdownOption {
 
 const InvestorProfileEdit = () => {
   const { isUserProfileComplited } = useAuth();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const [investor, setInvestor] = useState<InvestorType>();
   const [error, setError] = useState<string | null>(null);
@@ -161,21 +162,18 @@ const InvestorProfileEdit = () => {
     let isValid = true;
 
     if (contactEmail && contactEmail === "") {
-      setEmailError("Обязательное поле.");
       isValid = false;
     } else {
       setEmailError(null);
     }
 
     if (fullName && fullName === "") {
-      setFullNameError("Обязательное поле.");
       isValid = false;
     } else {
       setFullNameError(null);
     }
 
     if (contactPhone && contactPhone === "") {
-      setPhoneError("Обязательное поле.");
       isValid = false;
     } else {
       setPhoneError(null);
@@ -217,6 +215,7 @@ const InvestorProfileEdit = () => {
   ]);
 
   const handleSubmit = async () => {
+    setIsLoading(true);
     try {
       const payload = {
         full_name: fullName,
@@ -260,113 +259,125 @@ const InvestorProfileEdit = () => {
       setHasChanges(false);
 
       router.push(isUserProfileComplited ? "/profile/me" : "/home");
-    } catch (error: any) {
-      console.error("Error updating profile:", error);
-      alert("Не удалось обновить профиль. Попробуйте еще раз.");
+    } catch (err: any) {
+      setError("Ошибка при сохранении.");
+      const errors = err.response.data;
+      setFullNameError(errors.full_name);
+      setEmailError(errors.contact_email);
+      setPhoneError(errors.contact_phone);
+    } finally {
+      setIsLoading(false);
     }
   };
 
-  if (error) {
-    return <div>Ошибка: {error}</div>;
-  }
-
-  if (!investor) {
+  if (!investor || isLoading) {
     return <Loading />;
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      {isUserProfileComplited ? (
-        <div className="flex flex-row justify-end">
-          <Button
-            size="s"
-            disabled={!isSaveButtonActive}
-            onClick={handleSubmit}
-          >
-            Сохранить
-          </Button>
-          <div
-            onClick={() => {
-              router.push("/profile/me");
-            }}
-          >
-            <Button size="s" variant="tertiary" color="base">
-              Отменить
+    <>
+      {error && (
+        <ErrorMessage
+          onClose={() => {
+            setError(null);
+          }}
+        >
+          {error}{" "}
+        </ErrorMessage>
+      )}
+      <div className="flex flex-col gap-4">
+        {isUserProfileComplited ? (
+          <div className="flex flex-row justify-end">
+            <Button
+              size="s"
+              disabled={!isSaveButtonActive}
+              onClick={handleSubmit}
+            >
+              Сохранить
+            </Button>
+            <div
+              onClick={() => {
+                router.push("/profile/me");
+              }}
+            >
+              <Button size="s" variant="tertiary" color="base">
+                Отменить
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-col gap-0.5">
+              <h2 className="text-h5">Регистрация</h2>
+              <p className="text-body-s text-base-400 italic">
+                Для завершения регистрации необходимо заполнить данные аккаунта
+              </p>
+            </div>
+            <Button
+              size="s"
+              disabled={!isSaveButtonActive}
+              onClick={handleSubmit}
+            >
+              Сохранить
             </Button>
           </div>
-        </div>
-      ) : (
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-col gap-0.5">
-            <h2 className="text-h5">Регистрация</h2>
-            <p className="text-body-s text-base-400 italic">
-              Для завершения регистрации необходимо заполнить данные аккаунта
-            </p>
-          </div>
-          <Button
-            size="s"
-            disabled={!isSaveButtonActive}
-            onClick={handleSubmit}
-          >
-            Сохранить
-          </Button>
-        </div>
-      )}
-      <div className="grid grid-cols-5 gap-x-4 ">
-        <div className="flex flex-col  gap-y-4 col-span-4">
-          <EditGeneralInfo
-            fullName={fullName}
-            setFullName={setFullName}
-            label={"Сфера"}
-            option={industry}
-            setOption={handleIndystryChange}
-            bio={bio}
-            setBio={setBio}
-            position={position}
-            setPosition={setPosition}
-            company={company}
-            setCompany={setCompany}
-            options={options}
-            fullNameError={fullNameError}
-            setFullNameError={setFullNameError}
-          />
-
-          <EditInvestorPreferences
-            preferred_stages={preferred_stages}
-            setStages={handleChangeStages}
-            investment_max={investment_min}
-            setInvestmentMin={setInvestmentMin}
-            investment_min={investment_max}
-            setInvestmentMax={setInvestmentMax}
-          />
-          <Label label="Предыдущие инвестиции">
-            <InvestExperience
-              experiences={experiences}
-              isEdit={true}
-              onExperiencesChange={setExperiences}
+        )}
+        <div className="grid grid-cols-5 gap-x-4 ">
+          <div className="flex flex-col  gap-y-4 col-span-4">
+            <EditGeneralInfo
+              fullName={fullName}
+              setFullName={setFullName}
+              label={"Сфера"}
+              option={industry}
+              setOption={handleIndystryChange}
+              bio={bio}
+              setBio={setBio}
+              position={position}
+              setPosition={setPosition}
+              company={company}
+              setCompany={setCompany}
+              options={options}
+              fullNameError={fullNameError}
+              setFullNameError={setFullNameError}
             />
-          </Label>
-        </div>
 
-        <div className="flex flex-col gap-y-4 col-span-1">
-          <ImageUploader
-            avatar={investor.avatar}
-            onChange={handleAvatarChange}
-            defaultUrl="/default-user.png"
-          />
-          <EditContactInfo
-            contactPhone={contactPhone}
-            setContactPhone={setContactPhone}
-            contactEmail={contactEmail}
-            setContactEmail={setContactEmail}
-            phoneError={phoneError}
-            setPhoneError={setPhoneError}
-            emailError={emailError}
-            setEmailError={setEmailError}
-          />
+            <EditInvestorPreferences
+              preferred_stages={preferred_stages}
+              setStages={handleChangeStages}
+              investment_max={investment_min}
+              setInvestmentMin={setInvestmentMin}
+              investment_min={investment_max}
+              setInvestmentMax={setInvestmentMax}
+            />
+            <Label label="Предыдущие инвестиции">
+              <InvestExperience
+                experiences={experiences}
+                isEdit={true}
+                onExperiencesChange={setExperiences}
+              />
+            </Label>
+          </div>
+
+          <div className="flex flex-col gap-y-4 col-span-1">
+            <ImageUploader
+              avatar={investor.avatar}
+              onChange={handleAvatarChange}
+              defaultUrl="/default-user.png"
+            />
+            <EditContactInfo
+              contactPhone={contactPhone}
+              setContactPhone={setContactPhone}
+              contactEmail={contactEmail}
+              setContactEmail={setContactEmail}
+              phoneError={phoneError}
+              setPhoneError={setPhoneError}
+              emailError={emailError}
+              setEmailError={setEmailError}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

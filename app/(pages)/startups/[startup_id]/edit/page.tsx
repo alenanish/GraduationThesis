@@ -3,7 +3,13 @@
 import ImageUploader from "@/app/(pages)/profile/edit/_components/image_uploader";
 import ContactInfo from "@/app/components/cards/show/contact_info";
 import { Account } from "@/app/components/icons";
-import { Button, Input, Label, TextArea } from "@/app/components/ui";
+import {
+  Button,
+  ErrorMessage,
+  Input,
+  Label,
+  TextArea,
+} from "@/app/components/ui";
 import Loading from "@/app/components/ui/custom/loading";
 import Dropdown from "@/app/components/ui/drop-down/dropdown-list";
 import { useAuth } from "@/app/context/auth_context";
@@ -44,6 +50,14 @@ export default function StartupPageEdit({ params }: StartupPageEditProps) {
   const [industryOptions, setIndustryOptions] = useState<DropdownOption[]>([]);
   const [allSkills, setAllSkills] = useState<Skill[]>([]);
 
+  const [titleError, setTitleError] = useState<string | null>(null);
+  const [industryError, setIndustryError] = useState<string | null>(null);
+  const [descriptionError, setDescriptionError] = useState<string | null>(null);
+  const [stageError, setStageError] = useState<string | null>(null);
+  const [investmentNeededError, setInvestmentNeededError] = useState<
+    string | null
+  >(null);
+
   const [title, setTitle] = useState<string>("");
   const [image, setImage] = useState<string | null>(null);
   const [industry, setIndustry] = useState<DropdownOption | null>(null);
@@ -55,6 +69,7 @@ export default function StartupPageEdit({ params }: StartupPageEditProps) {
   >([]);
 
   const [isChanged, setIsChanged] = useState(false);
+  const [isSaveButtonActive, setIsSaveButtonActive] = useState<boolean>(false);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -103,6 +118,38 @@ export default function StartupPageEdit({ params }: StartupPageEditProps) {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    let isValid = true;
+
+    if (title && title === "") {
+      isValid = false;
+    } else {
+      setTitleError(null);
+    }
+
+    if (investmentNeeded && investmentNeeded === "") {
+      isValid = false;
+    } else {
+      setInvestmentNeededError(null);
+    }
+
+    if (description && description === "") {
+      isValid = false;
+    } else {
+      setDescriptionError(null);
+    }
+
+    if (!industry) {
+      isValid = false;
+    }
+
+    if (!stage) {
+      isValid = false;
+    }
+
+    setIsSaveButtonActive(isValid);
+  }, [title, description, investmentNeeded, industry, stage]);
+
   const handleSave = async () => {
     const payload = {
       title,
@@ -120,10 +167,15 @@ export default function StartupPageEdit({ params }: StartupPageEditProps) {
     };
     try {
       await authenticatedRequest(`/startups/${startup?.id}/`, "put", payload);
-      setIsLoading(false);
       router.push(`/startups/${startup?.id}`);
     } catch (err: any) {
-      alert("Ошибка при сохранении: " + err.message);
+      setError("Ошибка при сохранении.");
+      const errors = err.response.data;
+      setTitleError(errors.title);
+      setDescriptionError(errors.description);
+      setIndustryError(errors.industry_id);
+      setStageError(errors.stage);
+      setInvestmentNeededError(errors.investment_needed);
     } finally {
       setIsLoading(false);
     }
@@ -169,121 +221,160 @@ export default function StartupPageEdit({ params }: StartupPageEditProps) {
   };
 
   if (isLoading) return <Loading />;
-  if (error) return <div className="text-red-500">{error}</div>;
   if (startup && startup?.founder?.user_id !== user?.user_id) {
     router.replace("/not-found");
     return null;
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      <div className="flex flex-row justify-end">
-        <Button size="s" onClick={handleSave} disabled={!isChanged}>
-          Сохранить
-        </Button>
-        <Button
-          size="s"
-          variant="tertiary"
-          color="base"
-          onClick={() => router.back()}
+    <>
+      {error && (
+        <ErrorMessage
+          onClose={() => {
+            setError(null);
+          }}
         >
-          Отменить
-        </Button>
-      </div>
-      <div className="grid grid-cols-5 gap-x-4">
-        <div className="flex flex-col gap-y-4 col-span-4">
-          <div className="flex flex-row space-x-2 w-2/3">
-            <Input
-              id="title"
-              label="Название"
-              placeholder="Введите название"
-              value={title}
-              onChange={handleTitleChange}
-            />
-            <div className="w-1/2">
-              <Dropdown
-                id="industry"
-                label="Индустрия"
-                options={industryOptions}
-                value={industry?.id}
-                onChange={handleIndustryChange}
-              />
-            </div>
-          </div>
-          <TextArea
-            id="description"
-            name="description"
-            label="Описание"
-            placeholder="Расскажите о стартапе"
-            value={description}
-            onChange={handleDescriptionChange}
-          />
-          <div className="bg-base-0 p-4 rounded-[16px] flex flex-col space-y-2">
-            <div className="flex flex-row gap-x-2 items-center">
-              <h2 className="text-h5 font-medium text-base-900">
-                Текущая стадия:
-              </h2>
-              <Dropdown
-                id="stage"
-                options={stageOptions}
-                value={stage}
-                onChange={handleStageChange}
-              />
-            </div>
-            <div className="flex flex-row gap-x-2 items-center">
-              <h2 className="text-h5 font-medium text-base-900">
-                Необходимые инвестиции:
-              </h2>
-              <Input
-                id="investment_needed"
-                placeholder="0"
-                value={investmentNeeded}
-                onChange={handleInvestmentChange}
-              />
-            </div>
-          </div>
-          <Label label="Специалисты:">
-            <RequiredSpecialistDel
-              allSkills={allSkills}
-              initialSpecialists={startup?.required_specialists || []}
-              isMine={true}
-              onChange={handleReqSpecChange}
-            />
-          </Label>
-        </div>
-        <div className="flex flex-col gap-y-4 col-span-1">
-          <ImageUploader
-            avatar={image || "/default-startup.png"}
-            onChange={handleImageChange}
-            defaultUrl={"/default-startup.png"}
-          />
-          <div className="bg-base-0 p-4 rounded-[8px] flex flex-col gap-y-2">
-            <h2 className="text-body-m font-medium">Руководитель:</h2>
-            <div className="flex flex-row gap-2 items-center">
-              <Account size={16} color="var(--color-prime-500)" />{" "}
-              {startup?.founder?.full_name}
-            </div>
-          </div>
-          <ContactInfo
-            contact_phone={startup?.founder?.contact_phone}
-            contact_email={startup?.founder?.contact_email}
-          />
+          {error}{" "}
+        </ErrorMessage>
+      )}
+      <div className="flex flex-col gap-4">
+        <div className="flex flex-row justify-end">
           <Button
-            onClick={() => setIsModalOpen(true)}
-            variant="tertiary"
-            color="red"
-            size="m"
+            size="s"
+            onClick={handleSave}
+            disabled={!isSaveButtonActive || !isChanged || isLoading}
           >
-            Удалить стартап
+            {isLoading ? "Сохраняем..." : "Сохранить"}
           </Button>
-          <ConfirmAction
-            isOpen={isModalOpen}
-            onConfirm={handleDelete}
-            onCancel={() => setIsModalOpen(false)}
-            message="Вы уверены, что хотите удалить этот элемент?"
-          />
+
+          <Button
+            size="s"
+            variant="tertiary"
+            color="base"
+            onClick={() => router.back()}
+          >
+            Отменить
+          </Button>
+        </div>
+        <div className="grid grid-cols-5 gap-x-4">
+          <div className="flex flex-col gap-y-4 col-span-4">
+            <div className="flex flex-row space-x-2 w-2/3">
+              <Input
+                required
+                id="title"
+                label="Название"
+                placeholder="Введите название"
+                value={title}
+                onChange={handleTitleChange}
+                errorText={titleError}
+              />
+              <div className="w-1/2">
+                <Dropdown
+                  required
+                  id="industry"
+                  label="Индустрия"
+                  options={industryOptions}
+                  value={industry?.id}
+                  onChange={handleIndustryChange}
+                  errorText={industryError}
+                />
+              </div>
+            </div>
+            <TextArea
+              required
+              id="description"
+              name="description"
+              label="Описание"
+              placeholder="Расскажите о стартапе"
+              value={description}
+              onChange={handleDescriptionChange}
+              errorText={descriptionError}
+            />
+            <div className="bg-base-0 p-4 rounded-[16px] flex flex-col space-y-2">
+              <div className="flex flex-row gap-x-2 items-center">
+                <h2 className="text-h5 font-medium text-base-900">
+                  Текущая стадия
+                  <span
+                    className="text-red-600 ml-0.5"
+                    title="Обязательное поле"
+                    aria-label="Обязательное поле."
+                  >
+                    *
+                  </span>
+                  :
+                </h2>
+                <Dropdown
+                  id="stage"
+                  options={stageOptions}
+                  value={stage}
+                  onChange={handleStageChange}
+                  errorText={stageError}
+                />
+              </div>
+              <div className="flex flex-row gap-x-2 items-center">
+                <h2 className="text-h5 font-medium text-base-900">
+                  Необходимые инвестиции
+                  <span
+                    className="text-red-600 ml-0.5"
+                    title="Обязательное поле"
+                    aria-label="Обязательное поле."
+                  >
+                    *
+                  </span>
+                  :
+                </h2>
+                <Input
+                  id="investment_needed"
+                  placeholder="0"
+                  value={investmentNeeded}
+                  onChange={handleInvestmentChange}
+                  errorText={investmentNeededError}
+                />
+              </div>
+            </div>
+            <Label label="Специалисты:">
+              <RequiredSpecialistDel
+                allSkills={allSkills}
+                initialSpecialists={startup?.required_specialists || []}
+                isMine={true}
+                onChange={handleReqSpecChange}
+              />
+            </Label>
+          </div>
+          <div className="flex flex-col gap-y-4 col-span-1">
+            <ImageUploader
+              avatar={image || "/default-startup.png"}
+              onChange={handleImageChange}
+              defaultUrl={"/default-startup.png"}
+            />
+            <div className="bg-base-0 p-4 rounded-[8px] flex flex-col gap-y-2">
+              <h2 className="text-body-m font-medium">Руководитель:</h2>
+              <div className="flex flex-row gap-2 items-center">
+                <Account size={16} color="var(--color-prime-500)" />{" "}
+                {startup?.founder?.full_name}
+              </div>
+            </div>
+            <ContactInfo
+              contact_phone={startup?.founder?.contact_phone}
+              contact_email={startup?.founder?.contact_email}
+            />
+            <Button
+              onClick={() => setIsModalOpen(true)}
+              variant="tertiary"
+              color="red"
+              size="m"
+            >
+              Удалить стартап
+            </Button>
+            <ConfirmAction
+              isOpen={isModalOpen}
+              onConfirm={handleDelete}
+              onCancel={() => setIsModalOpen(false)}
+              message="Вы уверены, что хотите удалить этот элемент?"
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -29,7 +29,6 @@ const CurrentStartups = () => {
           "get"
         );
         setResults(response.data);
-        console.log(response.data);
       } catch (err: any) {
         setError(err.message || "Ошибка при загрузке стартапов.");
       } finally {

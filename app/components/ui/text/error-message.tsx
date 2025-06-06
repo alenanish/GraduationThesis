@@ -12,9 +12,9 @@ const ErrorMessage: React.FC<ErrorMessageProps> = ({ children, onClose }) => {
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full z-50 flex items-center justify-center">
+    <div className="fixed top-14 left-0 w-full h-full z-50 flex justify-center">
       <div
-        className={`flex border-2 bg-red-50 border-red-700 rounded-[32px] py-3 px-2 w-fit min-w-[260px] absolute transition-transform duration-200 ${
+        className={`flex items-center border-2 bg-red-50 border-red-700 rounded-[32px] py-3 px-2 w-fit min-w-[260px] absolute transition-transform duration-200 ${
           isHovered ? "scale-105" : ""
         }`}
         onMouseEnter={() => setIsHovered(true)}

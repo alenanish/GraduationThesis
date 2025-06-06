@@ -104,12 +104,8 @@ const TopBar = () => {
     return (
       <DropDownMenu
         variant="tertiary"
-        icon={  <DefaultAccount color="var(--color-prime-500)" size={40} />}
-        options={
-          isUserProfileComplited
-            ? profileItems
-            : [{ label: "Выйти", href: "/logout", color: "base" }]
-        }
+        icon={<DefaultAccount color="var(--color-prime-500)" size={40} />}
+        options={profileItems}
         position="left"
       />
     );

@@ -14,7 +14,7 @@ const AuthLayout: React.FC<LayoutProps> = ({ children }) => {
   const router = useRouter();
 
   if (isAuthenticated && !isLoading) {
-    router.back();
+    router.push('/home');
     return;
   }
   if (isLoading) {

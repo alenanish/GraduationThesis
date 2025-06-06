@@ -3,7 +3,12 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AxiosResponse } from "axios";
 
-import { Button, JobExperience, Label } from "@/app/components/ui";
+import {
+  Button,
+  ErrorMessage,
+  JobExperience,
+  Label,
+} from "@/app/components/ui";
 
 import ImageUploader from "../_components/image_uploader";
 
@@ -157,21 +162,18 @@ const SpecialistProfileEdit = () => {
     let isValid = true;
 
     if (contactEmail && contactEmail === "") {
-      setEmailError("Обязательное поле.");
       isValid = false;
     } else {
       setEmailError(null);
     }
 
     if (fullName && fullName === "") {
-      setFullNameError("Обязательное поле.");
       isValid = false;
     } else {
       setFullNameError(null);
     }
 
     if (contactPhone && contactPhone === "") {
-      setPhoneError("Обязательное поле.");
       isValid = false;
     } else {
       setPhoneError(null);
@@ -230,108 +232,120 @@ const SpecialistProfileEdit = () => {
       setHasChanges(false);
 
       router.push(isUserProfileComplited ? "/profile/me" : "/home");
-    } catch (error: any) {
-      console.error("Error updating profile:", error);
-      alert("Failed to update profile. Please try again.");
+    } catch (err: any) {
+      setError("Ошибка при сохранении.");
+      const errors = err.response.data;
+      setFullNameError(errors.full_name);
+      setEmailError(errors.contact_email);
+      setPhoneError(errors.contact_phone);
+    } finally {
+      setIsLoading(false);
     }
   };
-
-  if (error) {
-    return <div>Ошибка: {error}</div>;
-  }
 
   if (!specialist || isLoading) {
     return <Loading />;
   }
 
   return (
-    <div className="flex flex-col gap-4">
-      {isUserProfileComplited ? (
-        <div className="flex flex-row justify-end">
-          <Button
-            size="s"
-            disabled={!isSaveButtonActive}
-            onClick={handleSubmit}
-          >
-            Сохранить
-          </Button>
-          <div
-            onClick={() => {
-              router.push("/profile/me");
-            }}
-          >
-            <Button size="s" variant="tertiary" color="base">
-              Отменить
+    <>
+      {error && (
+        <ErrorMessage
+          onClose={() => {
+            setError(null);
+          }}
+        >
+          {error}{" "}
+        </ErrorMessage>
+      )}
+      <div className="flex flex-col gap-4">
+        {isUserProfileComplited ? (
+          <div className="flex flex-row justify-end">
+            <Button
+              size="s"
+              disabled={!isSaveButtonActive}
+              onClick={handleSubmit}
+            >
+              Сохранить
+            </Button>
+            <div
+              onClick={() => {
+                router.push("/profile/me");
+              }}
+            >
+              <Button size="s" variant="tertiary" color="base">
+                Отменить
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="flex flex-row justify-between items-center">
+            <div className="flex flex-col gap-0.5">
+              <h2 className="text-h5">Регистрация</h2>
+              <p className="text-body-s text-base-400 italic">
+                Для завершения регистрации необходимо заполнить данные аккаунта
+              </p>
+            </div>
+            <Button
+              size="s"
+              disabled={!isSaveButtonActive}
+              onClick={handleSubmit}
+            >
+              Сохранить
             </Button>
           </div>
-        </div>
-      ) : (
-        <div className="flex flex-row justify-between items-center">
-          <div className="flex flex-col gap-0.5">
-            <h2 className="text-h5">Регистрация</h2>
-            <p className="text-body-s text-base-400 italic">
-              Для завершения регистрации необходимо заполнить данные аккаунта
-            </p>
-          </div>
-          <Button
-            size="s"
-            disabled={!isSaveButtonActive}
-            onClick={handleSubmit}
-          >
-            Сохранить
-          </Button>
-        </div>
-      )}
-      <div className="grid grid-cols-5 gap-x-4 ">
-        <div className="flex flex-col  gap-y-4 col-span-4">
-          <EditGeneralInfo
-            fullName={fullName}
-            setFullName={setFullName}
-            label="Профессия"
-            option={profession}
-            setOption={handleProfessionChange}
-            bio={bio}
-            setBio={setBio}
-            options={options}
-            fullNameError={fullNameError}
-            setFullNameError={setFullNameError}
-          />
-
-          <Label label="Опыт работы">
-            <JobExperience
-              onExperiencesChange={setExperience}
-              experiences={experience}
-              isEdit={true}
+        )}
+        <div className="grid grid-cols-5 gap-x-4 ">
+          <div className="flex flex-col  gap-y-4 col-span-4">
+            <EditGeneralInfo
+              fullName={fullName}
+              setFullName={setFullName}
+              label="Профессия"
+              option={profession}
+              setOption={handleProfessionChange}
+              bio={bio}
+              setBio={setBio}
+              options={options}
+              fullNameError={fullNameError}
+              setFullNameError={setFullNameError}
             />
-          </Label>
-          <NewSkillsList
-            onSkillsChange={(skills) => {
-              setSkills(skills);
-            }}
-            allSkills={listOfSkills}
-            initialSkills={specialist.skills}
-          />
-        </div>
 
-        <div className="flex flex-col gap-y-4 col-span-1">
-          <ImageUploader
-            avatar={specialist.avatar}
-            onChange={handleAvatarChange}
-            defaultUrl="/default-user.png"
-          />
-          <EditContactInfo
-            contactPhone={contactPhone}
-            setContactPhone={setContactPhone}
-            contactEmail={contactEmail}
-            setContactEmail={setContactEmail}
-            phoneError={phoneError}
-            setPhoneError={setPhoneError}
-            emailError={emailError}
-            setEmailError={setEmailError}
-          />
+            <Label label="Опыт работы">
+              <JobExperience
+                onExperiencesChange={setExperience}
+                experiences={experience}
+                isEdit={true}
+              />
+            </Label>
+            <NewSkillsList
+              onSkillsChange={(skills) => {
+                setSkills(skills);
+              }}
+              allSkills={listOfSkills}
+              initialSkills={specialist.skills}
+            />
+          </div>
+
+          <div className="flex flex-col gap-y-4 col-span-1">
+            <ImageUploader
+              avatar={specialist.avatar}
+              onChange={handleAvatarChange}
+              defaultUrl="/default-user.png"
+            />
+            <EditContactInfo
+              contactPhone={contactPhone}
+              setContactPhone={setContactPhone}
+              contactEmail={contactEmail}
+              setContactEmail={setContactEmail}
+              phoneError={phoneError}
+              setPhoneError={setPhoneError}
+              emailError={emailError}
+              setEmailError={setEmailError}
+            />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };
 

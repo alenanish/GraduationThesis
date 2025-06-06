@@ -17,6 +17,7 @@ interface DropdownProps {
   border?: boolean;
   disabled?: boolean;
   required?: boolean;
+  errorText?: string | null;
 }
 
 const Dropdown: React.FC<DropdownProps> = ({
@@ -27,6 +28,7 @@ const Dropdown: React.FC<DropdownProps> = ({
   border = true,
   disabled = false,
   placeholder = "Выберите значение",
+  errorText,
   required,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -69,7 +71,10 @@ const Dropdown: React.FC<DropdownProps> = ({
   }, []);
 
   return (
-    <div className="w-full min-w-56 relative inline-block text-left " ref={dropdownRef}>
+    <div
+      className="w-full min-w-56 relative inline-block text-left "
+      ref={dropdownRef}
+    >
       <div>
         <label
           className={`${isOpen ? "text-prime-500" : "text-base-400"} 
@@ -77,14 +82,14 @@ const Dropdown: React.FC<DropdownProps> = ({
         >
           {label}
           {required && (
-              <span
-                className="text-red-600 ml-0.5"
-                title="Обязательное поле"
-                aria-label="Обязательное поле."
-              >
-                *
-              </span>
-            )}
+            <span
+              className="text-red-600 ml-0.5"
+              title="Обязательное поле"
+              aria-label="Обязательное поле."
+            >
+              *
+            </span>
+          )}
         </label>
         <button
           type="button"
@@ -125,6 +130,11 @@ const Dropdown: React.FC<DropdownProps> = ({
             />
           )}
         </button>
+        {errorText && (
+          <p className="text-body-s bottom-[-20] absolute  text-red-500 mt-1">
+            {errorText}
+          </p>
+        )}
       </div>
 
       <div
